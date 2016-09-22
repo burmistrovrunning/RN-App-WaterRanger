@@ -1,6 +1,8 @@
 package com.waterrangers;
 
 import com.facebook.react.ReactActivity;
+import com.smixx.fabric.FabricPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
