@@ -12,35 +12,53 @@ import {
     TabBarIOS,
     Image
 } from 'react-native';
+import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav'
 import LoginScene from './Components/Login';
 import SettingsScene from './Components/Settings';
-import AddObservationScene from './Components/AddForm.js'
-import MyObservationsScene from './Components/MyObservations.js'
+import AddObservationScene from './Components/AddForm'
+import MyObservationsScene from './Components/MyObservations'
 import TabNavigator from 'react-native-tab-navigator';
 import MapView from 'react-native-maps';
+//import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import CookieManager from 'react-native-cookies';
-
+import SvgUri from 'react-native-svg-uri';
+import Icon from 'react-native-vector-icons/Ionicons';
+import SuperCluster from 'supercluster';
+import GeoViewport from 'geo-viewport';
 var store = require('react-native-simple-store');
 let id = 0;
+
+// const accessToken = 'your-mapbox.com-access-token';
+// Mapbox.setAccessToken(accessToken);
 
 export default class WaterRangers extends Component {
     render() {
         return (
-            <MyTabBar/>
+            <View style={{flex: 1}}>
+                <NavBarIOSDark/>
+                <MyTabBar/>
+            </View>
         )
     }
-    navigatorRenderScene(route, navigator) {
-        _navigator = navigator;
-        switch (route.title) {
-            case 'Map':
-                return (<MyTabBar/>);
-            case 'second':
-                return (
-                    <FormScene></FormScene>
-                );
-        }
-    }
 }
+
+class NavBarIOSDark extends Component {
+  render() {
+    return (
+      <NavBar style={styles} statusBar={{ barStyle: 'light-content' }}>
+        <NavTitle style={styles.title}>
+            <View style={styles.logoContainer}>
+                <SvgUri 
+                    style={styles.logo} 
+                    source={require('./Images/crossed-oars-white.svg')} 
+                /> 
+            </View>
+        </NavTitle>
+      </NavBar>
+    )
+  }
+}
+
 
 class MyScene extends Component {
     static propTypes = {
@@ -123,23 +141,52 @@ class MyTabBar extends Component {
             if (this.state.loggedIn) {
 
                 return (
-                    <TabNavigator>
-                        <TabNavigator.Item selected={this.state.selectedTab === '1'} title="Map" renderIcon={() => <Image source={require('./flux.png')}/>} renderSelectedIcon={() => <Image source={require('./relay.png')}/>} badgeText="1" onPress={() => this.setState({selectedTab: '1'})}>
+                    <TabNavigator tabBarStyle={styles.tabBar}>
+                        <TabNavigator.Item 
+                            selected={this.state.selectedTab === '1'} 
+                            title="Map"
+                            tabStyle={styles.tabStyle}
+                            titleStyle={styles.tabTitleStyle}
+                            selectedTitleStyle={styles.selectedTabTitleStyle}
+                            renderIcon={() => <Icon name="ios-pin-outline" style={styles.tabIcon} />} 
+                            renderSelectedIcon={() => <Icon name="ios-pin" style={styles.tabIconSelected} />} 
+                            onPress={() => this.setState({selectedTab: '1'})}>
                             <MapScene showForm={this.showForm.bind(this)}/>
                         </TabNavigator.Item>
-                        <TabNavigator.Item selected={this.state.selectedTab === '2'} title="Add New" renderIcon={() => <Image source={require('./flux.png')}/>} renderSelectedIcon={() => <Image source={require('./relay.png')}/>} onPress={() => this.setState({selectedTab: '2'})}>
+                        <TabNavigator.Item 
+                            selected={this.state.selectedTab === '2'} 
+                            title="Add New" 
+                            titleStyle={styles.tabStyle}
+                            selectedTitleStyle={styles.selectedTabStyle}
+                            renderIcon={() => <Icon name="ios-add-circle-outline" style={styles.tabIcon} />} 
+                            renderSelectedIcon={() => <Icon name="ios-add-circle" style={styles.tabIconSelected} />} 
+                            onPress={() => this.setState({selectedTab: '2'})}>
                             <View style={styles.tabContent}>
                                 <AddObservationScene marker={this.state.selectedMarker}/>
                             </View>
                         </TabNavigator.Item>
-                        <TabNavigator.Item selected={this.state.selectedTab === '3'} title="My Observations" renderIcon={() => <Image source={require('./flux.png')}/>} renderSelectedIcon={() => <Image source={require('./relay.png')}/>} onPress={() => this.setState({selectedTab: '3'})}>
+                        <TabNavigator.Item 
+                            selected={this.state.selectedTab === '3'} 
+                            title="My Observations"
+                            titleStyle={styles.tabStyle}
+                            selectedTitleStyle={styles.selectedTabStyle}
+                            renderIcon={() => <Icon name="ios-search-outline" style={styles.tabIcon} />} 
+                            renderSelectedIcon={() => <Icon name="ios-search" style={styles.tabIconSelected} />} 
+                            onPress={() => this.setState({selectedTab: '3'})}>
                             <View style={styles.tabContent}>
                                 <ScrollView automaticallyAdjustContentInsets={true}>
                                     <MyObservationsScene/>
                                 </ScrollView>
                             </View>
                         </TabNavigator.Item>
-                        <TabNavigator.Item selected={this.state.selectedTab === '4'} title="Settings" renderIcon={() => <Image source={require('./flux.png')}/>} renderSelectedIcon={() => <Image source={require('./relay.png')}/>} onPress={() => this.setState({selectedTab: '4'})}>
+                        <TabNavigator.Item 
+                            selected={this.state.selectedTab === '4'} 
+                            title="Settings"
+                            titleStyle={styles.tabStyle}
+                            selectedTitleStyle={styles.selectedTabStyle}
+                            renderIcon={() => <Icon name="ios-settings-outline" style={styles.tabIcon} />} 
+                            renderSelectedIcon={() => <Icon name="ios-settings" style={styles.tabIconSelected} />} 
+                            onPress={() => this.setState({selectedTab: '4'})}>
                             <View style={styles.tabContent}>
                                 <SettingsScene checkLogin={this.checkLogin.bind(this)}/>
                             </View>
@@ -191,8 +238,7 @@ class MapScene extends Component {
         };
     }
 
-    componentWillMount()
-    {
+    componentWillMount() {
         store.get("locations").then((value) => {
             if (value == null) {
                 var data = require('./locations.json');
@@ -204,8 +250,7 @@ class MapScene extends Component {
         }).done();
     }
 
-    loadLocationsAsync()
-    {
+    loadLocationsAsync() {
         GLOBAL = require('./Globals');
         return fetch(GLOBAL.BASE_URL + "locations").then((response) => response.json()).then((responseJson) => {
 
@@ -245,8 +290,7 @@ class MapScene extends Component {
         });
     }
 
-    onPress()
-    {
+    onPress() {
         console.log("BOO");
     }
 
@@ -262,12 +306,11 @@ class MapScene extends Component {
 
     recordEvent(name) {
         return e => {
-            //console.log(this.makeEvent(e, name));
+            console.log(this.makeEvent(e, name));
         };
     }
 
-    onLongPress()
-    {
+    onLongPress() {
         return e => {
             var newLocationToMake = {
                 "key": "" + -1,
@@ -286,10 +329,57 @@ class MapScene extends Component {
         };
     }
 
-    showForm(marker)
-    {
+    showForm(marker) {
         console.log(marker);
         this.props.showForm(marker);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const markers = this.createMarkersForLocations(nextProps);
+
+        if (markers && Object.keys(markers)) {
+            const clusters = {};
+
+            Object.keys(markers).forEach(categoryKey => {
+                // Recalculate cluster trees
+                const cluster = supercluster({
+                radius: 60,
+                maxZoom: 16,
+            });
+
+            cluster.load(markers[categoryKey]);
+
+            clusters[categoryKey] = cluster;
+        });
+
+            this.setState({
+                clusters
+            });
+        }
+    }
+
+    getZoomLevel(region = this.state.region) {
+        // http://stackoverflow.com/a/6055653
+        const angle = region.longitudeDelta;
+
+        // 0.95 for finetuning zoomlevel grouping
+        return Math.round(Math.log(360 / angle) / Math.LN2);
+    }
+
+    createMarkersForRegion() {
+        const padding = 0.25;
+        if (this.state.clusters && this.state.clusters[this.props.selectedOfferType]) {
+            const markers = this.state.clusters[this.props.selectedOfferType].getClusters([
+                this.state.region.longitude - (this.state.region.longitudeDelta * (0.5 + padding)),
+                this.state.region.latitude - (this.state.region.latitudeDelta * (0.5 + padding)),
+                this.state.region.longitude + (this.state.region.longitudeDelta * (0.5 + padding)),
+                this.state.region.latitude + (this.state.region.latitudeDelta * (0.5 + padding)),
+            ], this.getZoomLevel());
+
+            return markers.map(marker => this.renderMarker(marker));
+        }
+
+        return [];
     }
 
     render() {
@@ -299,10 +389,33 @@ class MapScene extends Component {
             : (<View/>);
 
         return (
-            <View>
-                <MapView style={styles.map} onRegionChange={this.recordEvent('Map::onRegionChange')} onRegionChangeComplete={this.recordEvent('Map::onRegionChangeComplete')} onPress={this.recordEvent('Map::onPress')} onPanDrag={this.recordEvent('Map::onPanDrag')} onLongPress={this.onLongPress()} onMarkerPress={this.recordEvent('Map::onMarkerPress')} onMarkerSelect={this.recordEvent('Map::onMarkerSelect')} onMarkerDeselect={this.recordEvent('Map::onMarkerDeselect')} onCalloutPress={this.recordEvent('Map::onCalloutPress')} annotations={this.state.locations.concat(this.state.newLocationMarkers)} showsUserLocation={false}>
+            <View style={{flex: 2}}>
+                <MapView 
+                    style={styles.map} 
+                    onRegionChange={this.recordEvent('Map::onRegionChange')} 
+                    onRegionChangeComplete={this.recordEvent('Map::onRegionChangeComplete')} 
+                    onPress={this.recordEvent('Map::onPress')} 
+                    onPanDrag={this.recordEvent('Map::onPanDrag')} 
+                    onLongPress={this.onLongPress()}
+                    onMarkerPress={this.recordEvent('Map::onMarkerPress')} 
+                    onCalloutPress={this.recordEvent('Map::onCalloutPress')} 
+                    annotations={this.state.locations.concat(this.state.newLocationMarkers)} 
+                    showsUserLocation={true} 
+                    followsUserLocation={false} 
+                >
                     {this.state.locations.concat(this.state.newLocationMarkers).map(marker => (
-                        <MapView.Marker onPress={this.recordEvent('Marker::onPress')} onSelect={this.recordEvent('Marker::onSelect')} onDeselect={this.recordEvent('Marker::onDeselect')} onCalloutPress={this.recordEvent('Marker::onCalloutPress')} key={marker.key} coordinate={marker.latlng} title={marker.title} description={marker.description}>
+                        <MapView.Marker 
+                            onPress={this.recordEvent('Map::onPress')}
+                            onSelect={this.recordEvent('Marker::onSelect')} 
+                            onDeselect={this.recordEvent('Marker::onDeselect')} 
+                            onCalloutPress={this.recordEvent('Marker::onCalloutPress')} 
+                            key={marker.key} 
+                            coordinate={marker.latlng} 
+                            title={marker.title} 
+                            description={marker.description}
+                            // image={require('./Images/map-marker.png')}
+                            // style={styles.mapMarker}
+                        >   
                             <MapView.Callout style={styles.myCallout} onPress={e => (this.showForm(marker))}>
                                 <TouchableHighlight onPress={e => (this.showForm(marker))} underlayColor="transparent">
                                     <View>

@@ -18,10 +18,51 @@ var styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     flex:1,
   },
-  title: {
-    fontSize: 30,
+  statusBar: {
+    backgroundColor: '#1c3653',
+  },
+  navBarContainer: {
+    backgroundColor: '#1c3653',
+    // NavBarContainer styles here (all view styles are valid)
+    // unlikely that you will need to add any styles here
+  },
+  navBar: {
+    borderTopWidth: 0,
+    borderBottomColor: '#1c3653',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    // default iOS styles:
+    backgroundColor: '#1c3653',
+    //height: IOS_NAV_BAR_HEIGHT,
+    paddingLeft: 8,
+    paddingRight: 8,
+
+    // default Android styles:
+    backgroundColor: '#1c3653',
+    //height: ANDROID_NAV_BAR_HEIGHT,
+    padding: 16,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    flex:1,
+    height: 19,
+    width: 23
+  },
+  logo: {
     alignSelf: 'center',
-    marginBottom: 30
+    height: 19,
+    width: 23
+  },
+  tabBar: {
+    backgroundColor: '#1c3653',
+  },
+  title: {
+    alignItems: 'center',
+    flex:1,
+    justifyContent: 'center'
   },
   buttonText: {
     fontSize: 18,
@@ -62,11 +103,12 @@ var styles = StyleSheet.create({
       width: 100
   },
   map: {
-      height: 300,
-      margin: 10,
-      borderWidth: 1,
-      borderColor: '#000000',
-      flexDirection: 'column'
+      flex: 2,
+      margin: 0,
+      borderWidth: 0,
+      flexDirection: 'column',
+      // height: Dimensions.get('window').height - 93,
+      // width: Dimensions.get('window').width
   },
   row: {
       flexDirection: 'row',
@@ -95,6 +137,32 @@ var styles = StyleSheet.create({
       color: 'white',
       margin: 50
   },
+  tabStyle: {
+    marginTop: 2,
+    marginBottom: 4
+  },
+  tabTitleStyle: {
+    color: '#edede5'
+  },
+  selectedTabTitleStyle: {
+    color: '#ffffff'
+  },
+  tabIcon: {
+    color: '#edede5',
+    fontSize: 25,
+    height: 25,
+    marginTop: 20
+  },
+  tabIconSelected: {
+    color: '#ffffff',
+    fontSize: 25,
+    height: 25,
+    marginTop: 20
+  },
+  mapMarker: {
+    height: 24,
+    width: 34
+  }
 });
 
 
