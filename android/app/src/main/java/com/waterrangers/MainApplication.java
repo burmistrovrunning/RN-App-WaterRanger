@@ -3,8 +3,8 @@ package com.waterrangers;
 import android.app.Application;
 import android.util.Log;
 
-import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
+import com.mapbox.reactnativemapboxgl.ReactNativeMapboxGLPackage;
 import com.horcrux.svg.RNSvgPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -30,8 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNSvgPackage(),
             new RCTCameraPackage(),
-        new MapsPackage(),
-              new CookieManagerPackage()
+            new CookieManagerPackage(),
+            new ReactNativeMapboxGLPackage()
       );
     }
   };

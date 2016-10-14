@@ -101,7 +101,7 @@ export default class AddObservationScene extends Component {
         super(props);
         console.log("IN CONSTRUCTOR" + props);
         this.state = {
-            'form': 'issue',
+            'form': 'observation',
             'marker': props.marker
         };
     }
@@ -156,7 +156,7 @@ export default class AddObservationScene extends Component {
         return (
             <View style={styles.container}>
                 <Text>Latitude {this.props.marker.latitude}</Text>
-
+                <Text>Longitude {this.props.marker.longitude}</Text>
                 <TouchableHighlight onPress={this.onChooseObservation.bind(this)}>
                     <Text>Observation</Text>
                 </TouchableHighlight>

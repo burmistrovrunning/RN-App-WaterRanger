@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import {
     ActivityIndicatorIOS,
     AppRegistry,
@@ -15,11 +16,9 @@ import {
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav'
 import LoginScene from './Components/Login';
 import SettingsScene from './Components/Settings';
-import AddObservationScene from './Components/AddForm'
-import MyObservationsScene from './Components/MyObservations'
+import AddObservationScene from './Components/AddForm';
+import MyObservationsScene from './Components/MyObservations';
 import TabNavigator from 'react-native-tab-navigator';
-import MapView from 'react-native-maps';
-//import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import CookieManager from 'react-native-cookies';
 import SvgUri from 'react-native-svg-uri';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -28,21 +27,21 @@ import GeoViewport from 'geo-viewport';
 var store = require('react-native-simple-store');
 let id = 0;
 
-// const accessToken = 'your-mapbox.com-access-token';
-// Mapbox.setAccessToken(accessToken);
+const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
+Mapbox.setAccessToken(accessToken);
 
 export default class WaterRangers extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <NavBarIOSDark/>
+                <NavBarDark/>
                 <MyTabBar/>
             </View>
         )
     }
 }
 
-class NavBarIOSDark extends Component {
+class NavBarDark extends Component {
   render() {
     return (
       <NavBar style={styles} statusBar={{ barStyle: 'light-content' }}>
@@ -156,8 +155,9 @@ class MyTabBar extends Component {
                         <TabNavigator.Item 
                             selected={this.state.selectedTab === '2'} 
                             title="Add New" 
-                            titleStyle={styles.tabStyle}
-                            selectedTitleStyle={styles.selectedTabStyle}
+                            tabStyle={styles.tabStyle}
+                            titleStyle={styles.tabTitleStyle}
+                            selectedTitleStyle={styles.selectedTabTitleStyle} 
                             renderIcon={() => <Icon name="ios-add-circle-outline" style={styles.tabIcon} />} 
                             renderSelectedIcon={() => <Icon name="ios-add-circle" style={styles.tabIconSelected} />} 
                             onPress={() => this.setState({selectedTab: '2'})}>
@@ -168,8 +168,9 @@ class MyTabBar extends Component {
                         <TabNavigator.Item 
                             selected={this.state.selectedTab === '3'} 
                             title="My Observations"
-                            titleStyle={styles.tabStyle}
-                            selectedTitleStyle={styles.selectedTabStyle}
+                            tabStyle={styles.tabStyle}
+                            titleStyle={styles.tabTitleStyle}
+                            selectedTitleStyle={styles.selectedTabTitleStyle} 
                             renderIcon={() => <Icon name="ios-search-outline" style={styles.tabIcon} />} 
                             renderSelectedIcon={() => <Icon name="ios-search" style={styles.tabIconSelected} />} 
                             onPress={() => this.setState({selectedTab: '3'})}>
@@ -182,8 +183,9 @@ class MyTabBar extends Component {
                         <TabNavigator.Item 
                             selected={this.state.selectedTab === '4'} 
                             title="Settings"
-                            titleStyle={styles.tabStyle}
-                            selectedTitleStyle={styles.selectedTabStyle}
+                            tabStyle={styles.tabStyle}
+                            titleStyle={styles.tabTitleStyle}
+                            selectedTitleStyle={styles.selectedTabTitleStyle} 
                             renderIcon={() => <Icon name="ios-settings-outline" style={styles.tabIcon} />} 
                             renderSelectedIcon={() => <Icon name="ios-settings" style={styles.tabIconSelected} />} 
                             onPress={() => this.setState({selectedTab: '4'})}>
@@ -234,7 +236,13 @@ class MapScene extends Component {
         this.state = {
             isLoading: false,
             locations: [],
-            newLocationMarkers: []
+            newLocationMarkers: [],
+            center: {
+              latitude: 45.4215,
+              longitude: -75.6972
+            },
+            zoom: 10,
+            userTrackingMode: Mapbox.userTrackingMode.follow
         };
     }
 
@@ -257,31 +265,45 @@ class MapScene extends Component {
             var newLocations = [];
             var index = 0;
             for (var index = 0; index < responseJson.length; index++) {
-                var location = responseJson[index];
+                var location = responseJson[index],
+                    locationTitle;
+                if (location.body_of_water === undefined || location.body_of_water === null) {
+                    locationTitle = location.name
+                } else {
+                    locationTitle = location.body_of_water
+                }
                 newLocation = {
-                    "key": "" + index,
-                    "title": location.name,
-                    "latlng": {
-                        "latitude": parseFloat(location.lat),
-                        "longitude": parseFloat(location.lng)
-                    },
-                    "latitude": location.lat,
-                    "longitude": location.lng,
-                    "description": location.description
+                    coordinates: [
+                        parseFloat(location.lat),
+                        parseFloat(location.lng)
+                    ],
+                    type: "point",
+                    title: locationTitle,
+                    subtitle: "",
+                    id: "marker"+location.lat,
+                    rightCalloutAccessory:{
+                        url: 'https://cldup.com/9Lp0EaBw5s.png',
+                        height: 25,
+                        width: 25
+                    }
                 };
                 newLocations.push(newLocation);
             }
 
             var newLocationToMake = {
-                "key": "" + -1,
-                "title": "Create location",
-                "latlng": {
-                    "latitude": 52,
-                    "longitude": 0
-                },
-                "latitude": 52,
-                "longitude": 0,
-                "description": ""
+                coordinates: [
+                    52,
+                    0
+                ],
+                type: "point",
+                title: "Add new...",
+                subtitle: "",
+                id: "marker",
+                rightCalloutAccessory:{
+                    url: 'https://cldup.com/9Lp0EaBw5s.png',
+                    height: 25,
+                    width: 25
+                }
             };
             this.setState({"locations": newLocations, "newLocationMarkers": this.state.newLocationMarkers});
             store.save("locations", newLocations);
@@ -290,97 +312,46 @@ class MapScene extends Component {
         });
     }
 
-    onPress() {
-        console.log("BOO");
+    onRegionChange(location) {
+        this.setState({ currentZoom: location.zoom });
     }
-
-    makeEvent(e, name) {
-        return {
-            id: id++,
-            name,
-            data: e.nativeEvent
-                ? e.nativeEvent
-                : e
+    onRegionWillChange(location) {
+        console.log(location);
+    }
+    onUpdateUserLocation(location) {
+        console.log(location);
+    }
+    onOpenAnnotation(annotation) {
+        console.log(annotation);
+        //this.props.showForm(annotation);
+    }
+    onTap(location) {
+        console.log(location);
+    }
+    onRightAnnotationTapped = (location) => {
+        console.log('onRightAnnotationTapped', location);
+        this.props.showForm(location);
+    };
+    addNewMarker = (location) => {
+        var newLocationToMake = {
+            coordinates: [
+                parseFloat(location.latitude),
+                parseFloat(location.longitude)
+            ],
+            type: "point",
+            title: "Add new...",
+            subtitle: "",
+            id: "" + -1,
+            rightCalloutAccessory:{
+                url: 'https://cldup.com/9Lp0EaBw5s.png',
+                height: 25,
+                width: 25
+            }
         };
-    }
-
-    recordEvent(name) {
-        return e => {
-            console.log(this.makeEvent(e, name));
-        };
-    }
-
-    onLongPress() {
-        return e => {
-            var newLocationToMake = {
-                "key": "" + -1,
-                "title": "Create location",
-                "latlng": {
-                    "latitude": parseFloat(e.nativeEvent.coordinate.latitude),
-                    "longitude": parseFloat(e.nativeEvent.coordinate.longitude)
-                },
-                "latitude": e.nativeEvent.coordinate.latitude,
-                "longitude": e.nativeEvent.coordinate.longitude,
-                "description": ""
-            };
-            this.state["newLocationMarkers"] = [newLocationToMake];
-            this.setState(this.state);
-            console.log(newLocationToMake);
-        };
-    }
-
-    showForm(marker) {
-        console.log(marker);
-        this.props.showForm(marker);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const markers = this.createMarkersForLocations(nextProps);
-
-        if (markers && Object.keys(markers)) {
-            const clusters = {};
-
-            Object.keys(markers).forEach(categoryKey => {
-                // Recalculate cluster trees
-                const cluster = supercluster({
-                radius: 60,
-                maxZoom: 16,
-            });
-
-            cluster.load(markers[categoryKey]);
-
-            clusters[categoryKey] = cluster;
-        });
-
-            this.setState({
-                clusters
-            });
-        }
-    }
-
-    getZoomLevel(region = this.state.region) {
-        // http://stackoverflow.com/a/6055653
-        const angle = region.longitudeDelta;
-
-        // 0.95 for finetuning zoomlevel grouping
-        return Math.round(Math.log(360 / angle) / Math.LN2);
-    }
-
-    createMarkersForRegion() {
-        const padding = 0.25;
-        if (this.state.clusters && this.state.clusters[this.props.selectedOfferType]) {
-            const markers = this.state.clusters[this.props.selectedOfferType].getClusters([
-                this.state.region.longitude - (this.state.region.longitudeDelta * (0.5 + padding)),
-                this.state.region.latitude - (this.state.region.latitudeDelta * (0.5 + padding)),
-                this.state.region.longitude + (this.state.region.longitudeDelta * (0.5 + padding)),
-                this.state.region.latitude + (this.state.region.latitudeDelta * (0.5 + padding)),
-            ], this.getZoomLevel());
-
-            return markers.map(marker => this.renderMarker(marker));
-        }
-
-        return [];
-    }
+        this.state["newLocationMarkers"] = [newLocationToMake];
+        this.setState(this.state);
+        console.log(newLocationToMake);
+    };
 
     render() {
 
@@ -390,44 +361,29 @@ class MapScene extends Component {
 
         return (
             <View style={{flex: 2}}>
-                <MapView 
-                    style={styles.map} 
-                    onRegionChange={this.recordEvent('Map::onRegionChange')} 
-                    onRegionChangeComplete={this.recordEvent('Map::onRegionChangeComplete')} 
-                    onPress={this.recordEvent('Map::onPress')} 
-                    onPanDrag={this.recordEvent('Map::onPanDrag')} 
-                    onLongPress={this.onLongPress()}
-                    onMarkerPress={this.recordEvent('Map::onMarkerPress')} 
-                    onCalloutPress={this.recordEvent('Map::onCalloutPress')} 
-                    annotations={this.state.locations.concat(this.state.newLocationMarkers)} 
-                    showsUserLocation={true} 
-                    followsUserLocation={false} 
-                >
-                    {this.state.locations.concat(this.state.newLocationMarkers).map(marker => (
-                        <MapView.Marker 
-                            onPress={this.recordEvent('Map::onPress')}
-                            onSelect={this.recordEvent('Marker::onSelect')} 
-                            onDeselect={this.recordEvent('Marker::onDeselect')} 
-                            onCalloutPress={this.recordEvent('Marker::onCalloutPress')} 
-                            key={marker.key} 
-                            coordinate={marker.latlng} 
-                            title={marker.title} 
-                            description={marker.description}
-                            // image={require('./Images/map-marker.png')}
-                            // style={styles.mapMarker}
-                        >   
-                            <MapView.Callout style={styles.myCallout} onPress={e => (this.showForm(marker))}>
-                                <TouchableHighlight onPress={e => (this.showForm(marker))} underlayColor="transparent">
-                                    <View>
-                                        <Text style={{
-                                            color: '#000'
-                                        }}>{marker.title}</Text>
-                                    </View>
-                                </TouchableHighlight>
-                            </MapView.Callout>
-                        </MapView.Marker>
-                    ))}
-                </MapView>
+                <MapView
+                  ref={map => { this._map = map; }}
+                  style={styles.map}
+                  initialCenterCoordinate={this.state.center}
+                  initialZoomLevel={this.state.zoom}
+                  initialDirection={0}
+                  rotateEnabled={true}
+                  scrollEnabled={true}
+                  zoomEnabled={true}
+                  showsUserLocation={true}
+                  styleURL={Mapbox.mapStyles.outdoor}
+                  userTrackingMode={this.state.userTrackingMode}
+                  annotations={this.state.locations.concat(this.state.newLocationMarkers)}
+                  annotationsAreImmutable
+                  onChangeUserTrackingMode={this.onChangeUserTrackingMode}
+                  onRegionDidChange={this.onRegionDidChange}
+                  onRegionWillChange={this.onRegionWillChange}
+                  onOpenAnnotation={this.onOpenAnnotation}
+                  onRightAnnotationTapped={this.onRightAnnotationTapped}
+                  onUpdateUserLocation={this.onUpdateUserLocation}
+                  onLongPress={this.addNewMarker}
+                  onTap={this.onTap}
+                />
                 {spinner}
             </View>
         );

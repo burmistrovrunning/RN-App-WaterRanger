@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import {
     ActivityIndicatorIOS,
     AppRegistry,
@@ -7,8 +8,7 @@ import {
     TouchableHighlight,
     View,
     StyleSheet,
-    AsyncStorage,
-    MapView
+    AsyncStorage
 } from 'react-native';
 
 var t = require('tcomb-form-native');
@@ -32,11 +32,7 @@ export default class LoginScene extends Component {
     render() {
         return (
             <View>
-                <Form ref="form" type={LoginForm} options={options}/>
-                <TouchableHighlight style={styles.button} onPress={this.login.bind(this)} underlayColor='#99d9f4'>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableHighlight>
-                <Text color="#ff0000">{this.state.error}</Text>
+                
             </View>
         );
 

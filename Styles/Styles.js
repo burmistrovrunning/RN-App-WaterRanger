@@ -57,7 +57,7 @@ var styles = StyleSheet.create({
     width: 23
   },
   tabBar: {
-    backgroundColor: '#1c3653',
+    backgroundColor: '#ffffff',
   },
   title: {
     alignItems: 'center',
@@ -134,7 +134,7 @@ var styles = StyleSheet.create({
       flex: 1
   },
   tabText: {
-      color: 'white',
+      color: '#4A729F',
       margin: 50
   },
   tabStyle: {
@@ -142,19 +142,19 @@ var styles = StyleSheet.create({
     marginBottom: 4
   },
   tabTitleStyle: {
-    color: '#edede5'
+    color: '#4A729F'
   },
   selectedTabTitleStyle: {
-    color: '#ffffff'
+    color: '#1c3653'
   },
   tabIcon: {
-    color: '#edede5',
+    color: '#4A729F',
     fontSize: 25,
     height: 25,
     marginTop: 20
   },
   tabIconSelected: {
-    color: '#ffffff',
+    color: '#1c3653',
     fontSize: 25,
     height: 25,
     marginTop: 20
