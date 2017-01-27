@@ -31,9 +31,13 @@ export default class LoginScene extends Component {
 
     render() {
         return (
-            <View>
-                
-            </View>
+          <View>
+            <Form ref="form" type={LoginForm} options={options}/>
+            <TouchableHighlight style={styles.button} onPress={this.login.bind(this)} underlayColor='#99d9f4'>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableHighlight>
+            <Text color="#ff0000">{this.state.error}</Text>
+          </View>
         );
 
     }

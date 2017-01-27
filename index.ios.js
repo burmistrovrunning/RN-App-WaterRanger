@@ -47,10 +47,10 @@ class NavBarDark extends Component {
       <NavBar style={styles} statusBar={{ barStyle: 'light-content' }}>
         <NavTitle style={styles.title}>
             <View style={styles.logoContainer}>
-                <SvgUri 
-                    style={styles.logo} 
-                    source={require('./Images/crossed-oars-white.svg')} 
-                /> 
+                <SvgUri
+                    style={styles.logo}
+                    source={require('./Images/crossed-oars-white.svg')}
+                />
             </View>
         </NavTitle>
       </NavBar>
@@ -141,38 +141,38 @@ class MyTabBar extends Component {
 
                 return (
                     <TabNavigator tabBarStyle={styles.tabBar}>
-                        <TabNavigator.Item 
-                            selected={this.state.selectedTab === '1'} 
+                        <TabNavigator.Item
+                            selected={this.state.selectedTab === '1'}
                             title="Map"
                             tabStyle={styles.tabStyle}
                             titleStyle={styles.tabTitleStyle}
                             selectedTitleStyle={styles.selectedTabTitleStyle}
-                            renderIcon={() => <Icon name="ios-pin-outline" style={styles.tabIcon} />} 
-                            renderSelectedIcon={() => <Icon name="ios-pin" style={styles.tabIconSelected} />} 
+                            renderIcon={() => <Icon name="ios-pin-outline" style={styles.tabIcon} />}
+                            renderSelectedIcon={() => <Icon name="ios-pin" style={styles.tabIconSelected} />}
                             onPress={() => this.setState({selectedTab: '1'})}>
                             <MapScene showForm={this.showForm.bind(this)}/>
                         </TabNavigator.Item>
-                        <TabNavigator.Item 
-                            selected={this.state.selectedTab === '2'} 
-                            title="Add New" 
+                        <TabNavigator.Item
+                            selected={this.state.selectedTab === '2'}
+                            title="Add New"
                             tabStyle={styles.tabStyle}
                             titleStyle={styles.tabTitleStyle}
-                            selectedTitleStyle={styles.selectedTabTitleStyle} 
-                            renderIcon={() => <Icon name="ios-add-circle-outline" style={styles.tabIcon} />} 
-                            renderSelectedIcon={() => <Icon name="ios-add-circle" style={styles.tabIconSelected} />} 
+                            selectedTitleStyle={styles.selectedTabTitleStyle}
+                            renderIcon={() => <Icon name="ios-add-circle-outline" style={styles.tabIcon} />}
+                            renderSelectedIcon={() => <Icon name="ios-add-circle" style={styles.tabIconSelected} />}
                             onPress={() => this.setState({selectedTab: '2'})}>
                             <View style={styles.tabContent}>
                                 <AddObservationScene marker={this.state.selectedMarker}/>
                             </View>
                         </TabNavigator.Item>
-                        <TabNavigator.Item 
-                            selected={this.state.selectedTab === '3'} 
+                        <TabNavigator.Item
+                            selected={this.state.selectedTab === '3'}
                             title="My Observations"
                             tabStyle={styles.tabStyle}
                             titleStyle={styles.tabTitleStyle}
-                            selectedTitleStyle={styles.selectedTabTitleStyle} 
-                            renderIcon={() => <Icon name="ios-search-outline" style={styles.tabIcon} />} 
-                            renderSelectedIcon={() => <Icon name="ios-search" style={styles.tabIconSelected} />} 
+                            selectedTitleStyle={styles.selectedTabTitleStyle}
+                            renderIcon={() => <Icon name="ios-search-outline" style={styles.tabIcon} />}
+                            renderSelectedIcon={() => <Icon name="ios-search" style={styles.tabIconSelected} />}
                             onPress={() => this.setState({selectedTab: '3'})}>
                             <View style={styles.tabContent}>
                                 <ScrollView automaticallyAdjustContentInsets={true}>
@@ -180,14 +180,14 @@ class MyTabBar extends Component {
                                 </ScrollView>
                             </View>
                         </TabNavigator.Item>
-                        <TabNavigator.Item 
-                            selected={this.state.selectedTab === '4'} 
+                        <TabNavigator.Item
+                            selected={this.state.selectedTab === '4'}
                             title="Settings"
                             tabStyle={styles.tabStyle}
                             titleStyle={styles.tabTitleStyle}
-                            selectedTitleStyle={styles.selectedTabTitleStyle} 
-                            renderIcon={() => <Icon name="ios-settings-outline" style={styles.tabIcon} />} 
-                            renderSelectedIcon={() => <Icon name="ios-settings" style={styles.tabIconSelected} />} 
+                            selectedTitleStyle={styles.selectedTabTitleStyle}
+                            renderIcon={() => <Icon name="ios-settings-outline" style={styles.tabIcon} />}
+                            renderSelectedIcon={() => <Icon name="ios-settings" style={styles.tabIconSelected} />}
                             onPress={() => this.setState({selectedTab: '4'})}>
                             <View style={styles.tabContent}>
                                 <SettingsScene checkLogin={this.checkLogin.bind(this)}/>
@@ -197,7 +197,7 @@ class MyTabBar extends Component {
                 );
             }
         }
-
+        console.log("BOO HOO HOO");
         return (<LoginScene checkLogin={this.checkLogin.bind(this)}/>);
     }
 }

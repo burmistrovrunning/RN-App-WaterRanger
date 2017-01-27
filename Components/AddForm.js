@@ -303,8 +303,8 @@ export default class AddObservationScene extends Component {
                 "lat": this.props.marker.latitude,
                 "lng": this.props.marker.longitude,
                 "body_of_water": value.bodyOfWater,
-                "body_of_water": value.locationName,
-                "body_of_water": value.locationDescription
+                "locationName": value.locationName,
+                "locationDescription": value.locationDescription
             };
         }
 
@@ -314,11 +314,6 @@ export default class AddObservationScene extends Component {
         var loginDetailsJSON = await AsyncStorage.getItem("loginDetails");
         var loginDetails = JSON.parse(loginDetailsJSON);
 
-        var formsToSubmit = await AsyncStorage.getItem("formsToSubmit");
-        if (formsToSubmit == null) {
-            formsToSubmit = [];
-        }
-        formsToSubmit.concat(dictToSend);
 
         return fetch(url, {
             method: 'POST',
@@ -335,16 +330,35 @@ export default class AddObservationScene extends Component {
         }).then(async(response) => {
 
             var error = false;
-            if (response.status == 200) {
+            if (response.status == 200 || response.status == 204) {
                 if (accessToken != null) {}
-            } else {}
+            } else {
+              saveFormToForms(dictToSend)
+            }
 
             console.log(response);
         }).catch((error) => {
+            saveFormToForms(dictToSend)
             console.error(error);
             error = "Please check your connection and try again.";
             this.setState({"error": error});
         });
+    }
+
+    async saveFormToForms(dictToSend)
+    {
+      var formsToSubmitString = await AsyncStorage.getItem(GLOBAL.FORMS_TO_SUBMIT_KEY);
+      var formsToSubmit = []
+      if (formsToSubmitString != null) {
+          formsToSubmit = JSON.parse(formsToSubmitString)
+      }
+
+      formsToSubmit.push(dictToSend);
+
+      var newForms = JSON.stringify(formsToSubmit);
+      console.log("New forms value: " + newForms);
+      await AsyncStorage.setItem(GLOBAL.FORMS_TO_SUBMIT_KEY, newForms);
+
     }
 }
 
