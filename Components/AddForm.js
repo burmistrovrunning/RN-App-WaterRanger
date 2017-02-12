@@ -13,6 +13,8 @@ import {
     ScrollView
 } from 'react-native';
 
+import {uploadForm, storeFailedForm} from './WebServices';
+
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 var Platform = require('react-native').Platform;
@@ -99,7 +101,6 @@ var options = {
 export default class AddObservationScene extends Component {
     constructor(props) {
         super(props);
-        console.log("IN CONSTRUCTOR" + props);
         this.state = {
             'form': 'observation',
             'marker': props.marker
@@ -109,7 +110,6 @@ export default class AddObservationScene extends Component {
     onChooseObservation()
     {
         this.setState({'form': 'observation'});
-        console.log("Chosen observation");
     }
 
     onChooseIssue()
@@ -240,6 +240,7 @@ export default class AddObservationScene extends Component {
         var dictToSend = {};
         var dateString = new Date().toJSON();
 
+        // these need to be populated from the form fully
         if (this.state.form == 'issue') {
             url = GLOBAL.BASE_URL + "issues";
             dictToSend = {
@@ -307,58 +308,28 @@ export default class AddObservationScene extends Component {
                 "locationDescription": value.locationDescription
             };
         }
+        dictToSend["uid"] = "" + new Date();
+        //console.log(dictToSend);
 
-        console.log(dictToSend);
+        uploadForm(dictToSend).then(async(response) => {
 
-        var TOKEN = await AsyncStorage.getItem("accessToken");
-        var loginDetailsJSON = await AsyncStorage.getItem("loginDetails");
-        var loginDetails = JSON.parse(loginDetailsJSON);
-
-
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Token': loginDetails["access-token"],
-                'Client': loginDetails["client"],
-                'Expiry': loginDetails["expiry"],
-                'Token-Type': loginDetails["token-type"],
-                'UID': loginDetails["uid"]
-            },
-            body: JSON.stringify(dictToSend)
-        }).then(async(response) => {
-
+          console.log(response);
             var error = false;
             if (response.status == 200 || response.status == 204) {
-                if (accessToken != null) {}
-            } else {
-              saveFormToForms(dictToSend)
+              // success, show some message and return?
+            } else
+            {
+              storeFailedForm(dictToSend);
+              error = "Please check your connection and try again.";
+              this.setState({"error": error});
             }
 
-            console.log(response);
         }).catch((error) => {
-            saveFormToForms(dictToSend)
-            console.error(error);
+          console.error(error);
+            storeFailedForm(dictToSend);
             error = "Please check your connection and try again.";
             this.setState({"error": error});
         });
-    }
-
-    async saveFormToForms(dictToSend)
-    {
-      var formsToSubmitString = await AsyncStorage.getItem(GLOBAL.FORMS_TO_SUBMIT_KEY);
-      var formsToSubmit = []
-      if (formsToSubmitString != null) {
-          formsToSubmit = JSON.parse(formsToSubmitString)
-      }
-
-      formsToSubmit.push(dictToSend);
-
-      var newForms = JSON.stringify(formsToSubmit);
-      console.log("New forms value: " + newForms);
-      await AsyncStorage.setItem(GLOBAL.FORMS_TO_SUBMIT_KEY, newForms);
-
     }
 }
 
