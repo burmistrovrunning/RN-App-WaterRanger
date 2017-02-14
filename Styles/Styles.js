@@ -1,15 +1,18 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { GlobalStyles } from '../styles/GlobalStyles.js';
 
-var styles = StyleSheet.create({
+// Basic styles
+
+const styles = EStyleSheet.create({
+  hidden: {
+    height: 0,
+    padding: 0,
+    width: 0
+  },
   scroll_container: {
     flex:1,
-  },
-  loginContainer: {
-    justifyContent: 'center',
-    marginTop: 50,
-    padding: 20,
-    backgroundColor: '#ffffff',
   },
   container: {
     justifyContent: 'center',
@@ -17,6 +20,10 @@ var styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ffffff',
     flex:1,
+  },
+  tabView: {
+    backgroundColor: '#ffffff',
+    flex:1
   },
   statusBar: {
     backgroundColor: '#1c3653',
@@ -33,7 +40,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
     // default iOS styles:
     backgroundColor: '#1c3653',
     //height: IOS_NAV_BAR_HEIGHT,
@@ -45,9 +51,12 @@ var styles = StyleSheet.create({
     //height: ANDROID_NAV_BAR_HEIGHT,
     padding: 16,
   },
+  navHidden: {
+    position: 'absolute',
+    top: Dimensions.get('window').height
+  },
   logoContainer: {
     alignItems: 'center',
-    flex:1,
     height: 19,
     width: 23
   },
@@ -62,21 +71,6 @@ var styles = StyleSheet.create({
   title: {
     alignItems: 'center',
     flex:1,
-    justifyContent: 'center'
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
     justifyContent: 'center'
   },
   preview: {
@@ -99,35 +93,41 @@ var styles = StyleSheet.create({
     height:100,
   },
   myCallout: {
-      flex: 1,
-      width: 100
+    flex: 1,
+    width: 100
   },
   map: {
-      flex: 2,
-      margin: 0,
-      borderWidth: 0,
-      flexDirection: 'column',
-      // height: Dimensions.get('window').height - 93,
-      // width: Dimensions.get('window').width
+    flex: 2,
+    margin: 0,
+    borderWidth: 0,
+    flexDirection: 'column'
   },
   row: {
-      flexDirection: 'row',
-      justifyContent: 'space-between'
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  textInput: {
-      width: 150,
-      height: 20,
-      borderWidth: 0.5,
-      borderColor: '#aaaaaa',
-      fontSize: 13,
-      padding: 4
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: '$colorBrightBlue',
+    borderColor: '$colorBrightBlue',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 0,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
   changeButton: {
-      alignSelf: 'center',
-      marginTop: 5,
-      padding: 3,
-      borderWidth: 0.5,
-      borderColor: '#777777'
+    alignSelf: 'center',
+    marginTop: 5,
+    padding: 3,
+    borderWidth: 0.5,
+    borderColor: '#777777'
   },
   tabContent: {
       paddingTop: 20,
@@ -151,7 +151,7 @@ var styles = StyleSheet.create({
     color: '#4A729F',
     fontSize: 25,
     height: 25,
-    marginTop: 20
+    marginTop: 0
   },
   tabIconSelected: {
     color: '#1c3653',
@@ -162,8 +162,26 @@ var styles = StyleSheet.create({
   mapMarker: {
     height: 24,
     width: 34
+  },
+  // Forms
+  errorTextContainer: {
+    backgroundColor: '$colorRed',
+    borderRadius: 5,
+    height: 36,
+    marginTop: 15,
+    marginBottom: 15,
+    padding: 10
+  },
+  errorText: {
+    color: '$colorWhite',
+    textAlign: 'center'
   }
 });
 
+// Form Styles
+
+// var t = require('tcomb-form-native');
+
+// t.form.Form.stylesheet.textbox.normal.backgroundColor = '#00FF00';
 
 module.exports = styles;
