@@ -21,6 +21,7 @@ import MyObservationsScene from './Components/MyObservationsScene';
 import SettingsScene from './Components/SettingsScene';
 import NavBarDark from './Components/NavBar';
 import { NavigationActions } from 'react-navigation';
+import store from 'react-native-simple-store';
 
 export default class WaterRangers extends React.Component {
   
@@ -34,7 +35,8 @@ export default class WaterRangers extends React.Component {
       marker: false,
       error: null,
       latitude: 'unknown',
-      longitude: 'unknown'
+      longitude: 'unknown',
+      marker: ''
     };
   }
 

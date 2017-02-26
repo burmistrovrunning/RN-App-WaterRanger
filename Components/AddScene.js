@@ -61,7 +61,7 @@ var AddObservationForm = t.struct({
   bodyOfWater: t.String,
   locationName: t.maybe(t.String),
   locationDescription: t.maybe(t.String),
-  date: t.maybe(t.Date),
+  date: t.Date,
   wildlife: t.maybe(t.list(WildlifeType)),
   invasiveSpecies: t.maybe(t.list(InvasiveSpeciesType)),
   waterQualityPh: t.maybe(t.Number),
@@ -84,15 +84,24 @@ var AddObservationForm = t.struct({
   notes: t.maybe(t.String)
 });
 
+var IssueType = t.enums({
+  algae: 'Algae',
+  water_quality: 'Water Quality',
+  pollution: 'Pollution',
+  shoreline: 'Shoreline',
+  wildlife: 'Wildlife',
+  other: 'Other'
+});
+
 var AddIssueForm = t.struct({
   bodyOfWater: t.String,
   locationName: t.maybe(t.String),
   locationDescription: t.maybe(t.String),
-  date: t.maybe(t.Date),
-  category: t.maybe(t.String),
+  date: t.Date,
+  category: IssueType,
   description: t.maybe(t.String),
   weather: t.maybe(t.String),
-  seenBefore: t.maybe(t.String),
+  seenBefore: t.maybe(t.Boolean),
   notifiedAgencies: t.maybe(t.String),
   contactEmail: t.maybe(t.String),
   contactPhone: t.maybe(t.String)
@@ -248,10 +257,8 @@ export default class AddScene extends Component {
   async submit() {
 
     var value = this.refs.form.getValue();
-    console.log("Here");
     if (!value)
         return;
-    console.log("Here2");
 
     GLOBAL = require('../Globals');
 
@@ -267,12 +274,12 @@ export default class AddScene extends Component {
           {
             "observed_on": dateString,
             "group_tokens": "",
-            "category": "",
+            "category": value.category,
             "notes": {
               "details": "",
               "weather": "",
               "seen_before": "",
-              "notified_agencies": "no"
+              "notified_agencies": ""
             },
             "contact_info": {
               "email": value.contactEmail,
@@ -286,8 +293,8 @@ export default class AddScene extends Component {
       dictToSend = {
         "observations": [
           {
-            "observed_on": "2016-08-05:08:40:00",
-            "notes": "notes about description",
+            "observed_on": dateString,
+            "notes": "",
             "group_tokens": "3",
             "data": {
               "wildlife": [""],
@@ -322,8 +329,8 @@ export default class AddScene extends Component {
         "lat": this.state.marker.latitude,
         "lng": this.state.marker.longitude,
         "body_of_water": value.bodyOfWater,
-        "location_name": value.locationName,
-        "location_description": value.locationDescription
+        "name": value.locationName,
+        "description": value.locationDescription
       };
     }
     dictToSend["uid"] = "" + new Date();

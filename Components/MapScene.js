@@ -89,7 +89,7 @@ export default class MapScene extends React.Component {
   loadLocationsAsync() {
     GLOBAL = require('../Globals');
     return fetch(GLOBAL.BASE_URL + "locations").then((response) => response.json()).then((responseJson) => {
-      var newLocations = [];
+      var currentLocations = [];
       var index = 0;
       for (var index = 0; index < responseJson.length; index++) {
         var location = responseJson[index],
@@ -99,7 +99,8 @@ export default class MapScene extends React.Component {
         } else {
           locationTitle = location.body_of_water
         }
-        newLocation = {
+        locationID = location.id.toString();
+        currentLocation = {
           coordinates: [
             parseFloat(location.lat),
             parseFloat(location.lng)
@@ -107,14 +108,14 @@ export default class MapScene extends React.Component {
           type: "point",
           title: locationTitle,
           subtitle: "",
-          id: "marker"+location.lat,
+          id: locationID,
           rightCalloutAccessory:{
             source: this.state.addIcon,
             height: 25,
             width: 25
           }
         };
-        newLocations.push(newLocation);
+        currentLocations.push(currentLocation);
       }
       var newLocationToMake = {
         coordinates: [
@@ -131,8 +132,8 @@ export default class MapScene extends React.Component {
           width: 25
         }
       };
-      this.setState({"locations": newLocations, "newLocationMarkers": this.state.newLocationMarkers});
-      store.save("locations", newLocations);
+      this.setState({"locations": currentLocations, "newLocationMarkers": this.state.newLocationMarkers});
+      store.save("locations", currentLocations);
     }).catch((error) => {
       console.error(error);
     });
