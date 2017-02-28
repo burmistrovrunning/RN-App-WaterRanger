@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { GlobalStyles } from './GlobalStyles.js';
+import './GlobalStyles.js';
 
 // Basic styles
 
@@ -12,18 +11,18 @@ const styles = EStyleSheet.create({
     width: 0
   },
   scroll_container: {
-    flex:1,
+    flex: 1,
   },
   container: {
     justifyContent: 'center',
     marginTop: 50,
     padding: 20,
     backgroundColor: '#ffffff',
-    flex:1,
+    flex: 1,
   },
   tabView: {
     backgroundColor: '#ffffff',
-    flex:1
+    flex: 1
   },
   statusBar: {
     backgroundColor: '#1c3653',
@@ -42,13 +41,12 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     // default iOS styles:
     backgroundColor: '#1c3653',
-    //height: IOS_NAV_BAR_HEIGHT,
+    // height: IOS_NAV_BAR_HEIGHT,
     paddingLeft: 8,
     paddingRight: 8,
 
     // default Android styles:
-    backgroundColor: '#1c3653',
-    //height: ANDROID_NAV_BAR_HEIGHT,
+    // height: ANDROID_NAV_BAR_HEIGHT,
     padding: 16,
   },
   navHidden: {
@@ -70,7 +68,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     alignItems: 'center',
-    flex:1,
+    flex: 1,
     justifyContent: 'center'
   },
   preview: {
@@ -89,8 +87,8 @@ const styles = EStyleSheet.create({
     margin: 40
   },
   uploadImage: {
-    width:100,
-    height:100,
+    width: 100,
+    height: 100,
   },
   myCallout: {
     flex: 1,
@@ -130,12 +128,12 @@ const styles = EStyleSheet.create({
     borderColor: '#777777'
   },
   tabContent: {
-      paddingTop: 20,
-      flex: 1
+    paddingTop: 20,
+    flex: 1
   },
   tabText: {
-      color: '#4A729F',
-      margin: 50
+    color: '#4A729F',
+    margin: 50
   },
   tabStyle: {
     marginTop: 2,

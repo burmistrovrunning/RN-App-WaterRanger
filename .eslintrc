@@ -7,7 +7,8 @@
   },
   "globals": {
     "window": true,
-    "fetch": true
+    "fetch": true,
+    "navigator": true
   },
   "plugins": [
     "react",

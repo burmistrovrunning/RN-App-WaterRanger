@@ -10,6 +10,7 @@ import {
 import t from 'tcomb-form-native';
 import loginStyles from '../styles/LoginStyles';
 import styles from '../styles/Styles';
+import '../styles/FormStyles';
 import GLOBAL from '../Globals';
 
 const { Form } = t.form;

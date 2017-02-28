@@ -1,6 +1,4 @@
-import { GlobalStyles } from './GlobalStyles';
-
-var t = require('tcomb-form-native');
+import t from 'tcomb-form-native';
 
 t.form.Form.stylesheet.textbox.normal.backgroundColor = '#ffffff';
 

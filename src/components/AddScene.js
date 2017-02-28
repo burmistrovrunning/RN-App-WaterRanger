@@ -12,7 +12,6 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { uploadForm, storeFailedForm } from './WebServices';
 import styles from '../styles/Styles';
-import GLOBAL from '../Globals';
 
 const { Form } = t.form;
 Form.i18n = {
@@ -172,13 +171,11 @@ export default class AddScene extends Component {
     const value = this.formView.getValue();
     const { marker } = this.state;
     if (value) {
-      let url = `${GLOBAL.BASE_URL}observations`;
       let dictToSend = {};
       const dateString = new Date().toJSON();
 
       // these need to be populated from the form fully
       if (this.state.form === 'issue') {
-        url = `${GLOBAL.BASE_URL}issues`;
         dictToSend = {
           issues: [{
             observed_on: dateString,
@@ -197,7 +194,6 @@ export default class AddScene extends Component {
           }]
         };
       } else {
-        url = `${GLOBAL.BASE_URL}observations`;
         dictToSend = {
           observations: [
             {

@@ -1,45 +1,32 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component } from 'react';
 import {
-  ActivityIndicatorIOS,
-  AppRegistry,
-  Navigator,
   Text,
   TouchableHighlight,
   View,
-  StyleSheet,
-  AsyncStorage,
-  MapView,
   ListView
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import {uploadForm, removeFailedForm, getFailedForms} from './WebServices';
-
-var loadDataOnRender = true;
+import { uploadForm, removeFailedForm, getFailedForms } from './WebServices';
+import styles from '../styles/Styles';
 
 export default class MyObservationsScene extends Component {
-
   static navigationOptions = {
     tabBar: {
       label: 'Observations',
-      icon: ({ tintColor, focused }) => (
-        <Icon 
-          name={focused ? 'ios-search' : 'ios-search-outline'} style={styles.tabIcon} 
-        />
+      icon: ({ focused }) => (
+        <Icon name={focused ? 'ios-search' : 'ios-search-outline'} style={styles.tabIcon} />
       ),
     },
   }
 
   constructor(props) {
     super(props);
-
-    var ds = new ListView.DataSource({
+    const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     this.state = {
-      'dataSource': ds.cloneWithRows([]),
-      'formsToSubmit':[]
+      dataSource: ds.cloneWithRows([]),
+      formsToSubmit: []
     };
     this.loadData();
   }
@@ -48,43 +35,33 @@ export default class MyObservationsScene extends Component {
     this.loadData();
   }
 
-  async loadData() {
-    var formsToSubmit = await getFailedForms();
-    console.log(formsToSubmit);
-    this.setState({
-      'dataSource': this.state.dataSource.cloneWithRows(formsToSubmit),
-      'formsToSubmit':formsToSubmit
-    });
-  }
-
   // attempt to upload the first cached form in the list
-  async tryAgain() {
-    formsToSubmit = this.state["formsToSubmit"];
-
-    console.log("A");
-    if (formsToSubmit != null && formsToSubmit.length > 0) {
-      console.log("B");
-      formToSubmit = formsToSubmit[0];
-
-      uploadForm(formToSubmit).then(async(response) => {
-
-        var error = false;
-        if (response.status == 200 || response.status == 204) {
-          console.log("Finished uploading");
+  onTryAgain = async () => {
+    const { formsToSubmit } = this.state;
+    if (formsToSubmit && formsToSubmit.length > 0) {
+      const formToSubmit = formsToSubmit[0];
+      uploadForm(formToSubmit).then(async (response) => {
+        if (response.status === 200 || response.status === 204) {
+          console.log('Finished uploading', response);
           this.removeForm(formToSubmit);
         } else {
-            console.log("Finished uploading with failure");
+          console.log('Finished uploading with failure', response);
         }
-
-        console.log(response);
-      }).catch((error) => {
-        console.error(error);
-        error = "Please check your connection and try again.";
-        this.setState({"error": error});
+      }).catch((err) => {
+        console.log('err on uploadForm', err);
+        this.setState({ error: 'Please check your connection and try again.' });
       });
     }
-  }
+  };
 
+  async loadData() {
+    const formsToSubmit = await getFailedForms();
+    console.log('loadData', formsToSubmit);
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(formsToSubmit),
+      formsToSubmit
+    });
+  }
   // remove a form once we have successfully re-uploaded it
   async removeForm(dictToRemove) {
     await removeFailedForm(dictToRemove);
@@ -96,13 +73,15 @@ export default class MyObservationsScene extends Component {
       <View>
         <Text>My Observations</Text>
         <Text>Awaiting Internet Connection</Text>
-        <TouchableHighlight style={styles.button} onPress={this.tryAgain.bind(this)} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Try uploading again</Text>
+        <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">
+          <Text style={styles.buttonText}>Try uploading again</Text>
         </TouchableHighlight>
-        <ListView enableEmptySections={true} dataSource={this.state.dataSource} renderRow={(rowData) => <Text>{JSON.stringify(rowData)}</Text>}/>
+        <ListView
+          enableEmptySections={true}
+          dataSource={this.state.dataSource}
+          renderRow={rowData => <Text>{JSON.stringify(rowData)}</Text>}
+        />
       </View>
     );
   }
 }
-
-var styles = require('../styles/Styles');
