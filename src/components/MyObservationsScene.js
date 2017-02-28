@@ -105,4 +105,4 @@ export default class MyObservationsScene extends Component {
   }
 }
 
-var styles = require('./Styles');
+var styles = require('../styles/Styles');

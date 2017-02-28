@@ -227,4 +227,4 @@ export default class MapScene extends React.Component {
   
 }
 
-var styles = require('./Styles');
+var styles = require('../styles/Styles');

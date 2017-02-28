@@ -356,5 +356,5 @@ export default class AddScene extends Component {
   }
 }
 
-var formStyles = require('./FormStyles');
-var styles = require('./Styles');
+var formStyles = require('../styles/FormStyles');
+var styles = require('../styles/Styles');

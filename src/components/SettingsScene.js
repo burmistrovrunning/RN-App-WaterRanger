@@ -45,4 +45,4 @@ export default class SettingsScene extends React.Component {
     }
 }
 
-var styles = require('./Styles');
+var styles = require('../styles/Styles');
