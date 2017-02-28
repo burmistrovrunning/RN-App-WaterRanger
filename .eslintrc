@@ -14,15 +14,20 @@
   ],
   "rules": {
     "comma-dangle": 0,
-    "no-console": 1,
-    "no-multi-spaces": [1, {
-      "exceptions": {
-        "VariableDeclarator": true
-      }
-    }],
-    "react-native/no-unused-styles": 2,
+    "consistent-return": 0,
+    "indent": [2, 2, {"SwitchCase": 1}],
+    "no-console": 0,
+    "import/no-extraneous-dependencies": "off",
+    "react-native/no-unused-styles": 0,
     "no-return-assign": 0,
+    "no-underscore-dangle": 0,
     "react/jsx-boolean-value": 0,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "react/jsx-filename-extension": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "class-methods-use-this": "off",
+    "global-require": "off"
   }
 }

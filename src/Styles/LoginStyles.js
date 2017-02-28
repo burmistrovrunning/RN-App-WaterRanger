@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { GlobalStyles } from '../styles/GlobalStyles.js';
+import { GlobalStyles } from 'GlobalStyles.js';
 
 const loginstyles = EStyleSheet.create({
   loginContainer: {

@@ -1,16 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {
-    Image,
-    ActivityIndicatorIOS,
-    AppRegistry,
-    Navigator,
-    Text,
-    TouchableHighlight,
-    View,
-    StyleSheet,
-    AsyncStorage,
-    MapView,
-    ScrollView
+  Image,
+  ActivityIndicatorIOS,
+  AppRegistry,
+  Navigator,
+  Text,
+  TouchableHighlight,
+  View,
+  StyleSheet,
+  AsyncStorage,
+  MapView,
+  ScrollView
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -357,5 +357,5 @@ export default class AddScene extends Component {
   }
 }
 
-var formStyles = require('../styles/FormStyles');
-var styles = require('../styles/Styles');
+var formStyles = require('./FormStyles');
+var styles = require('./Styles');

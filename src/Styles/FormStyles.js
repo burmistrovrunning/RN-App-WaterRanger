@@ -1,4 +1,4 @@
-import { GlobalStyles } from '../styles/GlobalStyles.js';
+import { GlobalStyles } from 'GlobalStyles.js';
 
 var t = require('tcomb-form-native');
 

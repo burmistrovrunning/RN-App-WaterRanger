@@ -137,6 +137,6 @@ export default class LoginScene extends React.Component {
 
 }
 
-var formStyles = require('../styles/FormStyles');
-var loginstyles = require('../styles/LoginStyles');
-var styles = require('../styles/Styles');
+var formStyles = require('./FormStyles');
+var loginstyles = require('./LoginStyles');
+var styles = require('./Styles');

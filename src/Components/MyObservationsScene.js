@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {
-    ActivityIndicatorIOS,
-    AppRegistry,
-    Navigator,
-    Text,
-    TouchableHighlight,
-    View,
-    StyleSheet,
-    AsyncStorage,
-    MapView,
-    ListView
+  ActivityIndicatorIOS,
+  AppRegistry,
+  Navigator,
+  Text,
+  TouchableHighlight,
+  View,
+  StyleSheet,
+  AsyncStorage,
+  MapView,
+  ListView
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -105,4 +105,4 @@ export default class MyObservationsScene extends Component {
   }
 }
 
-var styles = require('../styles/Styles');
+var styles = require('./Styles');

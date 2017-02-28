@@ -12,12 +12,12 @@ import {
   StatusBar
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
-import LoginScene from './Components/LoginScene';
-import MapScene from './Components/MapScene';
-import AddScene from './Components/AddScene';
-import MyObservationsScene from './Components/MyObservationsScene';
-import SettingsScene from './Components/SettingsScene';
-import NavBarDark from './Components/NavBar';
+import LoginScene from 'Components/LoginScene';
+import MapScene from 'Components/MapScene';
+import AddScene from 'Components/AddScene';
+import MyObservationsScene from 'Components/MyObservationsScene';
+import SettingsScene from 'Components/SettingsScene';
+import NavBarDark from 'Components/NavBar';
 import { NavigationActions } from 'react-navigation';
 
 export default class WaterRangers extends React.Component {
@@ -126,4 +126,4 @@ const TabView = TabNavigator({
 
 AppRegistry.registerComponent('WaterRangers', () => WaterRangers);
 
-var styles = require('./styles/Styles');
+var styles = require('./Styles/Styles');

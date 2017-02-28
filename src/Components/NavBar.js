@@ -24,4 +24,4 @@ export default class NavBarDark extends React.Component {
   }
 }
 
-var styles = require('../styles/Styles');
+var styles = require('./Styles');
