@@ -24,6 +24,11 @@
     "react-native-svg-uri": "^1.2.0",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-actions": "^1.2.2",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^2.5.4",
     "tcomb-form-native": "^0.6.4"
   },
   "devDependencies": {

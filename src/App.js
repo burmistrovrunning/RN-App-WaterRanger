@@ -46,7 +46,7 @@ export default class WaterRangers extends React.Component {
     };
   }
   componentWillMount() {
-    this.checkLogin();
+    this.onCheckLogin();
   }
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
