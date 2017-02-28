@@ -34,7 +34,6 @@ var imagePickerOptions = {
     path: 'images'
   }
 };
-
 var WildlifeType = t.enums({
   Mammal: 'Mammal',
   Reptile: 'Reptile',

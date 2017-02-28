@@ -8,7 +8,6 @@
     "postinstall": "rndebugger-open",
     "lint": "eslint --ignore-path .gitignore src"
   },
-  "pre-commit": "lint",
   "dependencies": {
     "react": "15.4.2",
     "react-native": "0.41.2",
