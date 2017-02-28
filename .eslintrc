@@ -6,7 +6,8 @@
     "node": true
   },
   "globals": {
-    "window": true
+    "window": true,
+    "fetch": true
   },
   "plugins": [
     "react",
