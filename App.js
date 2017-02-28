@@ -12,8 +12,6 @@ import {
   StatusBar
 } from 'react-native';
 import { TabNavigator } from 'react-navigation';
-import SvgUri from 'react-native-svg-uri';
-import HideableView from 'react-native-hideable-view';
 import LoginScene from './Components/LoginScene';
 import MapScene from './Components/MapScene';
 import AddScene from './Components/AddScene';
@@ -21,7 +19,6 @@ import MyObservationsScene from './Components/MyObservationsScene';
 import SettingsScene from './Components/SettingsScene';
 import NavBarDark from './Components/NavBar';
 import { NavigationActions } from 'react-navigation';
-import store from 'react-native-simple-store';
 
 export default class WaterRangers extends React.Component {
   
