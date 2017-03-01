@@ -23,6 +23,11 @@ export const styles = EStyleSheet.create({
   loginLogo: {
     height: 150,
     width: 150
-  }
+  },
+  hidden: {
+    height: 0,
+    padding: 0,
+    width: 0
+  },
 });
 

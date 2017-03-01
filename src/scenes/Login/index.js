@@ -113,7 +113,7 @@ export class LoginScene extends Component {
             source={require('../../images/rangers-logo.png')}
           />
         </View>
-        <View style={[styles.errorTextContainer, this.state.error ? {} : styles.hidden]}>
+        <View style={[styles.errorTextContainer, this.state.error ? {} : loginStyles.hidden]}>
           <Text style={styles.errorText}>{this.state.error}</Text>
         </View>
         <Form
