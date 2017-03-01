@@ -5,20 +5,10 @@ import {
   View,
   ListView
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { uploadForm, removeFailedForm, getFailedForms } from './WebServices';
-import styles from '../styles/Styles';
+import { uploadForm, removeFailedForm, getFailedForms } from '../../services';
+import { styles } from '../../styles/common';
 
-export default class MyObservationsScene extends Component {
-  static navigationOptions = {
-    tabBar: {
-      label: 'Observations',
-      icon: ({ focused }) => (
-        <Icon name={focused ? 'ios-search' : 'ios-search-outline'} style={styles.tabIcon} />
-      ),
-    },
-  }
-
+export class MyObservationScene extends Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({

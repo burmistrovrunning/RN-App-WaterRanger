@@ -3,24 +3,13 @@ import {
   Text,
   TouchableHighlight,
   View,
-  AsyncStorage,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import styles from '../styles/Styles';
+import { localStorge } from '../../services';
 
-export default class SettingsScene extends Component {
-  static navigationOptions = {
-    tabBar: {
-      label: 'Settings',
-      icon: () => (
-        <Icon name="ios-settings-outline" style={styles.tabIcon} />
-      ),
-    },
-  };
-
+export class SettingsScene extends Component {
   onLogout = async () => {
     try {
-      await AsyncStorage.removeItem('accessToken');
+      await localStorge.remove('accessToken');
     } catch (e) {
       console.log('log out err', e);
     }

@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { uploadForm, storeFailedForm } from './WebServices';
-import styles from '../styles/Styles';
+import { uploadForm, storeFailedForm } from '../../services';
+import { styles } from '../../styles/common';
+import { styles as addStyles } from '../../styles/scenes/Add';
 
 const { Form } = t.form;
 Form.i18n = {
@@ -99,18 +99,7 @@ const options = {
   }
 };
 
-export default class AddScene extends Component {
-  static navigationOptions = {
-    tabBar: {
-      label: 'Add',
-      icon: ({ focused }) => (
-        <Icon
-          name={focused ? 'ios-add-circle' : 'ios-add-circle-outline'} style={styles.tabIcon}
-        />
-      ),
-    },
-  }
-
+export class AddScene extends Component {
   constructor(props) {
     super(props);
     // const { state } = this.props.navigation;
@@ -126,9 +115,9 @@ export default class AddScene extends Component {
     // console.log('Marker:', state.params.marker);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ marker: nextProps.navigation.state.params.marker });
-  }
+  // componentWillReceiveProps(nextProps) {
+    // this.setState({ marker: nextProps.navigation.state.params.marker });
+  // }
 
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
@@ -296,7 +285,7 @@ export default class AddScene extends Component {
           <Text>Issue</Text>
         </TouchableHighlight>
         <ScrollView>
-          <View style={styles.scroll_container}>
+          <View style={styles.scrollContainer}>
             <Form
               ref={ref => this.formView = ref}
               type={formType}
@@ -306,7 +295,7 @@ export default class AddScene extends Component {
             <TouchableHighlight style={styles.button} onPress={this.onChoosePicture} underlayColor="#99d9f4">
               <Text style={styles.buttonText}>Choose Image</Text>
             </TouchableHighlight>
-            <Image source={avatarSource} style={styles.uploadImage} />
+            <Image source={avatarSource} style={addStyles.uploadImage} />
             <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableHighlight>

@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
 import { ActivityIndicatorIOS, View } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
-import Icon from 'react-native-vector-icons/Ionicons';
 import store from 'react-native-simple-store';
-import locations from '../locations.json';
-import GLOBAL from '../Globals';
-import styles from '../styles/Styles';
+import locations from '../../locations.json';
+import GLOBAL from '../../Globals';
+import { styles } from '../../styles/scenes/Map';
 
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
 Mapbox.setAccessToken(accessToken);
 
-export default class MapScene extends Component {
-  static navigationOptions = {
-    tabBar: {
-      label: 'Map',
-      icon: ({ focused }) => (
-        <Icon name={focused ? 'ios-pin' : 'ios-pin-outline'} style={styles.tabIcon} />
-      ),
-    },
-  };
-
+export class MapScene extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,16 +26,16 @@ export default class MapScene extends Component {
     };
   }
   componentWillMount() {
-    store.get('locations').then((value) => {
-      if (value == null) {
-        this.setState({ locations });
-      } else {
-        this.setState({ locations: value });
-      }
-      this.loadLocationsAsync();
-    }).done();
-    Icon.getImageSource('ios-add-circle-outline', 25, '#1c3653')
-      .then(source => this.setState({ addIcon: source }));
+    // store.get('locations').then((value) => {
+    //   if (value == null) {
+    //     this.setState({ locations });
+    //   } else {
+    //     this.setState({ locations: value });
+    //   }
+    //   this.loadLocationsAsync();
+    // }).done();
+    // Icon.getImageSource('ios-add-circle-outline', 25, '#1c3653')
+    //   .then(source => this.setState({ addIcon: source }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -154,7 +144,7 @@ export default class MapScene extends Component {
     const { isLoading } = this.state;
     const spinner = isLoading ? (<ActivityIndicatorIOS size="large" />) : (<View />);
     return (
-      <View style={{ flex: 2 }}>
+      <View style={{ flex: 1 }}>
         <MapView
           ref={ref => this._map = ref}
           contentInset={[0, 0, 0, 0]}
