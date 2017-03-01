@@ -146,7 +146,7 @@ export default class MapScene extends Component {
         });
         store.save(locations, currentLocations);
       }).catch((error) => {
-        console.error(error);
+        console.log('err', error);
       });
   }
 
@@ -168,7 +168,7 @@ export default class MapScene extends Component {
           showsUserLocation={false}
           styleURL={Mapbox.mapStyles.outdoor}
           userTrackingMode={this.state.userTrackingMode}
-          annotations={this.state.locations.concat(this.state.newLocationMarkers)}
+          // annotations={this.state.locations.concat(this.state.newLocationMarkers)}
           annotationsAreImmutable
           onChangeUserTrackingMode={this.onChangeUserTrackingMode}
           onRegionDidChange={this.onRegionDidChange}

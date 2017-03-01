@@ -83,7 +83,9 @@ export default class WaterRangers extends React.Component {
   };
 
   render() {
-    const { loadedCookie, loggedIn, latitude, longitude } = this.state;
+    // const { loadedCookie, loggedIn, latitude, longitude } = this.state;
+    const loadedCookie = true;
+    const loggedIn = true;
     if (loadedCookie && loggedIn) {
       return (
         <View style={styles.tabView}>
@@ -91,8 +93,8 @@ export default class WaterRangers extends React.Component {
           <TabView
             ref={nav => this.navigator = nav}
             screenProps={{
-              geoLat: latitude,
-              geoLng: longitude,
+              // geoLat: latitude,
+              // geoLng: longitude,
               checkLogin: this.onCheckLogin
             }}
           />

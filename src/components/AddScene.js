@@ -113,13 +113,17 @@ export default class AddScene extends Component {
 
   constructor(props) {
     super(props);
-    const { state } = this.props.navigation;
+    // const { state } = this.props.navigation;
     this.state = {
       form: 'observation',
-      marker: state.params.marker
+      marker: {
+        latitude: 0,
+        longitude: 0,
+        id: -1
+      } // state.params.marker
     };
     this.formView = null;
-    console.log('Marker:', state.params.marker);
+    // console.log('Marker:', state.params.marker);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -263,7 +267,7 @@ export default class AddScene extends Component {
     const { marker, form, avatarSource } = this.state;
     let defaultValue = {};
 
-    if (this.state.marker.id !== '-1') {
+    if (marker && marker.id !== '-1') {
       options.fields.bodyOfWater = {
         editable: false
       };

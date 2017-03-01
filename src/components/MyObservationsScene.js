@@ -28,11 +28,11 @@ export default class MyObservationsScene extends Component {
       dataSource: ds.cloneWithRows([]),
       formsToSubmit: []
     };
-    this.loadData();
+    // this.loadData();
   }
 
   componentDidMount() {
-    this.loadData();
+    // this.loadData();
   }
 
   // attempt to upload the first cached form in the list
