@@ -252,7 +252,6 @@ export class AddScene extends Component {
   };
 
   render() {
-    console.log('Add props: ', this.props);
     const { marker, form, avatarSource } = this.state;
     let defaultValue = {};
 

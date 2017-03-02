@@ -36,7 +36,7 @@ export class Router extends Component {
   resetScene = (sceneName) => {
     const scenes = ['MapScene', 'AddScene', 'MyObservationScene', 'SettingsScene', 'LoginScene'];
     if (scenes.indexOf(sceneName) > -1) {
-      return this.navigationRef.resetTo(sceneName);
+      return this.navigationRef.jumpTo(sceneName);
     }
     return '';
   };
@@ -84,10 +84,12 @@ export class Router extends Component {
     if (waiting) {
       return <View />;
     }
+    const scenes = ['LoginScene', 'MapScene', 'AddScene', 'MyObservationScene', 'SettingsScene'];
     return (
       <Navigator
         sceneStyle={styles.container}
-        initialRoute={{ name: this.state.hasToken ? 'MapScene' : 'LoginScene' }}
+        initialRoute={this.state.hasToken ? scenes[1] : scenes[0]}
+        initialRouteStack={scenes}
         renderScene={this.renderScene}
         configureScene={this.renderConfig}
         style={{ backgroundColor: '#FFF' }}
