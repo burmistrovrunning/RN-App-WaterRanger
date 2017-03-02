@@ -15,6 +15,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const scenes = [{
+  name: 'LoginScene'
+}, {
+  name: 'MapScene'
+}, {
+  name: 'AddScene'
+}, {
+  name: 'MyObservationScene'
+}, {
+  name: 'SettingsScene'
+}];
 export class Router extends Component {
   constructor(props, context) {
     super(props, context);
@@ -33,14 +44,20 @@ export class Router extends Component {
       .catch(() => this.setState({ hasToken: false, waiting: false }));
   }
 
-  resetScene = (sceneName) => {
-    const scenes = ['MapScene', 'AddScene', 'MyObservationScene', 'SettingsScene', 'LoginScene'];
-    if (scenes.indexOf(sceneName) > -1) {
-      return this.navigationRef.jumpTo(sceneName);
+  resetScene = (name) => {
+    let index = -1;
+    scenes.forEach((scene, idx) => {
+      if (scene.name === name) {
+        index = idx;
+      }
+    });
+    if (index > -1) {
+      return this.navigationRef.jumpTo(scenes[index]);
     }
     return '';
   };
   renderScene = (route, navigator) => {
+    console.log('renderScene', route);
     const currentRoute = typeof route === 'string' ? { name: route } : route;
     const props = {
       ...route.passProps,
@@ -84,7 +101,6 @@ export class Router extends Component {
     if (waiting) {
       return <View />;
     }
-    const scenes = ['LoginScene', 'MapScene', 'AddScene', 'MyObservationScene', 'SettingsScene'];
     return (
       <Navigator
         sceneStyle={styles.container}
