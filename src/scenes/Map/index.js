@@ -39,15 +39,15 @@ export class MapScene extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      center: {
-        latitude: nextProps.geoLat,
-        longitude: nextProps.geoLng
-      }
-    }, () => {
-      // Is this the right place to do this?
-      this._map.setCenterCoordinate(this.state.center.latitude, this.state.center.longitude);
-    });
+    // this.setState({
+    //   center: {
+    //     latitude: nextProps.geoLat,
+    //     longitude: nextProps.geoLng
+    //   }
+    // }, () => {
+    //   // Is this the right place to do this?
+    //   this._map.setCenterCoordinate(this.state.center.latitude, this.state.center.longitude);
+    // });
   }
 
   onRegionDidChange(location) {
@@ -144,7 +144,7 @@ export class MapScene extends Component {
     const { isLoading } = this.state;
     const spinner = isLoading ? (<ActivityIndicatorIOS size="large" />) : (<View />);
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <MapView
           ref={ref => this._map = ref}
           contentInset={[0, 0, 0, 0]}

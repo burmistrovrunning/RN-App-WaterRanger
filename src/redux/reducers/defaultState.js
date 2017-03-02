@@ -1,7 +1,7 @@
 export default {
   location: {
-    latitude: 0,
-    longitude: 52
+    latitude: 45.421,
+    longitude: -75.6972
   },
 };
 

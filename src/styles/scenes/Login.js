@@ -4,7 +4,7 @@ import '../GlobalStyles';
 export const styles = EStyleSheet.create({
   loginContainer: {
     backgroundColor: '$colorBlue',
-    flex: 2,
+    flex: 1,
     margin: 0,
     borderWidth: 0,
     paddingLeft: 40,

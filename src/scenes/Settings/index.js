@@ -4,21 +4,21 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { localStorge } from '../../services';
+import { localStorage } from '../../services';
 
 export class SettingsScene extends Component {
   onLogout = async () => {
     try {
-      await localStorge.remove('accessToken');
+      await localStorage.remove('accessToken');
+      this.props.onLogout();
     } catch (e) {
       console.log('log out err', e);
     }
-    this.props.checkLogin();
   };
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Text>
           Most settings are not yet available on our mobile app.
           Please visit app.waterrangers.ca on your computer to change your profile.

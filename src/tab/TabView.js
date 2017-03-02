@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export const TabView = ({ children, onTabRoute }) => (
+export const TabView = ({ children, onTabRoute, showTabBar }) => (
   <View style={styles.container}>
     <View style={styles.container}>{children}</View>
-    <TabBottom resetScene={onTabRoute} />
+    { showTabBar && <TabBottom resetScene={onTabRoute} /> }
   </View>
 );

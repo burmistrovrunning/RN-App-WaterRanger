@@ -38,8 +38,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
@@ -47,6 +45,8 @@
 		<string>Foundation.ttf</string>
 		<string>MaterialIcons.ttf</string>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -58,5 +58,11 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSLocationUsageDescription</key>
+  <string>WaterRangers Location</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>WaterRangers Location</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>WaterRangers Location</string>
 </dict>
 </plist>

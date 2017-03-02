@@ -85,7 +85,7 @@ export class LoginScene extends Component {
               } catch (e) {
                 console.log('err', e);
               }
-              // this.props.checkLogin();
+              this.props.onLoginSuccess();
             }
           } else {
             error = 'Please check your login and try again.';

@@ -38,12 +38,21 @@ export class Router extends Component {
   componentDidMount() {
     localStorage.get('accessToken')
       .then((token) => {
+        console.log('token', token);
         const hasToken = !!token;
         this.setState({ hasToken, waiting: false });
+        this.props.showTabBar(hasToken);
       })
       .catch(() => this.setState({ hasToken: false, waiting: false }));
   }
-
+  onLoginSuccess = () => {
+    this.props.showTabBar(true);
+    this.navigationRef.jumpTo(scenes[1]);
+  };
+  onLogout = () => {
+    this.props.showTabBar(false);
+    this.navigationRef.jumpTo(scenes[0]);
+  };
   resetScene = (name) => {
     let index = -1;
     scenes.forEach((scene, idx) => {
@@ -57,7 +66,6 @@ export class Router extends Component {
     return '';
   };
   renderScene = (route, navigator) => {
-    console.log('renderScene', route);
     const currentRoute = typeof route === 'string' ? { name: route } : route;
     const props = {
       ...route.passProps,
@@ -80,11 +88,17 @@ export class Router extends Component {
         );
       case 'SettingsScene':
         return (
-          <SettingsScene {...props} />
+          <SettingsScene
+            {...props}
+            onLogout={this.onLogout}
+          />
         );
       case 'LoginScene':
         return (
-          <LoginScene {...props} />
+          <LoginScene
+            {...props}
+            onLoginSuccess={this.onLoginSuccess}
+          />
         );
       default:
         return (
@@ -101,6 +115,7 @@ export class Router extends Component {
     if (waiting) {
       return <View />;
     }
+    console.log('scene', this.state.hasToken, this.state.hasToken ? scenes[1] : scenes[0]);
     return (
       <Navigator
         sceneStyle={styles.container}

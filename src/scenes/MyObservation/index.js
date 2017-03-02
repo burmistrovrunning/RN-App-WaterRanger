@@ -60,7 +60,7 @@ export class MyObservationScene extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Text>My Observations</Text>
         <Text>Awaiting Internet Connection</Text>
         <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">

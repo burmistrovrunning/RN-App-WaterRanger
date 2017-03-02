@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { Router } from './routing';
+import { LocationActions } from './redux/actions';
 import { NavigationBar } from './components';
 import { TabView } from './tab/TabView';
 import { styles } from './styles/MainContainer';
@@ -10,6 +11,30 @@ class _MainContainer extends Component {
   constructor(props, context) {
     super(props, context);
     this.navigator = null;
+    this.state = {
+      showTabBar: false
+    };
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log('get location success', position);
+      this.props.dispatch(LocationActions.updateLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }));
+    }, error => console.log('error on get location', JSON.stringify(error)), {
+      enableHighAccuracy: true, timeout: 10000, maximumAge: 1000
+    });
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      this.props.dispatch(LocationActions.updateLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }));
+    });
+  }
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
   }
 
   onTabRoute = (activeItem, oldItem) => {
@@ -38,23 +63,18 @@ class _MainContainer extends Component {
   resetScene = (sceneName) => {
     if (sceneName && sceneName.length > 0) {
       this.routingRef.resetScene(sceneName);
-      this.updatePage(sceneName);
     }
   };
-
-  // updatePage = (page) => {
-  //   // this.props.dispatch(UIActions.updatePage(page));
-  //   return page;
-  // };
+  showTabBar = showTabBar => this.setState({ showTabBar });
 
   render() {
     return (
       <View style={styles.tabView}>
         <NavigationBar />
-        <TabView onTabRoute={this.onTabRoute}>
+        <TabView onTabRoute={this.onTabRoute} showTabBar={this.state.showTabBar}>
           <Router
+            showTabBar={this.showTabBar}
             ref={ref => this.routingRef = ref}
-            // updatePage={this.updatePage}
           />
         </TabView>
       </View>

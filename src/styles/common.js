@@ -7,11 +7,10 @@ export const styles = EStyleSheet.create({
     flex: 1,
   },
   container: {
-    justifyContent: 'center',
-    marginTop: 50,
-    padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFF',
     flex: 1,
+    justifyContent: 'center',
+    padding: 20,
   },
   buttonText: {
     fontSize: 18,
