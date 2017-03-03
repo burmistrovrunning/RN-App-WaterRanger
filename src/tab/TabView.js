@@ -17,6 +17,9 @@ export class TabView extends Component {
       visible: false
     };
   }
+  getTabIndex() {
+    return this.tabBottomView.getTabIndex();
+  }
   updateTabIndex(index) {
     this.tabBottomView.updateTabIndex(index);
   }

@@ -31,6 +31,9 @@ export class TabBottom extends Component {
     this.props.resetScene(activeItem, this.state.activeItem);
     this.setState({ activeItem });
   };
+  getTabIndex() {
+    return this.state.activeItem;
+  }
   updateTabIndex(activeItem) {
     if (activeItem > -1 && activeItem !== this.state.activeItem) {
       this.setState({ activeItem });

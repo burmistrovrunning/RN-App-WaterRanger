@@ -7,6 +7,7 @@ export default {
     latitude: 0,
     longitude: 0,
     id: -1
-  }
+  },
+  online: true
 };
 

@@ -36,7 +36,6 @@ export async function uploadForm(formToSubmit) {
 
 export const getLocations = async () => {
   const flagConnected = await isNetworkOnline();
-  console.log('flagConnected', flagConnected);
   let ret = [];
   try {
     if (flagConnected) {
