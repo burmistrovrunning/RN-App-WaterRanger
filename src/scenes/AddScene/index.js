@@ -111,12 +111,16 @@ export class _AddScene extends Component {
       marker: props.marker
     };
     this.formView = null;
+    this.scrollView = null;
     console.log('props:', props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.marker, nextProps.marker)) {
       this.setState({ marker: nextProps.marker });
+      if (this.scrollView) {
+        this.scrollView.scrollTo({ y: 0, animated: false });
+      }
     }
   }
 
@@ -284,7 +288,7 @@ export class _AddScene extends Component {
         <TouchableHighlight onPress={this.onChooseIssue}>
           <Text>Issue</Text>
         </TouchableHighlight>
-        <ScrollView>
+        <ScrollView ref={ref => this.scrollView = ref}>
           <View style={styles.scrollContainer}>
             <Form
               ref={ref => this.formView = ref}
