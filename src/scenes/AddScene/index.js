@@ -7,6 +7,7 @@ import {
   ScrollView,
   Platform
 } from 'react-native';
+import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
 import { uploadForm, storeFailedForm } from '../../services';
@@ -105,19 +106,22 @@ export class AddScene extends Component {
     // const { state } = this.props.navigation;
     this.state = {
       form: 'observation',
-      marker: {
+      marker: props.marker || {
         latitude: 0,
         longitude: 0,
         id: -1
       } // state.params.marker
     };
     this.formView = null;
-    // console.log('Marker:', state.params.marker);
+    console.log('props:', props);
   }
 
-  // componentWillReceiveProps(nextProps) {
-    // this.setState({ marker: nextProps.navigation.state.params.marker });
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps:', nextProps);
+    if (!isEqual(this.props.marker, nextProps.marker)) {
+      this.setState({ marker: { ...nextProps.marker } });
+    }
+  }
 
   onChooseObservation = () => {
     this.setState({ form: 'observation' });

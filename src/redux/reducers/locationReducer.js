@@ -4,10 +4,7 @@ import defaultState from './defaultState';
 export const location = (state = defaultState.location, action) => {
   switch (action.type) {
     case LocationActions.UPDATE_LOCATION:
-      {
-        const newState = { ...action.payload };
-        return newState;
-      }
+      return { ...action.payload };
     default:
       return state;
   }

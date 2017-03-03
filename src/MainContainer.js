@@ -24,7 +24,7 @@ class _MainContainer extends Component {
         longitude: position.coords.longitude,
       }));
     }, error => console.log('error on get location', JSON.stringify(error)), {
-      enableHighAccuracy: true, timeout: 10000, maximumAge: 1000
+      enableHighAccuracy: true, timeout: 1000, maximumAge: 1000
     });
     this.watchID = navigator.geolocation.watchPosition((position) => {
       this.props.dispatch(LocationActions.updateLocation({
@@ -34,8 +34,8 @@ class _MainContainer extends Component {
     });
     setTimeout(() => {
       this.props.dispatch(LocationActions.updateLocation({
-        latitude: 45.521,
-        longitude: -75.6972
+        latitude: 45.3493143,
+        longitude: -75.8246687
       }));
     }, 5000);
   }

@@ -1,4 +1,5 @@
 import { localStorage } from './localStorage';
+import { isNetworkOnline } from './utils';
 import GLOBAL from '../Globals';
 
 const getHeader = async () => {
@@ -32,3 +33,35 @@ export async function uploadForm(formToSubmit) {
     return Promise.reject(error);
   });
 }
+
+export const getLocations = async () => {
+  const flagConnected = await isNetworkOnline();
+  console.log('flagConnected', flagConnected);
+  let ret = [];
+  try {
+    if (flagConnected) {
+      const response = await fetch(`${GLOBAL.BASE_URL}locations`);
+      const responseJson = await response.json();
+      for (let index = 0; index < responseJson.length; index += 1) {
+        const location = responseJson[index];
+        const title = location.body_of_water || location.name;
+        const id = location.id.toString();
+        const currentLocation = {
+          id,
+          title,
+          coordinates: [parseFloat(location.lat), parseFloat(location.lng)],
+          type: 'point',
+          subtitle: '',
+        };
+        ret.push(currentLocation);
+      }
+      await localStorage.set('locations', JSON.stringify(ret));
+    } else {
+      const strLocations = await localStorage.get('locations');
+      ret = JSON.parse(strLocations);
+    }
+  } catch (err) {
+    console.log('getLocations err', err);
+  }
+  return ret || [];
+};
