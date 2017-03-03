@@ -1,0 +1,1 @@
+export { locationSelector } from './locationSelector';

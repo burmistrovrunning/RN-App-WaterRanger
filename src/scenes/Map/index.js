@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { ActivityIndicatorIOS, View } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
+import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
 import store from 'react-native-simple-store';
+import { locationSelector } from '../../redux/selectors';
 import locations from '../../locations.json';
 import GLOBAL from '../../Globals';
 import { styles } from '../../styles/scenes/Map';
@@ -9,17 +12,18 @@ import { styles } from '../../styles/scenes/Map';
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
 Mapbox.setAccessToken(accessToken);
 
-export class MapScene extends Component {
+export class _MapScene extends Component {
   constructor(props) {
     super(props);
+    console.log('location', props.location);
     this.state = {
       isLoading: false,
       locations: [],
       newLocationMarkers: [],
       marker: [],
       center: {
-        latitude: 45.4215, // Center of Ottawa
-        longitude: -75.6972 // Center of Ottawa
+        latitude: props.location.latitude,
+        longitude: props.location.longitude
       },
       zoom: 16,
       userTrackingMode: Mapbox.userTrackingMode.none
@@ -39,15 +43,16 @@ export class MapScene extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // this.setState({
-    //   center: {
-    //     latitude: nextProps.geoLat,
-    //     longitude: nextProps.geoLng
-    //   }
-    // }, () => {
-    //   // Is this the right place to do this?
-    //   this._map.setCenterCoordinate(this.state.center.latitude, this.state.center.longitude);
-    // });
+    if (!isEqual(this.props.location, nextProps.location)) {
+      this.setState({
+        center: {
+          latitude: nextProps.location.latitude,
+          longitude: nextProps.location.longitude
+        }
+      }, () => {
+        this.mapView.setCenterCoordinate(nextProps.location.latitude, nextProps.location.longitude);
+      });
+    }
   }
 
   onRegionDidChange(location) {
@@ -146,7 +151,7 @@ export class MapScene extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <MapView
-          ref={ref => this._map = ref}
+          ref={ref => this.mapView = ref}
           contentInset={[0, 0, 0, 0]}
           style={styles.map}
           initialCenterCoordinate={this.state.center}
@@ -175,3 +180,6 @@ export class MapScene extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({ ...locationSelector(state) });
+export const MapScene = connect(mapStateToProps)(_MapScene);

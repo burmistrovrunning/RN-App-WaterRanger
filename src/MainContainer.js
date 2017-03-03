@@ -32,6 +32,12 @@ class _MainContainer extends Component {
         longitude: position.coords.longitude,
       }));
     });
+    setTimeout(() => {
+      this.props.dispatch(LocationActions.updateLocation({
+        latitude: 45.521,
+        longitude: -75.6972
+      }));
+    }, 5000);
   }
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
