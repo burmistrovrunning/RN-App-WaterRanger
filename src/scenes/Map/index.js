@@ -19,7 +19,7 @@ export class _MapScene extends Component {
     this.state = {
       isLoading: false,
       locations: [],
-      newLocationMarkers: [],
+      newMarkers: [],
       marker: [],
       center: {
         latitude: props.location.latitude,
@@ -68,18 +68,28 @@ export class _MapScene extends Component {
     console.log(location);
   }
   onRightAnnotationTapped = (location) => {
-    console.log('onRightAnnotationTapped: ', this.props);
     this.props.dispatch(MarkerActions.updateMarker(location));
     this.props.resetScene('AddScene');
   };
   onFinishLoadingMap() {
     console.log('Map finished');
   }
-
-  addNewMarker = (location) => {
-    console.log('New marker at:', location);
-    const newLocationToMake = {
-      coordinates: [parseFloat(location.latitude), parseFloat(location.longitude)],
+  getCurrentLocationMarker = () => {
+    const { latitude, longitude } = this.state.center;
+    return [{
+      coordinates: [parseFloat(latitude).toFixed(4), parseFloat(longitude).toFixed(4)],
+      id: 'currentLocationMarker',
+      type: 'point',
+      annotationImage: {
+        source: { uri: 'icon_location' },
+        width: 20,
+        height: 32,
+      },
+    }];
+  };
+  addNewMarker = ({ latitude, longitude }) => {
+    const newMarker = {
+      coordinates: [parseFloat(latitude).toFixed(4), parseFloat(longitude).toFixed(4)],
       type: 'point',
       title: 'Add new...',
       subtitle: '',
@@ -90,10 +100,9 @@ export class _MapScene extends Component {
         width: 25
       }
     };
-    this.setState({ newLocationMarkers: [newLocationToMake] });
-    console.log(newLocationToMake);
+    const newMarkers = this.state.newMarkers.concat([newMarker]);
+    this.setState({ newMarkers });
   };
-
   loadLocationsAsync = async () => {
     const locations = await getLocations();
     locations.forEach((_location) => {
@@ -108,7 +117,9 @@ export class _MapScene extends Component {
   };
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, newMarkers, locations } = this.state;
+    let annotations = locations.concat(newMarkers);
+    annotations = annotations.concat(this.getCurrentLocationMarker());
     const spinner = isLoading ? (<ActivityIndicatorIOS size="large" />) : (<View />);
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
@@ -125,7 +136,7 @@ export class _MapScene extends Component {
           showsUserLocation={false}
           styleURL={Mapbox.mapStyles.outdoor}
           userTrackingMode={this.state.userTrackingMode}
-          annotations={this.state.locations}
+          annotations={annotations}
           annotationsAreImmutable
           onChangeUserTrackingMode={this.onChangeUserTrackingMode}
           onRegionDidChange={this.onRegionDidChange}

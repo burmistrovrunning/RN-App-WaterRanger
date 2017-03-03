@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navigator, StyleSheet, View } from 'react-native';
+import { Navigator, StyleSheet, ActivityIndicator } from 'react-native';
 import {
   LoginScene,
   MapScene,
@@ -12,6 +12,12 @@ import { localStorage } from './services';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
   },
 });
 
@@ -74,7 +80,6 @@ export class Router extends Component {
       resetScene: this.resetScene,
       onBack: () => navigator.pop(),
     };
-    console.log('route', currentRoute.name, props);
     switch (currentRoute.name) {
       case 'MapScene':
         return (
@@ -115,9 +120,14 @@ export class Router extends Component {
   render() {
     const { waiting } = this.state;
     if (waiting) {
-      return <View />;
+      return (
+        <ActivityIndicator
+          animating={true}
+          style={[styles.centering]}
+          size="large"
+        />
+      );
     }
-    console.log('scene', this.state.hasToken, this.state.hasToken ? scenes[1] : scenes[0]);
     return (
       <Navigator
         sceneStyle={styles.container}

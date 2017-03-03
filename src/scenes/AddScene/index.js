@@ -115,7 +115,6 @@ export class _AddScene extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps:', nextProps);
     if (!isEqual(this.props.marker, nextProps.marker)) {
       this.setState({ marker: nextProps.marker });
     }
