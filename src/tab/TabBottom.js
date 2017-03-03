@@ -24,13 +24,18 @@ export class TabBottom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: 0
+      activeItem: 0,
     };
   }
   onTabPress = (activeItem) => {
     this.props.resetScene(activeItem, this.state.activeItem);
     this.setState({ activeItem });
   };
+  updateTabIndex(activeItem) {
+    if (activeItem > -1 && activeItem !== this.state.activeItem) {
+      this.setState({ activeItem });
+    }
+  }
   renderTabItems() {
     const { activeItem } = this.state;
     return tabItems.map((tabItem, index) => {

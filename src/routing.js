@@ -53,7 +53,7 @@ export class Router extends Component {
     this.props.showTabBar(false);
     this.navigationRef.jumpTo(scenes[0]);
   };
-  resetScene = (name, passProps = {}) => {
+  resetScene = (name) => {
     let index = -1;
     scenes.forEach((scene, idx) => {
       if (scene.name === name) {
@@ -61,9 +61,8 @@ export class Router extends Component {
       }
     });
     if (index > -1) {
-      const scene = scenes[index];
-      scene.passProps = passProps;
-      return this.navigationRef.jumpTo(scene);
+      this.props.updateTabIndex(index - 1);
+      return this.navigationRef.jumpTo(scenes[index]);
     }
     return '';
   };

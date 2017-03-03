@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import { locationSelector } from '../../redux/selectors';
+import { MarkerActions } from '../../redux/actions';
 import { getLocations } from '../../services';
 import { styles } from '../../styles/scenes/Map';
 
@@ -68,7 +69,8 @@ export class _MapScene extends Component {
   }
   onRightAnnotationTapped = (location) => {
     console.log('onRightAnnotationTapped: ', this.props);
-    this.props.resetScene('AddScene', { location });
+    this.props.dispatch(MarkerActions.updateMarker(location));
+    this.props.resetScene('AddScene');
   };
   onFinishLoadingMap() {
     console.log('Map finished');

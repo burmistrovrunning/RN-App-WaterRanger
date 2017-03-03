@@ -7,9 +7,11 @@ import {
   ScrollView,
   Platform
 } from 'react-native';
+import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
+import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
@@ -100,17 +102,13 @@ const options = {
   }
 };
 
-export class AddScene extends Component {
+export class _AddScene extends Component {
   constructor(props) {
     super(props);
     // const { state } = this.props.navigation;
     this.state = {
       form: 'observation',
-      marker: props.marker || {
-        latitude: 0,
-        longitude: 0,
-        id: -1
-      } // state.params.marker
+      marker: props.marker
     };
     this.formView = null;
     console.log('props:', props);
@@ -119,7 +117,7 @@ export class AddScene extends Component {
   componentWillReceiveProps(nextProps) {
     console.log('nextProps:', nextProps);
     if (!isEqual(this.props.marker, nextProps.marker)) {
-      this.setState({ marker: { ...nextProps.marker } });
+      this.setState({ marker: nextProps.marker });
     }
   }
 
@@ -309,3 +307,5 @@ export class AddScene extends Component {
   }
 }
 
+const mapStateToProps = state => ({ ...markerSelector(state) });
+export const AddScene = connect(mapStateToProps)(_AddScene);

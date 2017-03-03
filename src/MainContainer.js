@@ -11,9 +11,7 @@ class _MainContainer extends Component {
   constructor(props, context) {
     super(props, context);
     this.navigator = null;
-    this.state = {
-      showTabBar: false
-    };
+    this.tabView = null;
   }
 
   componentDidMount() {
@@ -42,7 +40,7 @@ class _MainContainer extends Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
-
+  onUpdateTabIndex = index => this.tabView.updateTabIndex(index);
   onTabRoute = (activeItem, oldItem) => {
     if (activeItem !== oldItem) {
       let sceneName = '';
@@ -71,14 +69,18 @@ class _MainContainer extends Component {
       this.routingRef.resetScene(sceneName);
     }
   };
-  showTabBar = showTabBar => this.setState({ showTabBar });
+  showTabBar = visible => this.tabView.updateTabVisible(visible);
 
   render() {
     return (
       <View style={styles.tabView}>
         <NavigationBar />
-        <TabView onTabRoute={this.onTabRoute} showTabBar={this.state.showTabBar}>
+        <TabView
+          ref={ref => this.tabView = ref}
+          onTabRoute={this.onTabRoute}
+        >
           <Router
+            updateTabIndex={this.onUpdateTabIndex}
             showTabBar={this.showTabBar}
             ref={ref => this.routingRef = ref}
           />
