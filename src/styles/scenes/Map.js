@@ -8,5 +8,13 @@ export const styles = EStyleSheet.create({
     borderWidth: 0,
     flexDirection: 'column'
   },
+  removeContainer: {
+    position: 'absolute',
+    backgroundColor: '#EEE',
+    borderRadius: 5,
+    padding: 8,
+    top: 10,
+    right: 10,
+  }
 });
 

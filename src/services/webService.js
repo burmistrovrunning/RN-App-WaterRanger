@@ -16,6 +16,39 @@ const getHeader = async () => {
   };
 };
 
+export async function login(email, password) {
+  let error = '';
+  try {
+    const response = await fetch(`${GLOBAL.BASE_URL}auth/sign_in`, {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const { map } = response.headers;
+    const accessToken = map['access-token'][0] || null;
+    const client = map.client[0] || null;
+    const expiry = map.expiry[0] || null;
+    const tokenType = map['token-type'][0] || null;
+    const uid = map.uid[0] || null;
+    if (response.status === 200 && accessToken != null) {
+      const loginDetails = {
+        'access-token': accessToken,
+        'token-type': tokenType,
+        client,
+        expiry,
+        uid
+      };
+      await localStorage.set('accessToken', accessToken);
+      await localStorage.set('loginDetails', JSON.stringify(loginDetails));
+    } else {
+      error = 'Please check your login and try again.';
+    }
+  } catch (err) {
+    console.log('login err', err);
+    error = 'Please check your login and try again.';
+  }
+  return error;
+}
 // upload a form to the server
 export async function uploadForm(formToSubmit) {
   const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');

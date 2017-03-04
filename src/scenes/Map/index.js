@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicatorIOS, View } from 'react-native';
+import { Alert, View, TouchableOpacity, Text } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -26,13 +26,17 @@ export class _MapScene extends Component {
         longitude: props.location.longitude
       },
       zoom: 16,
+      flagRemove: false,
+      deleteIcon: null,
       userTrackingMode: Mapbox.userTrackingMode.none
     };
   }
   componentDidMount() {
     this.loadLocationsAsync();
     Icon.getImageSource('ios-add-circle-outline', 25, '#1c3653')
-      .then(markerIcon => this.setState({ markerIcon }));
+      .then(addIcon => this.setState({ addIcon }));
+    Icon.getImageSource('ios-remove-circle-outline', 25, '#1c3653')
+      .then(deleteIcon => this.setState({ deleteIcon }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,12 +72,25 @@ export class _MapScene extends Component {
     console.log(location);
   }
   onRightAnnotationTapped = (location) => {
-    this.props.dispatch(MarkerActions.updateMarker(location));
-    this.props.resetScene('AddScene');
+    if (!this.state.flagRemove) {
+      this.props.dispatch(MarkerActions.updateMarker(location));
+      return this.props.resetScene('AddScene');
+    }
+    Alert.alert('Information', `Do you want delete selected marker ${location.title}`,
+      [{ text: 'Cancel' }, { text: 'OK', onPress: () => this.removeMarker(location) }],
+      { cancelable: true }
+    );
   };
   onFinishLoadingMap() {
     console.log('Map finished');
   }
+  onUpdateRemoveStatus = () => {
+    const { flagRemove } = this.state;
+    this.setState({ flagRemove: !flagRemove });
+    const locations = this.updateMarkerRightIcon(this.state.locations, !flagRemove);
+    const newMarkers = this.updateMarkerRightIcon(this.state.newMarkers, !flagRemove);
+    this.setState({ newMarkers, locations });
+  };
   getCurrentLocationMarker = () => {
     const { latitude, longitude } = this.state.center;
     return [{
@@ -87,6 +104,40 @@ export class _MapScene extends Component {
       },
     }];
   };
+  getMarkerIndex(markers, marker) {
+    let ret = -1;
+    markers.forEach((_marker, idx) => {
+      if (_marker.id === marker.id) {
+        ret = idx;
+        return ret;
+      }
+    });
+    return ret;
+  }
+  updateMarkerRightIcon(markers, flagRemove) {
+    return markers.map((location) => {
+      const ret = { ...location };
+      ret.rightCalloutAccessory = {
+        source: flagRemove ? this.state.deleteIcon : this.state.addIcon,
+        height: 25,
+        width: 25
+      };
+      return ret;
+    });
+  }
+  removeMarker = (location) => {
+    const { locations, newMarkers } = this.state;
+    let index = this.getMarkerIndex(locations, location);
+    if (index !== -1) {
+      locations.splice(index);
+      return this.setState({ locations: [...locations] });
+    }
+    index = this.getMarkerIndex(newMarkers, location);
+    if (index !== -1) {
+      newMarkers.splice(index);
+      return this.setState({ newMarkers: [...newMarkers] });
+    }
+  };
   addNewMarker = ({ latitude, longitude }) => {
     const newMarker = {
       coordinates: [parseFloat(latitude).toFixed(4), parseFloat(longitude).toFixed(4)],
@@ -95,32 +146,41 @@ export class _MapScene extends Component {
       subtitle: '',
       id: '-1',
       rightCalloutAccessory: {
-        source: this.state.markerIcon,
+        source: this.state.addIcon,
         height: 25,
         width: 25
       }
     };
     const newMarkers = this.state.newMarkers.concat([newMarker]);
-    this.setState({ newMarkers });
+    this.setState({ newMarkers, flagRemove: false });
   };
   loadLocationsAsync = async () => {
     const locations = await getLocations();
     locations.forEach((_location) => {
       const location = _location;
       location.rightCalloutAccessory = {
-        source: this.state.markerIcon,
+        source: this.state.addIcon,
         height: 25,
         width: 25
       };
     });
     this.setState({ locations });
   };
-
+  renderRemoveView() {
+    const backgroundColor = this.state.flagRemove ? '#888' : '#EEE';
+    return (
+      <TouchableOpacity
+        style={[styles.removeContainer, { backgroundColor }]}
+        onPress={this.onUpdateRemoveStatus}
+      >
+        <Text>Remove</Text>
+      </TouchableOpacity>
+    );
+  }
   render() {
-    const { isLoading, newMarkers, locations } = this.state;
+    const { newMarkers, locations } = this.state;
     let annotations = locations.concat(newMarkers);
     annotations = annotations.concat(this.getCurrentLocationMarker());
-    const spinner = isLoading ? (<ActivityIndicatorIOS size="large" />) : (<View />);
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <MapView
@@ -148,7 +208,7 @@ export class _MapScene extends Component {
           onTap={this.onTap}
           onFinishLoadingMap={this.onFinishLoadingMap}
         />
-        {spinner}
+        {this.renderRemoveView()}
       </View>
     );
   }

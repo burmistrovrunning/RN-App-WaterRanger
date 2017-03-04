@@ -24,7 +24,7 @@ export const styles = EStyleSheet.create({
     borderColor: '$colorBrightBlue',
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom: 0,
+    marginBottom: 15,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },

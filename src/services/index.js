@@ -8,6 +8,7 @@ export {
 } from './localStorage';
 export {
   uploadForm,
-  getLocations
+  getLocations,
+  login
 } from './webService';
 export { isNetworkOnline } from './utils';
