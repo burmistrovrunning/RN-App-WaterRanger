@@ -71,7 +71,7 @@ export const getLocations = async () => {
   const flagConnected = await isNetworkOnline();
   let ret = [];
   try {
-    if (flagConnected) {
+    if (!flagConnected) {
       const response = await fetch(`${GLOBAL.BASE_URL}locations`);
       const responseJson = await response.json();
       for (let index = 0; index < responseJson.length; index += 1) {

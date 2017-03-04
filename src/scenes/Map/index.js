@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import { locationSelector } from '../../redux/selectors';
 import { MarkerActions } from '../../redux/actions';
-import { getLocations } from '../../services';
+import { getLocations, getClusters } from '../../services';
 import { styles } from '../../styles/scenes/Map';
 
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
@@ -15,12 +15,11 @@ Mapbox.setAccessToken(accessToken);
 export class _MapScene extends Component {
   constructor(props) {
     super(props);
-    console.log('location', props.location);
     this.state = {
       isLoading: false,
       locations: [],
       newMarkers: [],
-      marker: [],
+      mapMarkers: [],
       center: {
         latitude: props.location.latitude,
         longitude: props.location.longitude
@@ -30,6 +29,7 @@ export class _MapScene extends Component {
       deleteIcon: null,
       userTrackingMode: Mapbox.userTrackingMode.none
     };
+    this.latClusteringZoom = -1;
   }
   componentDidMount() {
     this.loadLocationsAsync();
@@ -52,8 +52,13 @@ export class _MapScene extends Component {
     }
   }
 
-  onRegionDidChange(location) {
-    console.log('RegionDidChange: ', location);
+  onRegionDidChange = (location) => {
+    if (location.zoomLevel.toFixed(0) !== this.latClusteringZoom) {
+      const clusters = getClusters(this.state.locations, location.zoomLevel.toFixed(0));
+      this.latClusteringZoom = location.zoomLevel.toFixed(0);
+      const mapMarkers = this.convertClustersToMarkers(clusters);
+      this.setState({ mapMarkers });
+    }
   }
   onRegionWillChange(location) {
     console.log(location);
@@ -71,13 +76,13 @@ export class _MapScene extends Component {
   onTap(location) {
     console.log(location);
   }
-  onRightAnnotationTapped = (location) => {
+  onRightAnnotationTapped = (marker) => {
     if (!this.state.flagRemove) {
-      this.props.dispatch(MarkerActions.updateMarker(location));
+      this.props.dispatch(MarkerActions.updateMarker(marker));
       return this.props.resetScene('AddScene');
     }
-    Alert.alert('Information', `Do you want delete selected marker ${location.title}`,
-      [{ text: 'Cancel' }, { text: 'OK', onPress: () => this.removeMarker(location) }],
+    Alert.alert('Information', `Do you want delete selected marker ${marker.title}`,
+      [{ text: 'Cancel' }, { text: 'OK', onPress: () => this.removeMarker(marker) }],
       { cancelable: true }
     );
   };
@@ -87,9 +92,9 @@ export class _MapScene extends Component {
   onUpdateRemoveStatus = () => {
     const { flagRemove } = this.state;
     this.setState({ flagRemove: !flagRemove });
-    const locations = this.updateMarkerRightIcon(this.state.locations, !flagRemove);
+    const mapMarkers = this.updateMarkerRightIcon(this.state.mapMarkers, !flagRemove);
     const newMarkers = this.updateMarkerRightIcon(this.state.newMarkers, !flagRemove);
-    this.setState({ newMarkers, locations });
+    this.setState({ newMarkers, mapMarkers });
   };
   getCurrentLocationMarker = () => {
     const { latitude, longitude } = this.state.center;
@@ -115,8 +120,8 @@ export class _MapScene extends Component {
     return ret;
   }
   updateMarkerRightIcon(markers, flagRemove) {
-    return markers.map((location) => {
-      const ret = { ...location };
+    return markers.map((marker) => {
+      const ret = { ...marker };
       ret.rightCalloutAccessory = {
         source: flagRemove ? this.state.deleteIcon : this.state.addIcon,
         height: 25,
@@ -125,16 +130,20 @@ export class _MapScene extends Component {
       return ret;
     });
   }
-  removeMarker = (location) => {
-    const { locations, newMarkers } = this.state;
-    let index = this.getMarkerIndex(locations, location);
+  removeMarker = (marker) => {
+    const { mapMarkers, newMarkers, locations } = this.state;
+    let index = this.getMarkerIndex(mapMarkers, marker);
     if (index !== -1) {
-      locations.splice(index);
-      return this.setState({ locations: [...locations] });
+      mapMarkers.splice(index, 1);
+      const index1 = this.getMarkerIndex(locations, marker);
+      if (index1 !== -1) {
+        locations.splice(index1, 1);
+      }
+      return this.setState({ mapMarkers: [...mapMarkers], locations: [...locations] });
     }
-    index = this.getMarkerIndex(newMarkers, location);
+    index = this.getMarkerIndex(newMarkers, marker);
     if (index !== -1) {
-      newMarkers.splice(index);
+      newMarkers.splice(index, 1);
       return this.setState({ newMarkers: [...newMarkers] });
     }
   };
@@ -154,17 +163,35 @@ export class _MapScene extends Component {
     const newMarkers = this.state.newMarkers.concat([newMarker]);
     this.setState({ newMarkers, flagRemove: false });
   };
+  convertClustersToMarkers(clusters) {
+    return clusters.map((cluster) => {
+      const marker = cluster.properties;
+      if (marker.cluster) {
+        marker.type = 'point';
+        marker.title = `${marker.point_count} items`;
+        marker.id = `cluster${marker.cluster_id}`;
+        marker.coordinates = [cluster.geometry.coordinates[1], cluster.geometry.coordinates[0]];
+        marker.annotationImage = {
+          source: { uri: 'icon_cluster' },
+          width: 32,
+          height: 32,
+        };
+      } else {
+        marker.rightCalloutAccessory = {
+          source: this.state.addIcon,
+          height: 25,
+          width: 25
+        };
+      }
+      return marker;
+    });
+  }
   loadLocationsAsync = async () => {
     const locations = await getLocations();
-    locations.forEach((_location) => {
-      const location = _location;
-      location.rightCalloutAccessory = {
-        source: this.state.addIcon,
-        height: 25,
-        width: 25
-      };
-    });
-    this.setState({ locations });
+    const clusters = getClusters(locations, this.state.zoom);
+    const mapMarkers = this.convertClustersToMarkers(clusters);
+    this.latClusteringZoom = this.state.zoom;
+    this.setState({ locations, mapMarkers });
   };
   renderRemoveView() {
     const backgroundColor = this.state.flagRemove ? '#888' : '#EEE';
@@ -178,8 +205,8 @@ export class _MapScene extends Component {
     );
   }
   render() {
-    const { newMarkers, locations } = this.state;
-    let annotations = locations.concat(newMarkers);
+    const { newMarkers, mapMarkers } = this.state;
+    let annotations = mapMarkers.concat(newMarkers);
     annotations = annotations.concat(this.getCurrentLocationMarker());
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>

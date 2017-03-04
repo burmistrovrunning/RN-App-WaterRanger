@@ -12,3 +12,4 @@ export {
   login
 } from './webService';
 export { isNetworkOnline } from './utils';
+export { getClusters } from './cluster';
