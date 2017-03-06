@@ -112,7 +112,6 @@ export class _AddScene extends Component {
     };
     this.formView = null;
     this.scrollView = null;
-    console.log('props:', props);
   }
 
   componentWillReceiveProps(nextProps) {

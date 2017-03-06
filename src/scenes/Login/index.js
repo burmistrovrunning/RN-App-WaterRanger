@@ -47,7 +47,8 @@ export class LoginScene extends Component {
   }
   onLoginFacebook = () => {
     console.log('authUrl', `${GLOBAL.BASE_URL}users/auth/facebook`);
-    this.setState({ webViewVisible: true, authUrl: `${GLOBAL.URL}users/auth/facebook` });
+    // this.setState({ webViewVisible: true, authUrl: `${GLOBAL.URL}users/auth/facebook` });
+    this.setState({ webViewVisible: true, authUrl: 'https://water-rangers-staging.herokuapp.com/users/auth/facebook' });
   };
   onLogin = async () => {
     const value = this.formView.getValue();
