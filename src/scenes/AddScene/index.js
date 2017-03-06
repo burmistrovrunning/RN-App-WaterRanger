@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
+import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm } from '../../services';
 import { styles } from '../../styles/common';
@@ -21,79 +22,6 @@ Form.i18n = {
   optional: '',
   required: ' *' // inverting the behaviour: adding a postfix to the required fields
 };
-
-const WildlifeType = t.enums({
-  Mammal: 'Mammal',
-  Reptile: 'Reptile',
-  Amphibian: 'Amphibian',
-  Fish: 'Fish',
-  Plant: 'Plant',
-  Insect: 'Insect',
-  Bird: 'Bird',
-  Species: 'Species at risk'
-});
-
-const InvasiveSpeciesType = t.enums({
-  Phragmites: 'Phragmites',
-  Loosestrife: 'Loosestrife',
-  'Dog-Strangling Vine': 'Dog-Strangling Vine',
-  'Introduced Honeysuckle': 'Introduced Honeysuckle',
-  'Zebra Mussels': 'Zebra Mussels',
-  'Other Invasive': 'Other Invasive',
-  'Eurasian Milfoil': 'Eurasian Milfoil',
-  Goldfish: 'Goldfish'
-});
-
-const AddObservationForm = t.struct({
-  bodyOfWater: t.String,
-  locationName: t.maybe(t.String),
-  locationDescription: t.maybe(t.String),
-  date: t.Date,
-  wildlife: t.maybe(t.list(WildlifeType)),
-  invasiveSpecies: t.maybe(t.list(InvasiveSpeciesType)),
-  waterQualityPh: t.maybe(t.Number),
-  waterQualityWaterTemp: t.maybe(t.Number),
-  waterQualityAirTemp: t.maybe(t.Number),
-  waterQualityDissolvedOxygen: t.maybe(t.Number),
-  waterQualityEColi: t.maybe(t.Number),
-  waterQualityConductivity: t.maybe(t.Number),
-  waterQualityAlkalinity: t.maybe(t.Number),
-  waterQualityHardness: t.maybe(t.Number),
-  waterQualityTurbidity: t.maybe(t.Number),
-  waterQualityKjeldahlNitrogen: t.maybe(t.Number),
-  waterQualityPhosphorus: t.maybe(t.Number),
-  waterQualitySalinity: t.maybe(t.Number),
-  waterQualityPhosphates: t.maybe(t.Number),
-  waterQualitySecchiDepth: t.maybe(t.Number),
-  waterQualityNitrites: t.maybe(t.Number),
-  waterQualityNitrates: t.maybe(t.Number),
-  iceWatch: t.maybe(t.Boolean),
-  notes: t.maybe(t.String)
-});
-
-const IssueType = t.enums({
-  algae: 'Algae',
-  water_quality: 'Water Quality',
-  pollution: 'Pollution',
-  shoreline: 'Shoreline',
-  wildlife: 'Wildlife',
-  other: 'Other'
-});
-
-const AddIssueForm = t.struct({
-  bodyOfWater: t.String,
-  locationName: t.maybe(t.String),
-  locationDescription: t.maybe(t.String),
-  date: t.Date,
-  category: IssueType,
-  description: t.maybe(t.String),
-  weather: t.maybe(t.String),
-  seenBefore: t.maybe(t.Boolean),
-  notifiedAgencies: t.maybe(t.String),
-  contactEmail: t.maybe(t.String),
-  contactPhone: t.maybe(t.String)
-});
-
 const options = {
   fields: {
     wildlife: {
@@ -168,58 +96,12 @@ export class _AddScene extends Component {
     const value = this.formView.getValue();
     const { marker } = this.state;
     if (value) {
-      let dictToSend = {};
-      const dateString = new Date().toJSON();
-
-      // these need to be populated from the form fully
+      const dictToSend = {};
       if (this.state.form === 'issue') {
-        dictToSend = {
-          issues: [{
-            observed_on: dateString,
-            group_tokens: '',
-            category: value.category,
-            notes: {
-              details: '',
-              weather: '',
-              seen_before: '',
-              notified_agencies: ''
-            },
-            contact_info: {
-              email: value.contactEmail,
-              phone: value.contactPhone
-            }
-          }]
-        };
+        dictToSend.issues = [getIssue(this.formView)];
       } else {
-        dictToSend = {
-          observations: [
-            {
-              observed_on: dateString,
-              notes: '',
-              group_tokens: '3',
-              data: {
-                wildlife: [''],
-                invasive_species: [''],
-                ph: '',
-                water_temperature: '',
-                air_temperature: '',
-                oxygen: '',
-                ecoli: '',
-                conductivity: '',
-                alkalinity: '',
-                hardness: '',
-                turbidity: '',
-                total_kjeldahl_nitrogen: '',
-                total_phosphorus: '',
-                salinity: '',
-                water_depth: '',
-                ice: ''
-              }
-            }
-          ]
-        };
+        dictToSend.observations = [getObservation(this.formView)];
       }
-
       const dictKey = (this.state.form === 'issue')
         ? 'issues'
         : 'observations';
