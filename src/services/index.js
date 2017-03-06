@@ -4,12 +4,20 @@ export {
   removeFailedForm,
   removeFromArray,
   removeFromArrayByKey,
-  storeFailedForm
+  storeFailedForm,
+  clearFailedForm
 } from './localStorage';
 export {
   uploadForm,
   getLocations,
   login
 } from './webService';
-export { isNetworkOnline } from './utils';
+export {
+  isNetworkOnline,
+} from './utils';
+export {
+  watchLocation,
+  clearWatchLocation,
+  startSubmitFailedDataInterval
+} from './timer';
 export { getClusters } from './cluster';

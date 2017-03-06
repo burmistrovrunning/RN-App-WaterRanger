@@ -31,7 +31,6 @@ export async function getFailedForms() {
   const formsToSubmitString = await localStorage.get(GLOBAL.FORMS_TO_SUBMIT_KEY);
   let formsToSubmit = [];
   if (formsToSubmitString != null) {
-    console.log('getFailedForms', formsToSubmitString);
     formsToSubmit = JSON.parse(formsToSubmitString);
   }
   return formsToSubmit;
@@ -79,4 +78,7 @@ export async function removeFailedForm(dictToRemove) {
 
   const newForms = JSON.stringify(formsToSubmit);
   await localStorage.set(GLOBAL.FORMS_TO_SUBMIT_KEY, newForms);
+}
+export async function clearFailedForm() {
+  await localStorage.remove(GLOBAL.FORMS_TO_SUBMIT_KEY);
 }

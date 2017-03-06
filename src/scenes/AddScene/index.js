@@ -5,7 +5,8 @@ import {
   TouchableHighlight,
   View,
   ScrollView,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
@@ -36,7 +37,8 @@ export class _AddScene extends Component {
     // const { state } = this.props.navigation;
     this.state = {
       form: 'observation',
-      marker: props.marker
+      marker: props.marker,
+      isSubmitting: false,
     };
     this.formView = null;
     this.scrollView = null;
@@ -95,6 +97,7 @@ export class _AddScene extends Component {
   onSubmit = async () => {
     const value = this.formView.getValue();
     const { marker } = this.state;
+    this.setState({ isSubmitting: true });
     if (value) {
       const dictToSend = {};
       if (this.state.form === 'issue') {
@@ -123,20 +126,36 @@ export class _AddScene extends Component {
         let error = false;
         if (response.status === 200 || response.status === 204) {
           // success, show some message and return?
+          this.setState({ isSubmitting: false });
         } else {
           storeFailedForm(dictToSend);
           error = 'Please check your connection and try again.';
-          this.setState({ error });
+          console.log('Please check your connection and try again.');
+          this.setState({ error, isSubmitting: false });
         }
       }).catch((e) => {
         console.log('err', e);
         storeFailedForm(dictToSend);
         const error = 'Please check your connection and try again.';
-        this.setState({ error });
+        console.log('Please check your connection and try again.');
+        this.setState({ error, isSubmitting: false });
       });
     }
   };
-
+  renderWaiting() {
+    if (this.state.isSubmitting) {
+      return (
+        <View style={addStyles.waitingContainer}>
+          <ActivityIndicator
+            animating={true}
+            color="white"
+            size="large"
+          />
+        </View>
+      );
+    }
+    return <View />;
+  }
   render() {
     const { marker, form, avatarSource } = this.state;
     let defaultValue = {};
@@ -186,6 +205,7 @@ export class _AddScene extends Component {
             </TouchableHighlight>
           </View>
         </ScrollView>
+        {this.renderWaiting()}
       </View>
     );
   }

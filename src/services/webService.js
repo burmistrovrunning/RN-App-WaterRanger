@@ -54,7 +54,7 @@ export async function uploadForm(formToSubmit) {
   const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
   // const TOKEN = await AsyncStorage.getItem('accessToken');
 
-  console.log('uploadForm url', url);
+  console.log('uploadForm url', url, formToSubmit);
   return fetch(url, {
     method: 'POST',
     headers: getHeader(),

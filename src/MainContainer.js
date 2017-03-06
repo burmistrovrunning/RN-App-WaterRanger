@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { View, NetInfo } from 'react-native';
+import { View, NetInfo, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { Router } from './routing';
 import { LocationActions } from './redux/actions';
 import { NavigationBar } from './components';
+import {
+  localStorage,
+  clearWatchLocation,
+  watchLocation,
+  startSubmitFailedDataInterval
+} from './services';
 import { TabView } from './tab/TabView';
 import { styles } from './styles/MainContainer';
 
@@ -14,15 +20,28 @@ class _MainContainer extends Component {
     this.tabView = null;
     this.watchID = null;
     this.networkStatus = false;
+    this.state = {
+      hasToken: false,
+      waiting: true
+    };
   }
 
   componentDidMount() {
-    this.watchLocation();
+    watchLocation(location => this.props.dispatch(LocationActions.updateLocation(location)));
     this.watchNetworkStatus();
+    localStorage.get('accessToken')
+      .then((token) => {
+        console.log('token', token);
+        const hasToken = !!token;
+        this.setState({ hasToken, waiting: false });
+        this.showTabBar(hasToken);
+        startSubmitFailedDataInterval();
+      })
+      .catch(() => this.setState({ hasToken: false, waiting: false }));
   }
   componentWillUnmount() {
     NetInfo.removeEventListener('change', this.onNetworkStatusChange);
-    navigator.geolocation.clearWatch(this.watchID);
+    clearWatchLocation();
   }
   onNetworkStatusChange = (connectionInfo) => {
     this.networkStatus = true;
@@ -36,28 +55,11 @@ class _MainContainer extends Component {
   onUpdateTabIndex = index => this.tabView.updateTabIndex(index);
   onTabRoute = (activeItem, oldItem) => {
     if (activeItem !== oldItem) {
-      let sceneName = '';
-      switch (activeItem) {
-        case 0:
-          sceneName = 'MapScene';
-          console.log('this.networkStatus', this.networkStatus);
-          if (!this.networkStatus) {
-            sceneName = 'AddScene';
-          }
-          break;
-        case 1:
-          sceneName = 'AddScene';
-          break;
-        case 2:
-          sceneName = 'MyObservationScene';
-          break;
-        case 3:
-          sceneName = 'SettingsScene';
-          break;
-        default:
-          sceneName = 'MapScene';
+      let index = activeItem + 1;
+      if (!this.networkStatus && index === 1) {
+        index = 2;
       }
-      this.routingRef.resetScene(sceneName);
+      this.routingRef.jumpTo(index);
     }
   };
   resetScene = (sceneName) => {
@@ -66,43 +68,23 @@ class _MainContainer extends Component {
     }
   };
   showTabBar = visible => this.tabView.updateTabVisible(visible);
-  watchLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log('get location success', position);
-      this.props.dispatch(LocationActions.updateLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      }));
-    }, error => console.log('error on get location', JSON.stringify(error)), {
-      enableHighAccuracy: true, timeout: 1000, maximumAge: 1000
-    });
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      this.props.dispatch(LocationActions.updateLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      }));
-    });
-    setTimeout(() => {
-      this.props.dispatch(LocationActions.updateLocation({
-        latitude: 45.3493143,
-        longitude: -75.8246687
-      }));
-    }, 5000);
-  }
-
   watchNetworkStatus() {
     NetInfo.addEventListener('change', this.onNetworkStatusChange);
     NetInfo.fetch().done(this.onNetworkStatusChange);
   }
   render() {
+    const { waiting } = this.state;
+    if (waiting) {
+      return (
+        <ActivityIndicator animating={true} style={styles.centering} size="large" />
+      );
+    }
     return (
       <View style={styles.tabView}>
         <NavigationBar />
-        <TabView
-          ref={ref => this.tabView = ref}
-          onTabRoute={this.onTabRoute}
-        >
+        <TabView ref={ref => this.tabView = ref} onTabRoute={this.onTabRoute}>
           <Router
+            hasToken={this.state.hasToken}
             updateTabIndex={this.onUpdateTabIndex}
             showTabBar={this.showTabBar}
             ref={ref => this.routingRef = ref}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navigator, StyleSheet, ActivityIndicator } from 'react-native';
+import { Navigator, StyleSheet } from 'react-native';
 import {
   LoginScene,
   MapScene,
@@ -7,17 +7,11 @@ import {
   MyObservationScene,
   SettingsScene
 } from './scenes';
-import { localStorage } from './services';
+import { clearFailedForm } from './services';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  centering: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
   },
 });
 
@@ -36,28 +30,15 @@ export class Router extends Component {
   constructor(props, context) {
     super(props, context);
     this.navigationRef = null;
-    this.state = {
-      hasToken: false,
-      waiting: true
-    };
-  }
-  componentDidMount() {
-    localStorage.get('accessToken')
-      .then((token) => {
-        console.log('token', token);
-        const hasToken = !!token;
-        this.setState({ hasToken, waiting: false });
-        this.props.showTabBar(hasToken);
-      })
-      .catch(() => this.setState({ hasToken: false, waiting: false }));
   }
   onLoginSuccess = () => {
     this.props.showTabBar(true);
     this.navigationRef.jumpTo(scenes[1]);
   };
-  onLogout = () => {
+  onLogout = async () => {
     this.props.showTabBar(false);
     this.navigationRef.jumpTo(scenes[0]);
+    await clearFailedForm();
   };
   resetScene = (name) => {
     let index = -1;
@@ -72,6 +53,9 @@ export class Router extends Component {
     }
     return '';
   };
+  jumpTo = (index) => {
+    this.navigationRef.jumpTo(scenes[index]);
+  }
   renderScene = (route, navigator) => {
     const currentRoute = typeof route === 'string' ? { name: route } : route;
     const props = {
@@ -118,20 +102,10 @@ export class Router extends Component {
   }
 
   render() {
-    const { waiting } = this.state;
-    if (waiting) {
-      return (
-        <ActivityIndicator
-          animating={true}
-          style={[styles.centering]}
-          size="large"
-        />
-      );
-    }
     return (
       <Navigator
         sceneStyle={styles.container}
-        initialRoute={this.state.hasToken ? scenes[1] : scenes[0]}
+        initialRoute={this.props.hasToken ? scenes[1] : scenes[0]}
         initialRouteStack={scenes}
         renderScene={this.renderScene}
         configureScene={this.renderConfig}
