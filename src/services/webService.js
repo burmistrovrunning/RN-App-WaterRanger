@@ -53,11 +53,12 @@ export async function login(email, password) {
 export async function uploadForm(formToSubmit) {
   const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
   // const TOKEN = await AsyncStorage.getItem('accessToken');
-
+  const headers = await getHeader();
   console.log('uploadForm url', url, formToSubmit);
+  console.log('headers', headers);
   return fetch(url, {
     method: 'POST',
-    headers: getHeader(),
+    headers,
     body: JSON.stringify(formToSubmit)
   })
   .then(async response => response)
