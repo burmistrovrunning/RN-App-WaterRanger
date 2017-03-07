@@ -15,6 +15,18 @@ export const styles = EStyleSheet.create({
     backgroundColor: 'rgba(30, 30, 30, 0.5)',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  addSceneContainer: {
+    backgroundColor: '$colorWhite',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  scrollContainer: {
+    flex: 1,
+    padding: 20
+  },
+  addSceneTabBarContainer: {
+    backgroundColor: '$colorLightGrey'
   }
 });
 

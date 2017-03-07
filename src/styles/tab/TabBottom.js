@@ -3,25 +3,30 @@ import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
   container: {
-    height: 50,
-    paddingVertical: 3,
     alignSelf: 'stretch',
-    backgroundColor: '#F4F4F4',
-    flexDirection: 'row'
+    backgroundColor: '$colorLightGrey',
+    borderTopColor: '$lineColor',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    height: 50,
+    paddingVertical: 3
   },
   tabContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1
+    flex: 1,
+    justifyContent: 'space-between'
   },
   tabLabel: {
-    color: '#1c3653',
+    color: '$colorMidGrey',
     fontSize: 12,
+    fontFamily: '$globalFont'
   },
   tabIcon: {
-    color: '#4A729F',
+    color: '$colorMidGrey',
     fontSize: 25,
     height: 25,
-    marginTop: 0
+    marginTop: 0,
+    textAlign: 'center',
+    width: 25
   },
 });

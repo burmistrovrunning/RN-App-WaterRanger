@@ -181,17 +181,19 @@ export class _AddScene extends Component {
     }
     const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
     return (
-      <View style={styles.container}>
-        <Text>Latitude {marker.latitude}</Text>
-        <Text>Longitude {marker.longitude}</Text>
-        <TouchableHighlight onPress={this.onChooseObservation}>
-          <Text>Observation</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this.onChooseIssue}>
-          <Text>Issue</Text>
-        </TouchableHighlight>
+      <View style={addStyles.addSceneContainer}>
+        <View style={addStyles.addSceneTabBarContainer}>
+          <TouchableHighlight onPress={this.onChooseObservation}>
+            <Text>Observation</Text>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.onChooseIssue}>
+            <Text>Issue</Text>
+          </TouchableHighlight>
+        </View>
         <ScrollView ref={ref => this.scrollView = ref}>
-          <View style={styles.scrollContainer}>
+          <View style={addStyles.scrollContainer}>
+            <Text>Latitude {marker.latitude}</Text>
+            <Text>Longitude {marker.longitude}</Text>
             <Form
               ref={ref => this.formView = ref}
               type={formType}

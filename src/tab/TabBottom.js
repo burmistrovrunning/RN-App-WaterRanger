@@ -18,7 +18,7 @@ const tabItems = [{
 }, {
   label: 'Settings',
   normalIcon: 'ios-settings-outline',
-  focusIcon: 'ios-settings-outline',
+  focusIcon: 'ios-settings',
 }];
 export class TabBottom extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ export class TabBottom extends Component {
     const { activeItem } = this.state;
     return tabItems.map((tabItem, index) => {
       let iconName = tabItem.normalIcon;
-      let labelColor = '#999';
+      let labelColor = '#999999';
       if (activeItem === index) {
         iconName = tabItem.focusIcon;
         labelColor = '#1c3653';
@@ -54,7 +54,7 @@ export class TabBottom extends Component {
           style={styles.tabContainer}
           onPress={() => this.onTabPress(index)}
         >
-          <Icon name={iconName} style={styles.tabIcon} />
+          <Icon name={iconName} style={[styles.tabIcon, { color: labelColor }]} />
           <Text style={[styles.tabLabel, { color: labelColor }]}>{tabItem.label}</Text>
         </TouchableOpacity>
       );

@@ -9,8 +9,11 @@ EStyleSheet.build({
   colorWhite: '#ffffff',
   colorBlack: '#000000',
   colorMidGrey: '#cccccc',
+  colorDarkGrey: '#3e3e3e',
+  colorLightGrey: '#f2f2f2',
   fontSize: 18,
-  lineColor: '$colorMidGrey',
-  errorColor: '$colorRed'
+  lineColor: '#e1e1e1',
+  errorColor: '$colorRed',
+  globalFont: 'System'
 });
 
