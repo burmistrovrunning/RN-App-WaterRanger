@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Platform,
+  Alert,
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -108,7 +109,7 @@ export class _AddScene extends Component {
       const dictKey = (this.state.form === 'issue')
         ? 'issues'
         : 'observations';
-      if (marker.id !== '-1') {
+      if (marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
         dictToSend[dictKey][0].location_id = marker.id;
       } else {
         dictToSend[dictKey][0].location_attributes = {
@@ -119,27 +120,24 @@ export class _AddScene extends Component {
           description: value.locationDescription
         };
       }
+      dictToSend[dictKey][0].local_id = `${new Date().getTime()}`;
       dictToSend.uid = `${new Date()}`;
-
-      uploadForm(dictToSend).then(async (response) => {
-        console.log('res', response);
-        let error = false;
+      let flagSuccess = false;
+      try {
+        const response = await uploadForm(dictToSend);
         if (response.status === 200 || response.status === 204) {
-          // success, show some message and return?
-          this.setState({ isSubmitting: false });
-        } else {
-          storeFailedForm(dictToSend);
-          error = 'Please check your connection and try again.';
-          console.log('Please check your connection and try again.');
-          this.setState({ error, isSubmitting: false });
+          flagSuccess = true;
         }
-      }).catch((e) => {
-        console.log('err', e);
-        storeFailedForm(dictToSend);
-        const error = 'Please check your connection and try again.';
-        console.log('Please check your connection and try again.');
-        this.setState({ error, isSubmitting: false });
-      });
+      } catch (err) {
+        console.log('err', err);
+      }
+      if (!flagSuccess) {
+        await storeFailedForm(dictToSend);
+        Alert.alert('Information', 'Please check out your network connection',
+          [{ text: 'Cancel' }], { cancelable: true }
+        );
+      }
+      this.setState({ isSubmitting: false });
     }
   };
   renderWaiting() {
@@ -159,24 +157,27 @@ export class _AddScene extends Component {
   render() {
     const { marker, form, avatarSource } = this.state;
     let defaultValue = {};
-
-    console.log(marker);
-
-    if (marker && marker.id !== '-1') {
-      options.fields.bodyOfWater = {
-        editable: false
+    if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
+      options.fields = {
+        bodyOfWater: { editable: false },
+        locationName: { hidden: true },
+        locationDescription: { hidden: true }
       };
-      options.fields.locationName = {
-        hidden: true
-      };
-      options.fields.locationDescription = {
-        hidden: true
-      };
-
       defaultValue = {
         bodyOfWater: marker.title || 'Not added',
-        locationName: 'ignore',
-        locationDescription: 'ignore'
+        locationName: '',
+        locationDescription: ''
+      };
+    } else {
+      options.fields = {
+        bodyOfWater: { editable: true },
+        locationName: { hidden: false },
+        locationDescription: { hidden: false }
+      };
+      defaultValue = {
+        bodyOfWater: '',
+        locationName: '',
+        locationDescription: ''
       };
     }
     const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
@@ -191,9 +192,9 @@ export class _AddScene extends Component {
           </TouchableHighlight>
         </View>
         <ScrollView ref={ref => this.scrollView = ref}>
-          <View style={addStyles.scrollContainer}>
-            <Text>Latitude {marker.latitude}</Text>
-            <Text>Longitude {marker.longitude}</Text>
+          <Text>Latitude {marker.latitude}</Text>
+          <Text>Longitude {marker.longitude}</Text>
+          <View style={styles.scrollContainer}>
             <Form
               ref={ref => this.formView = ref}
               type={formType}

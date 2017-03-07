@@ -18,6 +18,7 @@ export {
 export {
   watchLocation,
   clearWatchLocation,
-  startSubmitFailedDataInterval
+  startSubmitFailedDataInterval,
+  uploadFailedForms
 } from './timer';
 export { getClusters } from './cluster';

@@ -49,11 +49,16 @@ export function removeFromArray(array, value) {
 export function removeFromArrayByKey(key, array, value) {
   let idx = -1;
   for (let i = 0; i < array.length; i += 1) {
-    if (array[i][key] === value[key]) {
+    if (array[i].observations && array[i].observations[0][key] === value[key]) {
+      idx = i;
+      break;
+    }
+    if (array[i].issues && array[i].issues[0][key] === value[key]) {
       idx = i;
       break;
     }
   }
+  console.log('removeFromArrayByKey', idx, key, array, value);
   if (idx !== -1) {
     array.splice(idx, 1);
   }
@@ -74,9 +79,18 @@ export async function storeFailedForm(dictToSend) {
 // remove a failed from submission from our cache, for when it has been re-submitted
 export async function removeFailedForm(dictToRemove) {
   let formsToSubmit = await getFailedForms();
-  formsToSubmit = removeFromArrayByKey('uid', formsToSubmit, dictToRemove);
+  formsToSubmit = removeFromArrayByKey('local_id', formsToSubmit, dictToRemove);
 
   const newForms = JSON.stringify(formsToSubmit);
+  await localStorage.set(GLOBAL.FORMS_TO_SUBMIT_KEY, newForms);
+}
+
+export async function removeFailedForms(forms) {
+  let failedForms = await getFailedForms();
+  forms.forEach((form) => {
+    failedForms = removeFromArrayByKey('local_id', failedForms, form);
+  });
+  const newForms = JSON.stringify(failedForms);
   await localStorage.set(GLOBAL.FORMS_TO_SUBMIT_KEY, newForms);
 }
 export async function clearFailedForm() {

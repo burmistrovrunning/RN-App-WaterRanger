@@ -3,10 +3,13 @@ import {
   Text,
   TouchableHighlight,
   View,
-  ListView
+  ListView,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
-import { uploadForm, removeFailedForm, getFailedForms } from '../../services';
+import { getFailedForms, uploadFailedForms } from '../../services';
 import { styles } from '../../styles/common';
+import { styles as addStyles } from '../../styles/scenes/Add';
 
 export class MyObservationScene extends Component {
   constructor(props) {
@@ -14,51 +17,55 @@ export class MyObservationScene extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
+    this.dataSource = ds.cloneWithRows([]);
     this.state = {
-      dataSource: ds.cloneWithRows([]),
-      formsToSubmit: []
+      formsToSubmit: [],
+      isSubmitting: false
     };
     // this.loadData();
   }
 
   componentDidMount() {
-    // this.loadData();
+    this.loadData();
   }
 
   // attempt to upload the first cached form in the list
   onTryAgain = async () => {
     const { formsToSubmit } = this.state;
-    if (formsToSubmit && formsToSubmit.length > 0) {
-      const formToSubmit = formsToSubmit[0];
-      uploadForm(formToSubmit).then(async (response) => {
-        if (response.status === 200 || response.status === 204) {
-          console.log('Finished uploading', response);
-          this.removeForm(formToSubmit);
-        } else {
-          console.log('Finished uploading with failure', response);
-        }
-      }).catch((err) => {
-        console.log('err on uploadForm', err);
-        this.setState({ error: 'Please check your connection and try again.' });
-      });
+    this.setState({ isSubmitting: true });
+    const success = await uploadFailedForms(formsToSubmit);
+    if (!success) {
+      Alert.alert('Information', 'Please check out your network connection',
+        [{ text: 'Okay' }], { cancelable: true }
+      );
     }
+    this.setState({ isSubmitting: false });
+    await this.loadData();
   };
 
   async loadData() {
     const formsToSubmit = await getFailedForms();
-    console.log('loadData', formsToSubmit);
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(formsToSubmit),
       formsToSubmit
     });
   }
   // remove a form once we have successfully re-uploaded it
-  async removeForm(dictToRemove) {
-    await removeFailedForm(dictToRemove);
-    this.loadData();
+  renderWaiting() {
+    if (this.state.isSubmitting) {
+      return (
+        <View style={addStyles.waitingContainer}>
+          <ActivityIndicator
+            animating={true}
+            color="white"
+            size="large"
+          />
+        </View>
+      );
+    }
+    return <View />;
   }
-
   render() {
+    const dataSource = this.dataSource.cloneWithRows(this.state.formsToSubmit);
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Text>My Observations</Text>
@@ -67,10 +74,13 @@ export class MyObservationScene extends Component {
           <Text style={styles.buttonText}>Try uploading again</Text>
         </TouchableHighlight>
         <ListView
+          style={{ flex: 1 }}
           enableEmptySections={true}
-          dataSource={this.state.dataSource}
+          removeClippedSubviews={false}
+          dataSource={dataSource}
           renderRow={rowData => <Text>{JSON.stringify(rowData)}</Text>}
         />
+        {this.renderWaiting()}
       </View>
     );
   }
