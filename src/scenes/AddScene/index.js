@@ -160,6 +160,8 @@ export class _AddScene extends Component {
     const { marker, form, avatarSource } = this.state;
     let defaultValue = {};
 
+    console.log(marker);
+
     if (marker && marker.id !== '-1') {
       options.fields.bodyOfWater = {
         editable: false

@@ -18,7 +18,7 @@
     "react-native-gps": "git+https://github.com/agrass/react-native-gps.git",
     "react-native-hideable-view": "^1.0.3",
     "react-native-image-picker": "^0.25.1",
-    "react-native-mapbox-gl": "^5.1.0",
+    "react-native-mapbox-gl": "git+https://github.com/mapbox/react-native-mapbox-gl.git",
     "react-native-nav": "^1.1.4",
     "react-native-simple-store": "^1.1.0",
     "react-native-svg-uri": "^1.2.0",
