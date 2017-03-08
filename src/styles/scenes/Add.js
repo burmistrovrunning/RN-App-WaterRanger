@@ -21,12 +21,81 @@ export const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  scrollContainer: {
+  addScrollContainer: {
     flex: 1,
-    padding: 20
+    padding: 10
   },
   addSceneTabBarContainer: {
-    backgroundColor: '$colorLightGrey'
+    backgroundColor: '$colorLightGrey',
+    borderBottomColor: '$lineColor',
+    borderBottomWidth: 1,
+    alignItems: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5
+  },
+  addSceneTabBarButton: {
+    backgroundColor: '$colorMidGrey',
+    borderRadius: 5,
+    flex: 1,
+    justifyContent: 'center',
+    margin: 5,
+    padding: 5
+  },
+  addSceneTabBarButtonActive: {
+    backgroundColor: '$colorBrightBlue'
+  },
+  addSceneTabBarText: {
+    color: '$colorDarkGrey',
+    textAlign: 'center'
+  },
+  addSceneTabBarTextActive: {
+    color: '$colorWhite'
+  },
+  addSceneLatLngContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  addSceneLatLngBlock: {
+    flex: 1,
+    marginBottom: 15
+  },
+  addSceneSmallTitle: {
+    color: '$colorMidGrey',
+    fontSize: 12
+  },
+  // Offline page
+  offlineFormsHeader: {
+    marginBottom: 0,
+    padding: 10
+  },
+  offlineFormsContainer: {
+    borderTopColor: '$lineColor',
+    borderTopWidth: 1,
+    flex: 1
+  },
+  offlineFormsFooter: {
+    borderTopColor: '$lineColor',
+    borderTopWidth: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingLeft: 10
+  },
+  offlineListRowContainer: {
+    padding: 10
+  },
+  offlineListTitle: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  offlineListDate: {
+    color: '$colorMidGrey',
+    fontSize: 12
+  },
+  listSeparator: {
+    backgroundColor: '$lineColor',
+    height: 1
   }
 });
 

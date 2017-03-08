@@ -9,8 +9,11 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
+    padding: 10,
+  },
+  noPadContainer: {
+    backgroundColor: '#FFF',
+    flex: 1
   },
   buttonText: {
     fontSize: 18,
@@ -31,6 +34,13 @@ export const styles = EStyleSheet.create({
   mapMarker: {
     height: 24,
     width: 34
+  },
+  // Fonts
+  headerOne: {
+    fontSize: 22,
+    fontFamily: '$globalFont',
+    fontWeight: 'bold',
+    marginBottom: 15
   },
   // Forms
   errorTextContainer: {

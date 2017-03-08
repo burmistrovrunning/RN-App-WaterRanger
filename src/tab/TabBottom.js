@@ -5,16 +5,16 @@ import { styles } from '../styles/tab/TabBottom';
 
 const tabItems = [{
   label: 'Map',
-  normalIcon: 'ios-pin-outline',
-  focusIcon: 'ios-pin',
+  normalIcon: 'ios-map-outline',
+  focusIcon: 'ios-map',
 }, {
   label: 'Add',
   normalIcon: 'ios-add-circle-outline',
   focusIcon: 'ios-add-circle',
 }, {
-  label: 'Observations',
-  normalIcon: 'ios-search-outline',
-  focusIcon: 'ios-search',
+  label: 'Offline',
+  normalIcon: 'ios-cloud-upload-outline',
+  focusIcon: 'ios-cloud-upload',
 }, {
   label: 'Settings',
   normalIcon: 'ios-settings-outline',

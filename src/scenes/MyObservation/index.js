@@ -10,6 +10,7 @@ import {
 import { getFailedForms, uploadFailedForms } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
+import Row from './row';
 
 export class MyObservationScene extends Component {
   constructor(props) {
@@ -35,8 +36,12 @@ export class MyObservationScene extends Component {
     this.setState({ isSubmitting: true });
     const success = await uploadFailedForms(formsToSubmit);
     if (!success) {
-      Alert.alert('Information', 'Please check out your network connection',
-        [{ text: 'Okay' }], { cancelable: true }
+      Alert.alert('Sorry', "It looks like you still don't have network access. Please try again later.",
+        [{ text: 'Close' }], { cancelable: true }
+      );
+    } else {
+      Alert.alert('Success', 'Your offline forms have now been submitted to Water Rangers',
+        [{ text: 'Continue' }], { cancelable: true }
       );
     }
     this.setState({ isSubmitting: false });
@@ -67,19 +72,29 @@ export class MyObservationScene extends Component {
   render() {
     const dataSource = this.dataSource.cloneWithRows(this.state.formsToSubmit);
     return (
-      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <Text>My Observations</Text>
-        <Text>Awaiting Internet Connection</Text>
-        <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">
-          <Text style={styles.buttonText}>Try uploading again</Text>
-        </TouchableHighlight>
-        <ListView
-          style={{ flex: 1 }}
-          enableEmptySections={true}
-          removeClippedSubviews={false}
-          dataSource={dataSource}
-          renderRow={rowData => <Text>{JSON.stringify(rowData)}</Text>}
-        />
+      <View style={styles.noPadContainer}>
+        <Text style={[styles.headerOne, addStyles.offlineFormsHeader]}>Offline Forms</Text>
+        {this.state.formsToSubmit.length > 0 ? (
+          <View style={addStyles.offlineFormsContainer}>
+            <ListView
+              style={{ flex: 1 }}
+              enableEmptySections={true}
+              removeClippedSubviews={false}
+              dataSource={dataSource}
+              renderRow={(rowData, sectionID, rowID) => <Row key={rowID} {...rowData} />}
+              renderSeparator={(sectionID, rowID) => <View key={rowID} style={addStyles.listSeparator} />}
+            />
+            <View style={addStyles.offlineFormsFooter}>
+              <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">
+                <Text style={styles.buttonText}>Upload forms</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        ) : (
+          <View style={addStyles.offlineFormsContainer}>
+            <Text style={addStyles.offlineListRowContainer}>You don't have any offline Observations or Issues to submit at the moment. If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point.</Text>
+          </View>
+        )}
         {this.renderWaiting()}
       </View>
     );

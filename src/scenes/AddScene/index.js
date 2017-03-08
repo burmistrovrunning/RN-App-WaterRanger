@@ -39,7 +39,7 @@ export class _AddScene extends Component {
     this.state = {
       form: 'observation',
       marker: props.marker,
-      isSubmitting: false,
+      isSubmitting: false
     };
     this.formView = null;
     this.scrollView = null;
@@ -55,11 +55,11 @@ export class _AddScene extends Component {
   }
 
   onChooseObservation = () => {
-    this.setState({ form: 'observation' });
+    this.setState({form: 'observation'});
   };
 
   onChooseIssue = () => {
-    this.setState({ form: 'issue' });
+    this.setState({form: 'issue'});
   };
 
   onChoosePicture = () => {
@@ -127,14 +127,18 @@ export class _AddScene extends Component {
         const response = await uploadForm(dictToSend);
         if (response.status === 200 || response.status === 204) {
           flagSuccess = true;
+          var successAlertMessage = 'Your ' + this.state.form + ' has been submitted to Water Rangers.';
+          Alert.alert('Success!', successAlertMessage,
+            [{ text: 'Continue' }], { cancelable: true }
+          );
         }
       } catch (err) {
         console.log('err', err);
       }
       if (!flagSuccess) {
         await storeFailedForm(dictToSend);
-        Alert.alert('Information', 'Please check out your network connection',
-          [{ text: 'Cancel' }], { cancelable: true }
+        Alert.alert('No network access', 'It looks like you are offline so we have stored your form to be submitted later.',
+          [{ text: 'Close' }], { cancelable: true }
         );
       }
       this.setState({ isSubmitting: false });
@@ -156,6 +160,7 @@ export class _AddScene extends Component {
   }
   render() {
     const { marker, form, avatarSource } = this.state;
+    const _ = require('lodash');
     let defaultValue = {};
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
       options.fields = {
@@ -184,17 +189,26 @@ export class _AddScene extends Component {
     return (
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
-          <TouchableHighlight onPress={this.onChooseObservation}>
-            <Text>Observation</Text>
+          <TouchableHighlight style={[addStyles.addSceneTabBarButton, this.state.form === 'observation' && addStyles.addSceneTabBarButtonActive]} onPress={this.onChooseObservation}>
+            <Text style={[addStyles.addSceneTabBarText, this.state.form === 'observation' && addStyles.addSceneTabBarTextActive]}>Observation</Text>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this.onChooseIssue}>
-            <Text>Issue</Text>
+          <TouchableHighlight style={[addStyles.addSceneTabBarButton, this.state.form === 'issue' && addStyles.addSceneTabBarButtonActive]} onPress={this.onChooseIssue}>
+            <Text style={[addStyles.addSceneTabBarText, this.state.form === 'issue' && addStyles.addSceneTabBarTextActive]}>Issue</Text>
           </TouchableHighlight>
         </View>
         <ScrollView ref={ref => this.scrollView = ref}>
-          <Text>Latitude {marker.latitude}</Text>
-          <Text>Longitude {marker.longitude}</Text>
-          <View style={styles.scrollContainer}>
+          <View style={addStyles.addScrollContainer}>
+            <Text style={styles.headerOne}>Add new {_.capitalize(this.state.form)}</Text>
+            <View style={addStyles.addSceneLatLngContainer}>
+              <View style={addStyles.addSceneLatLngBlock}>
+                <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
+                <Text>{marker.latitude}</Text>
+              </View>
+              <View style={addStyles.addSceneLatLngBlock}>
+                <Text style={addStyles.addSceneSmallTitle}>{'Longitude'.toUpperCase()}</Text>
+                <Text>{marker.longitude}</Text>
+              </View>
+            </View>
             <Form
               ref={ref => this.formView = ref}
               type={formType}

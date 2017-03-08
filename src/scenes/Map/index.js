@@ -103,9 +103,9 @@ export class _MapScene extends Component {
       id: 'currentLocationMarker',
       type: 'point',
       annotationImage: {
-        source: { uri: 'icon_location' },
-        width: 20,
-        height: 32,
+        source: { uri: 'my-location-icon' },
+        width: 25,
+        height: 25,
       },
     }];
   };
@@ -172,9 +172,9 @@ export class _MapScene extends Component {
         marker.id = `cluster${marker.cluster_id}`;
         marker.coordinates = [cluster.geometry.coordinates[1], cluster.geometry.coordinates[0]];
         marker.annotationImage = {
-          source: { uri: 'icon_cluster' },
-          width: 32,
-          height: 32,
+          source: { uri: 'icon-cluster' },
+          width: 30,
+          height: 30,
         };
       } else {
         marker.rightCalloutAccessory = {
