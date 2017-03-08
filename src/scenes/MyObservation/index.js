@@ -10,7 +10,7 @@ import {
 import { getFailedForms, uploadFailedForms } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
-import Row from './row';
+import OfflineRow from './OfflineRow';
 
 export class MyObservationScene extends Component {
   constructor(props) {
@@ -74,15 +74,17 @@ export class MyObservationScene extends Component {
     return (
       <View style={styles.noPadContainer}>
         <Text style={[styles.headerOne, addStyles.offlineFormsHeader]}>Offline Forms</Text>
-        {this.state.formsToSubmit.length > 0 ? (
+        {dataSource.getRowCount() > 0 ? (
           <View style={addStyles.offlineFormsContainer}>
             <ListView
               style={{ flex: 1 }}
               enableEmptySections={true}
               removeClippedSubviews={false}
               dataSource={dataSource}
-              renderRow={(rowData, sectionID, rowID) => <Row key={rowID} {...rowData} />}
-              renderSeparator={(sectionID, rowID) => <View key={rowID} style={addStyles.listSeparator} />}
+              renderRow={(rowData, sectionID, rowID) => <OfflineRow key={rowID} {...rowData} />}
+              renderSeparator={
+                (sectionID, rowID) => <View key={rowID} style={addStyles.listSeparator} />
+              }
             />
             <View style={addStyles.offlineFormsFooter}>
               <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">
@@ -92,7 +94,7 @@ export class MyObservationScene extends Component {
           </View>
         ) : (
           <View style={addStyles.offlineFormsContainer}>
-            <Text style={addStyles.offlineListRowContainer}>You don't have any offline Observations or Issues to submit at the moment. If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point.</Text>
+            <Text style={addStyles.offlineListRowContainer}>{"You don't have any offline Observations or Issues to submit at the moment. If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point."}</Text>
           </View>
         )}
         {this.renderWaiting()}

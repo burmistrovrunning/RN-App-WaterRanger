@@ -55,11 +55,11 @@ export class _AddScene extends Component {
   }
 
   onChooseObservation = () => {
-    this.setState({form: 'observation'});
+    this.setState({ form: 'observation' });
   };
 
   onChooseIssue = () => {
-    this.setState({form: 'issue'});
+    this.setState({ form: 'issue' });
   };
 
   onChoosePicture = () => {
@@ -127,7 +127,7 @@ export class _AddScene extends Component {
         const response = await uploadForm(dictToSend);
         if (response.status === 200 || response.status === 204) {
           flagSuccess = true;
-          var successAlertMessage = 'Your ' + this.state.form + ' has been submitted to Water Rangers.';
+          const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers.`;
           Alert.alert('Success!', successAlertMessage,
             [{ text: 'Continue' }], { cancelable: true }
           );
@@ -138,7 +138,7 @@ export class _AddScene extends Component {
       if (!flagSuccess) {
         await storeFailedForm(dictToSend);
         Alert.alert('No network access', 'It looks like you are offline so we have stored your form to be submitted later.',
-          [{ text: 'Close' }], { cancelable: true }
+          [{ text: 'Close'}], { cancelable: true }
         );
       }
       this.setState({ isSubmitting: false });
