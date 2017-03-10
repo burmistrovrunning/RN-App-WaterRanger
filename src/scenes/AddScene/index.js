@@ -138,7 +138,7 @@ export class _AddScene extends Component {
       if (!flagSuccess) {
         await storeFailedForm(dictToSend);
         Alert.alert('No network access', 'It looks like you are offline so we have stored your form to be submitted later.',
-          [{ text: 'Close'}], { cancelable: true }
+          [{ text: 'Close' }], { cancelable: true }
         );
       }
       this.setState({ isSubmitting: false });

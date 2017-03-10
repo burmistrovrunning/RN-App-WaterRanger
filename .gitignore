@@ -57,3 +57,4 @@ old
 google-play-api-secret.json
 android/app/my-release-key.keystore
 android/local.properties
+app-release.apk
