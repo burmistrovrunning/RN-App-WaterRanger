@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, TouchableOpacity, Text, Platform } from 'react-native';
+import { Alert, View, TouchableOpacity, Text } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -98,8 +98,10 @@ export class _MapScene extends Component {
   };
   getCurrentLocationMarker = () => {
     const { latitude, longitude } = this.state.center;
+    const lat = Number(parseFloat(latitude).toFixed(4));
+    const lon = Number(parseFloat(longitude).toFixed(4));
     return [{
-      coordinates: [parseFloat(latitude).toFixed(4), parseFloat(longitude).toFixed(4)],
+      coordinates: [lat, lon],
       id: 'currentLocationMarker',
       type: 'point',
       annotationImage: {
@@ -148,8 +150,10 @@ export class _MapScene extends Component {
     }
   };
   addNewMarker = ({ latitude, longitude }) => {
+    const lat = Number(parseFloat(latitude).toFixed(4));
+    const lon = Number(parseFloat(longitude).toFixed(4));
     const newMarker = {
-      coordinates: [parseFloat(latitude).toFixed(4), parseFloat(longitude).toFixed(4)],
+      coordinates: [lat, lon],
       type: 'point',
       title: 'Add new...',
       subtitle: '',
@@ -208,36 +212,34 @@ export class _MapScene extends Component {
     const { newMarkers, mapMarkers } = this.state;
     let annotations = mapMarkers.concat(newMarkers);
     annotations = annotations.concat(this.getCurrentLocationMarker());
+    console.log('annotations', annotations);
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        {Platform.OS === 'ios' ?
-          <MapView
-            ref={ref => this.mapView = ref}
-            contentInset={[0, 0, 0, 0]}
-            style={styles.map}
-            initialCenterCoordinate={this.state.center}
-            initialZoomLevel={this.state.zoom}
-            initialDirection={0}
-            rotateEnabled={true}
-            scrollEnabled={true}
-            zoomEnabled={true}
-            showsUserLocation={false}
-            styleURL={Mapbox.mapStyles.outdoor}
-            userTrackingMode={this.state.userTrackingMode}
-            annotations={annotations}
-            annotationsAreImmutable
-            onChangeUserTrackingMode={this.onChangeUserTrackingMode}
-            onRegionDidChange={this.onRegionDidChange}
-            onRegionWillChange={this.onRegionWillChange}
-            onOpenAnnotation={this.onOpenAnnotation}
-            onRightAnnotationTapped={this.onRightAnnotationTapped}
-            onUpdateUserLocation={this.onUpdateUserLocation}
-            onLongPress={this.addNewMarker}
-            onTap={this.onTap}
-            onFinishLoadingMap={this.onFinishLoadingMap}
-          />
-          : <View />
-        }
+        <MapView
+          ref={ref => this.mapView = ref}
+          contentInset={[0, 0, 0, 0]}
+          style={styles.map}
+          initialCenterCoordinate={this.state.center}
+          initialZoomLevel={this.state.zoom}
+          initialDirection={0}
+          rotateEnabled={true}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          showsUserLocation={false}
+          styleURL={Mapbox.mapStyles.outdoor}
+          userTrackingMode={this.state.userTrackingMode}
+          annotations={annotations}
+          annotationsAreImmutable
+          onChangeUserTrackingMode={this.onChangeUserTrackingMode}
+          onRegionDidChange={this.onRegionDidChange}
+          onRegionWillChange={this.onRegionWillChange}
+          onOpenAnnotation={this.onOpenAnnotation}
+          onRightAnnotationTapped={this.onRightAnnotationTapped}
+          onUpdateUserLocation={this.onUpdateUserLocation}
+          onLongPress={this.addNewMarker}
+          onTap={this.onTap}
+          onFinishLoadingMap={this.onFinishLoadingMap}
+        />
         {this.renderRemoveView()}
       </View>
     );

@@ -105,7 +105,7 @@ export class Router extends Component {
     return (
       <Navigator
         sceneStyle={styles.container}
-        initialRoute={this.props.hasToken ? scenes[1] : scenes[0]}
+        initialRoute={this.props.hasToken ? scenes[1] : scenes[1]}
         initialRouteStack={scenes}
         renderScene={this.renderScene}
         configureScene={this.renderConfig}
