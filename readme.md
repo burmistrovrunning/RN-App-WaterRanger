@@ -22,7 +22,7 @@ You can either directly execute `react-native run-ios`, or you can open Xcode wi
 #### Android
 You can either use `react-native run-android`, or run the app through Android studio. If so, you'll need to run the "packager" yourself with the command `react-native start`.
 
-Warning: since we use google maps (on android), you'll need to make sure your emulator (avd) or virtual machine (genymotion) needs to come with the Google App Services.
+Warning: since we use google location (on android), you'll need to make sure your emulator (avd) or virtual machine (genymotion) needs to come with the Google App Services.
 
 ##### Android Debug
 
