@@ -38,7 +38,21 @@ You need to update below gradle file information.
 ```
     compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.0-beta.3@aar') {
 ```
+  - if you are using gradle build version 25.0, you need to update all react-native module's gradle version to 25.0.0
 
+```
+    node_modules/react-native-mapbox-gl/android/build.gradle
+    node_modules/react-native-vector-icons/android/build.gradle
+    node_modules/react-native-svg/android/build.gradle
+    node_modules/react-native-image-picker/android/build.gradle
+    node_modules/react-native-cookies/android/build.gradle
+    ...
+    {
+        compileSdkVersion 23
+        buildToolsVersion '25.0.0'
+    }
+    ...
+```
 ### Style Guide
 
 Current project support eslint and before every commit, eslint will check out source js files.
