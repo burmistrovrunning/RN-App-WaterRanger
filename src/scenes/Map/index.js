@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Alert, View, TouchableOpacity, Text } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
-import BaseScene from '../BaseScene'; 
+import BaseScene from '../BaseScene';
 import { locationSelector } from '../../redux/selectors';
 import { MarkerActions } from '../../redux/actions';
 import { getLocations, getClusters } from '../../services';
@@ -31,6 +31,7 @@ export class _MapScene extends BaseScene {
       userTrackingMode: Mapbox.userTrackingMode.none
     };
     this.latClusteringZoom = -1;
+    this.tapMaker = false;
   }
   componentDidMount() {
     this.loadLocationsAsync();
@@ -67,8 +68,9 @@ export class _MapScene extends BaseScene {
   onUpdateUserLocation(location) {
     console.log(location);
   }
-  onOpenAnnotation(annotation) {
-    console.log(annotation);
+  onOpenAnnotation = (annotation) => {
+    this.tapMaker = true;
+    console.log('onOpenAnnotation', annotation, this.tapMaker);
     // this.props.showForm(annotation);
   }
   onLongPress(location) {
@@ -151,22 +153,28 @@ export class _MapScene extends BaseScene {
     }
   };
   addNewMarker = ({ latitude, longitude }) => {
-    const lat = Number(parseFloat(latitude).toFixed(4));
-    const lon = Number(parseFloat(longitude).toFixed(4));
-    const newMarker = {
-      coordinates: [lat, lon],
-      type: 'point',
-      title: 'Add new...',
-      subtitle: '',
-      id: '-1',
-      rightCalloutAccessory: {
-        source: this.state.addIcon,
-        height: 25,
-        width: 25
+    this.tapMaker = false;
+    setTimeout(() => {
+      console.log('add', this.tapMaker);
+      if (!this.tapMaker) {
+        const lat = Number(parseFloat(latitude).toFixed(4));
+        const lon = Number(parseFloat(longitude).toFixed(4));
+        const newMarker = {
+          coordinates: [lat, lon],
+          type: 'point',
+          title: 'Add new...',
+          subtitle: '',
+          id: '-1',
+          rightCalloutAccessory: {
+            source: this.state.addIcon,
+            height: 25,
+            width: 25
+          }
+        };
+        const newMarkers = this.state.newMarkers.concat([newMarker]);
+        this.setState({ newMarkers, flagRemove: false });
       }
-    };
-    const newMarkers = this.state.newMarkers.concat([newMarker]);
-    // this.setState({ newMarkers, flagRemove: false });
+    }, 200);
   };
   convertClustersToMarkers(clusters) {
     return clusters.map((cluster) => {
@@ -213,7 +221,6 @@ export class _MapScene extends BaseScene {
     const { newMarkers, mapMarkers } = this.state;
     let annotations = mapMarkers.concat(newMarkers);
     annotations = annotations.concat(this.getCurrentLocationMarker());
-    console.log('annotations', annotations);
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <MapView
