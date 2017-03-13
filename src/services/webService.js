@@ -1,3 +1,4 @@
+import { FormData } from 'FormData';
 import { localStorage } from './localStorage';
 import { isNetworkOnline } from './utils';
 import GLOBAL from '../Globals';
@@ -24,6 +25,7 @@ export async function login(email, password) {
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
+    const json = await response.json();
     const { map } = response.headers;
     const accessToken = map['access-token'][0] || null;
     const client = map.client[0] || null;
@@ -40,6 +42,7 @@ export async function login(email, password) {
       };
       await localStorage.set('accessToken', accessToken);
       await localStorage.set('loginDetails', JSON.stringify(loginDetails));
+      await localStorage.set('profile', JSON.stringify(json));
     } else {
       error = 'Please check your login and try again.';
     }
@@ -72,7 +75,7 @@ export const getLocations = async () => {
   const flagConnected = await isNetworkOnline();
   let ret = [];
   try {
-    if (!flagConnected) {
+    if (flagConnected) {
       const response = await fetch(`${GLOBAL.BASE_URL}locations`);
       const responseJson = await response.json();
       for (let index = 0; index < responseJson.length; index += 1) {
@@ -97,4 +100,21 @@ export const getLocations = async () => {
     console.log('getLocations err', err);
   }
   return ret || [];
+};
+
+/**
+* upload file via fetch
+* @param uri file uri it should be file:///path/to/file/image123.jpg
+  * @param name file name like as image123.jpg
+* @param type upload file type image/jpg
+*/
+export const uploadFile = (uri, name, type) => {
+  const file = { uri, name, type };
+  const body = new FormData();
+  const url = '';
+  body.append('file', file);
+  fetch(url, {
+    method: 'POST',
+    body
+  });
 };

@@ -7,7 +7,9 @@ import {
   ScrollView,
   Platform,
   Alert,
-  ActivityIndicator
+  TouchableOpacity,
+  ActivityIndicator,
+  Picker
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
@@ -20,6 +22,7 @@ import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
 const { Form } = t.form;
+const Item = Picker.Item;
 Form.i18n = {
   optional: '',
   required: ' *' // inverting the behaviour: adding a postfix to the required fields
@@ -39,7 +42,9 @@ export class _AddScene extends Component {
     this.state = {
       form: 'observation',
       marker: props.marker,
-      isSubmitting: false
+      isSubmitting: false,
+      groupValue: 0,
+      selectGroup: false
     };
     this.formView = null;
     this.scrollView = null;
@@ -144,6 +149,10 @@ export class _AddScene extends Component {
       this.setState({ isSubmitting: false });
     }
   };
+  onGroupValueChange = groupValue => this.setState({ groupValue, selectGroup: false });
+  onStartSelectGroup = () => {
+    this.setState({ selectGroup: true });
+  }
   renderWaiting() {
     if (this.state.isSubmitting) {
       return (
@@ -157,6 +166,46 @@ export class _AddScene extends Component {
       );
     }
     return <View />;
+  }
+
+  renderGroups() {
+    const { form, selectGroup, groupValue } = this.state;
+    if (form === 'observation') {
+      const items = [
+        'Ottaawa Riverkeeper: Riverwatch',
+        'Ra Centre: RACCC',
+        'Water Rangers: Ocean Explorers Team',
+        'Champlain Park Community: Citizen Scientists',
+        'Water Rangers: Explorer\'s Team',
+        'Federation des Lacs de Val-des-Monts'
+      ];
+      let component = (
+        <Picker
+          selectedValue={groupValue}
+          style={addStyles.picker}
+          onValueChange={this.onGroupValueChange}
+          mode="dialog"
+        >
+          {items.map((item, index) => (
+            <Item label={item} key={item} value={index} />
+          ))}
+        </Picker>
+      );
+      if (Platform.OS === 'ios' && !selectGroup) {
+        component = (
+          <TouchableOpacity onPress={this.onStartSelectGroup}>
+            <Text style={addStyles.groupItem}>{items[groupValue]}</Text>
+          </TouchableOpacity>
+        );
+      }
+      return (
+        <View style={addStyles.groupSelectContainer}>
+          <Text style={styles.headerOne}>Select Group</Text>
+          {component}
+        </View>
+      );
+    }
+    return (<View />);
   }
   render() {
     const { marker, form, avatarSource } = this.state;
@@ -196,6 +245,7 @@ export class _AddScene extends Component {
             <Text style={[addStyles.addSceneTabBarText, this.state.form === 'issue' && addStyles.addSceneTabBarTextActive]}>Issue</Text>
           </TouchableHighlight>
         </View>
+        {this.renderGroups()}
         <ScrollView ref={ref => this.scrollView = ref}>
           <View style={addStyles.addScrollContainer}>
             <Text style={styles.headerOne}>Add new {_.capitalize(this.state.form)}</Text>

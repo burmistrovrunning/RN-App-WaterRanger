@@ -96,6 +96,15 @@ export const styles = EStyleSheet.create({
   listSeparator: {
     backgroundColor: '$lineColor',
     height: 1
-  }
+  },
+  groupSelectContainer: {
+    padding: 10
+  },
+  groupItem: {
+    fontSize: 15,
+    marginLeft: 5,
+    fontFamily: '$globalFont',
+    marginBottom: 5
+  },
 });
 
