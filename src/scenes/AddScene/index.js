@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Image,
   Text,
@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
 import ImagePicker from 'react-native-image-picker';
+import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
-import { uploadForm, storeFailedForm } from '../../services';
+import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
@@ -35,7 +36,7 @@ const options = {
   }
 };
 
-export class _AddScene extends Component {
+export class _AddScene extends BaseScene {
   constructor(props) {
     super(props);
     // const { state } = this.props.navigation;
@@ -44,10 +45,15 @@ export class _AddScene extends Component {
       marker: props.marker,
       isSubmitting: false,
       groupValue: 0,
-      selectGroup: false
+      selectGroup: false,
+      groups: []
     };
     this.formView = null;
     this.scrollView = null;
+  }
+
+  componentDidMount() {
+    this.refreshData();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,7 +64,6 @@ export class _AddScene extends Component {
       }
     }
   }
-
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
@@ -152,6 +157,13 @@ export class _AddScene extends Component {
   onGroupValueChange = groupValue => this.setState({ groupValue, selectGroup: false });
   onStartSelectGroup = () => {
     this.setState({ selectGroup: true });
+  };
+  refreshData() {
+    setTimeout(async () => {
+      const profile = JSON.parse(await localStorage.get('profile'));
+      const { groups } = profile;
+      this.setState({ groups, groupValue: groups[0].id });
+    }, 100);
   }
   renderWaiting() {
     if (this.state.isSubmitting) {
@@ -169,16 +181,9 @@ export class _AddScene extends Component {
   }
 
   renderGroups() {
-    const { form, selectGroup, groupValue } = this.state;
-    if (form === 'observation') {
-      const items = [
-        'Ottaawa Riverkeeper: Riverwatch',
-        'Ra Centre: RACCC',
-        'Water Rangers: Ocean Explorers Team',
-        'Champlain Park Community: Citizen Scientists',
-        'Water Rangers: Explorer\'s Team',
-        'Federation des Lacs de Val-des-Monts'
-      ];
+    const { form, selectGroup, groupValue, groups } = this.state;
+    if (form === 'observation' && groups.length > 0) {
+      console.log('groups', groups);
       let component = (
         <Picker
           selectedValue={groupValue}
@@ -186,15 +191,21 @@ export class _AddScene extends Component {
           onValueChange={this.onGroupValueChange}
           mode="dialog"
         >
-          {items.map((item, index) => (
-            <Item label={item} key={item} value={index} />
+          {groups.map(group => (
+            <Item label={group.name} key={group.id} value={group.id} />
           ))}
         </Picker>
       );
       if (Platform.OS === 'ios' && !selectGroup) {
+        let groupName = '';
+        groups.forEach((group) => {
+          if (group.id === groupValue) {
+            groupName = group.name;
+          }
+        });
         component = (
           <TouchableOpacity onPress={this.onStartSelectGroup}>
-            <Text style={addStyles.groupItem}>{items[groupValue]}</Text>
+            <Text style={addStyles.groupItem}>{groupName}</Text>
           </TouchableOpacity>
         );
       }
@@ -281,4 +292,4 @@ export class _AddScene extends Component {
 }
 
 const mapStateToProps = state => ({ ...markerSelector(state) });
-export const AddScene = connect(mapStateToProps)(_AddScene);
+export const AddScene = connect(mapStateToProps, null, null, { withRef: true })(_AddScene);

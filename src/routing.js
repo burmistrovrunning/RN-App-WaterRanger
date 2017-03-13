@@ -16,15 +16,20 @@ const styles = StyleSheet.create({
 });
 
 const scenes = [{
-  name: 'LoginScene'
+  name: 'LoginScene',
+  ref: null
 }, {
-  name: 'MapScene'
+  name: 'MapScene',
+  ref: null
 }, {
-  name: 'AddScene'
+  name: 'AddScene',
+  ref: null
 }, {
-  name: 'MyObservationScene'
+  name: 'MyObservationScene',
+  ref: null
 }, {
-  name: 'SettingsScene'
+  name: 'SettingsScene',
+  ref: null
 }];
 export class Router extends Component {
   constructor(props, context) {
@@ -49,13 +54,20 @@ export class Router extends Component {
     });
     if (index > -1) {
       this.props.updateTabIndex(index - 1);
-      return this.navigationRef.jumpTo(scenes[index]);
+      return this.jumpTo(index);
     }
     return '';
   };
   jumpTo = (index) => {
+    if (scenes[index].ref) {
+      if (scenes[index].ref.getWrappedInstance) {
+        scenes[index].ref.getWrappedInstance().forceRefreshUpdate();
+      } else {
+        scenes[index].ref.forceRefreshUpdate();
+      }
+    }
     this.navigationRef.jumpTo(scenes[index]);
-  }
+  };
   renderScene = (route, navigator) => {
     const currentRoute = typeof route === 'string' ? { name: route } : route;
     const props = {
@@ -67,21 +79,22 @@ export class Router extends Component {
     switch (currentRoute.name) {
       case 'MapScene':
         return (
-          <MapScene {...props} />
+          <MapScene {...props} ref={ref => (scenes[1].ref = ref)} />
         );
       case 'AddScene':
         return (
-          <AddScene {...props} />
+          <AddScene {...props} ref={ref => (scenes[2].ref = ref)} />
         );
       case 'MyObservationScene':
         return (
-          <MyObservationScene {...props} />
+          <MyObservationScene {...props} ref={ref => (scenes[3].ref = ref)} />
         );
       case 'SettingsScene':
         return (
           <SettingsScene
             {...props}
             onLogout={this.onLogout}
+            ref={ref => (scenes[4].ref = ref)}
           />
         );
       case 'LoginScene':

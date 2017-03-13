@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
+import BaseScene from '../BaseScene';
 import { localStorage } from '../../services';
 import { styles } from '../../styles/common';
 
-export class SettingsScene extends Component {
+export class SettingsScene extends BaseScene {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,11 +16,7 @@ export class SettingsScene extends Component {
     };
   }
   componentDidMount() {
-    setTimeout(async () => {
-      const profile = await localStorage.get('profile');
-      console.log('profile', profile);
-      this.setState({ profile });
-    }, 100);
+    this.refreshData();
   }
   onLogout = async () => {
     try {
@@ -30,7 +27,12 @@ export class SettingsScene extends Component {
       console.log('log out err', e);
     }
   };
-
+  refreshData() {
+    setTimeout(async () => {
+      const profile = await localStorage.get('profile');
+      this.setState({ profile });
+    }, 100);
+  }
   render() {
     return (
       <View style={styles.container}>

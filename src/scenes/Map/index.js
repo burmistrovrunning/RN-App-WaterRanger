@@ -4,6 +4,7 @@ import Mapbox, { MapView } from 'react-native-mapbox-gl';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import BaseScene from '../BaseScene'; 
 import { locationSelector } from '../../redux/selectors';
 import { MarkerActions } from '../../redux/actions';
 import { getLocations, getClusters } from '../../services';
@@ -12,7 +13,7 @@ import { styles } from '../../styles/scenes/Map';
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
 Mapbox.setAccessToken(accessToken);
 
-export class _MapScene extends Component {
+export class _MapScene extends BaseScene {
   constructor(props) {
     super(props);
     this.state = {
@@ -165,7 +166,7 @@ export class _MapScene extends Component {
       }
     };
     const newMarkers = this.state.newMarkers.concat([newMarker]);
-    this.setState({ newMarkers, flagRemove: false });
+    // this.setState({ newMarkers, flagRemove: false });
   };
   convertClustersToMarkers(clusters) {
     return clusters.map((cluster) => {
@@ -236,8 +237,7 @@ export class _MapScene extends Component {
           onOpenAnnotation={this.onOpenAnnotation}
           onRightAnnotationTapped={this.onRightAnnotationTapped}
           onUpdateUserLocation={this.onUpdateUserLocation}
-          onLongPress={this.addNewMarker}
-          onTap={this.onTap}
+          onTap={this.addNewMarker}
           onFinishLoadingMap={this.onFinishLoadingMap}
         />
         {this.renderRemoveView()}
@@ -247,4 +247,4 @@ export class _MapScene extends Component {
 }
 
 const mapStateToProps = state => ({ ...locationSelector(state) });
-export const MapScene = connect(mapStateToProps)(_MapScene);
+export const MapScene = connect(mapStateToProps, null, null, { withRef: true })(_MapScene);

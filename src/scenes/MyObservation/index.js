@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Text,
   TouchableHighlight,
@@ -7,12 +7,13 @@ import {
   Alert,
   ActivityIndicator
 } from 'react-native';
+import BaseScene from '../BaseScene';
 import { getFailedForms, uploadFailedForms } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 import OfflineRow from './OfflineRow';
 
-export class MyObservationScene extends Component {
+export class MyObservationScene extends BaseScene {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({
@@ -27,7 +28,7 @@ export class MyObservationScene extends Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    this.refreshData();
   }
 
   // attempt to upload the first cached form in the list
@@ -48,11 +49,11 @@ export class MyObservationScene extends Component {
     await this.loadData();
   };
 
-  async loadData() {
-    const formsToSubmit = await getFailedForms();
-    this.setState({
-      formsToSubmit
-    });
+  refreshData() {
+    setTimeout(async () => {
+      const formsToSubmit = await getFailedForms();
+      this.setState({ formsToSubmit });
+    }, 100);
   }
   // remove a form once we have successfully re-uploaded it
   renderWaiting() {
