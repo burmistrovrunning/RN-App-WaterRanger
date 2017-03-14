@@ -1,4 +1,3 @@
-import { FormData } from 'FormData';
 import { localStorage } from './localStorage';
 import { isNetworkOnline } from './utils';
 import GLOBAL from '../Globals';
@@ -62,19 +61,24 @@ export async function login(email, password) {
 export const uploadFile = async (uri, name, type) => {
   const file = { uri, name, type };
   const body = new FormData();
-  const url = `${GLOBAL.BASE_URL}observations/1/images`;
+  const headers = await getHeader();
+  const url = `${GLOBAL.BASE_URL}observations/8/images`;
   let ret = true;
-  body.append('file', file);
+  body.append('Image', [file]);
   try {
+    console.log('url', url);
     const response = await fetch(url, {
       method: 'POST',
+      headers,
       body
     });
+    console.log('res', response);
     const jsonResponse = await response.json();
     console.log('jsonResponse', jsonResponse);
     // alert('jsonResponse' + jsonResponse);
   } catch (err) {
     ret = false;
+    console.log('failed', err);
     // alert('failed');
   }
   return ret;
@@ -84,13 +88,13 @@ export const uploadFile = async (uri, name, type) => {
 export async function uploadForm(formToSubmit) {
   const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
   // const TOKEN = await AsyncStorage.getItem('accessToken');
+  if (formToSubmit.imageFile) {
+    await uploadFile(formToSubmit.imageFile.uri, 'image', 'image/jpg');
+  }
   const headers = await getHeader();
   console.log('uploadForm url', url, formToSubmit);
   console.log('headers', headers);
   console.log('uploadForm', formToSubmit);
-  if (formToSubmit.imageFile) {
-    await uploadFile(formToSubmit.imageFile.uri, 'image', 'image/jpg');
-  }
   return fetch(url, {
     method: 'POST',
     headers,

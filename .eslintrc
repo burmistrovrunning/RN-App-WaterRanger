@@ -8,7 +8,8 @@
   "globals": {
     "window": true,
     "fetch": true,
-    "navigator": true
+    "navigator": true,
+    "FormData": true
   },
   "plugins": [
     "react",
