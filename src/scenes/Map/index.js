@@ -155,7 +155,6 @@ export class _MapScene extends BaseScene {
   addNewMarker = ({ latitude, longitude }) => {
     this.tapMaker = false;
     setTimeout(() => {
-      console.log('add', this.tapMaker);
       if (!this.tapMaker) {
         const lat = Number(parseFloat(latitude).toFixed(4));
         const lon = Number(parseFloat(longitude).toFixed(4));
@@ -174,7 +173,7 @@ export class _MapScene extends BaseScene {
         const newMarkers = this.state.newMarkers.concat([newMarker]);
         this.setState({ newMarkers, flagRemove: false });
       }
-    }, 500);
+    }, 1000);
   };
   convertClustersToMarkers(clusters) {
     return clusters.map((cluster) => {
