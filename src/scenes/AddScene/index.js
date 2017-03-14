@@ -14,11 +14,10 @@ import {
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
-import ImagePicker from 'react-native-image-picker';
 import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
-import { uploadForm, storeFailedForm, localStorage } from '../../services';
+import { uploadForm, storeFailedForm, localStorage, imagePicker } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
@@ -72,44 +71,20 @@ export class _AddScene extends BaseScene {
     this.setState({ form: 'issue' });
   };
 
-  onChoosePicture = () => {
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        // You can display the image using either data...
-        let avatarSource = {
-          uri: `data:image/jpeg;base64,${response.data}`,
-          isStatic: true
-        };
-
-        // or a reference to the platform specific asset location
-        if (Platform.OS === 'ios') {
-          avatarSource = {
-            uri: response.uri.replace('file://', ''),
-            isStatic: true
-          };
-        } else {
-          avatarSource = {
-            uri: response.uri,
-            isStatic: true
-          };
-        }
-        this.setState({ avatarSource });
-      }
-    });
+  onChoosePicture = async () => {
+    try {
+      const res = await imagePicker.show();
+      this.setState({ avatarSource: res.source });
+    } catch (err) {
+      console.log('Choose picture err', err);
+    }
   }
 
   onSubmit = async () => {
     const value = this.formView.getValue();
-    const { marker } = this.state;
-    this.setState({ isSubmitting: true });
+    const { marker, avatarSource } = this.state;
     if (value) {
+      this.setState({ isSubmitting: true });
       const dictToSend = {};
       if (this.state.form === 'issue') {
         dictToSend.issues = [getIssue(this.formView)];
@@ -132,11 +107,14 @@ export class _AddScene extends BaseScene {
       }
       dictToSend[dictKey][0].local_id = `${new Date().getTime()}`;
       dictToSend.uid = `${new Date()}`;
+      dictToSend.imageFile = avatarSource;
       let flagSuccess = false;
       try {
         const response = await uploadForm(dictToSend);
         if (response.status === 200 || response.status === 204) {
+          const jsonRes = await response.json();
           flagSuccess = true;
+          console.log('response', jsonRes);
           const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers.`;
           Alert.alert('Success!', successAlertMessage,
             [{ text: 'Continue' }], { cancelable: true }
@@ -249,11 +227,25 @@ export class _AddScene extends BaseScene {
     return (
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
-          <TouchableHighlight style={[addStyles.addSceneTabBarButton, this.state.form === 'observation' && addStyles.addSceneTabBarButtonActive]} onPress={this.onChooseObservation}>
-            <Text style={[addStyles.addSceneTabBarText, this.state.form === 'observation' && addStyles.addSceneTabBarTextActive]}>Observation</Text>
+          <TouchableHighlight
+            style={[addStyles.addSceneTabBarButton, form === 'observation' && addStyles.addSceneTabBarButtonActive]}
+            onPress={this.onChooseObservation}
+          >
+            <Text
+              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
+            >
+              Observation
+            </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={[addStyles.addSceneTabBarButton, this.state.form === 'issue' && addStyles.addSceneTabBarButtonActive]} onPress={this.onChooseIssue}>
-            <Text style={[addStyles.addSceneTabBarText, this.state.form === 'issue' && addStyles.addSceneTabBarTextActive]}>Issue</Text>
+          <TouchableHighlight
+            style={[addStyles.addSceneTabBarButton, form === 'issue' && addStyles.addSceneTabBarButtonActive]}
+            onPress={this.onChooseIssue}
+          >
+            <Text
+              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextActive]}
+            >
+              Issue
+            </Text>
           </TouchableHighlight>
         </View>
         {this.renderGroups()}

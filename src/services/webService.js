@@ -52,6 +52,34 @@ export async function login(email, password) {
   }
   return error;
 }
+
+/**
+ * upload file via fetch
+ * @param uri file uri it should be file:///path/to/file/image123.jpg
+ * @param name file name like as image123.jpg
+ * @param type upload file type image/jpg
+ */
+export const uploadFile = async (uri, name, type) => {
+  const file = { uri, name, type };
+  const body = new FormData();
+  const url = `${GLOBAL.BASE_URL}observations/1/images`;
+  let ret = true;
+  body.append('file', file);
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body
+    });
+    const jsonResponse = await response.json();
+    console.log('jsonResponse', jsonResponse);
+    // alert('jsonResponse' + jsonResponse);
+  } catch (err) {
+    ret = false;
+    // alert('failed');
+  }
+  return ret;
+};
+
 // upload a form to the server
 export async function uploadForm(formToSubmit) {
   const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
@@ -59,6 +87,10 @@ export async function uploadForm(formToSubmit) {
   const headers = await getHeader();
   console.log('uploadForm url', url, formToSubmit);
   console.log('headers', headers);
+  console.log('uploadForm', formToSubmit);
+  if (formToSubmit.imageFile) {
+    await uploadFile(formToSubmit.imageFile.uri, 'image', 'image/jpg');
+  }
   return fetch(url, {
     method: 'POST',
     headers,
@@ -102,19 +134,3 @@ export const getLocations = async () => {
   return ret || [];
 };
 
-/**
-* upload file via fetch
-* @param uri file uri it should be file:///path/to/file/image123.jpg
-  * @param name file name like as image123.jpg
-* @param type upload file type image/jpg
-*/
-export const uploadFile = (uri, name, type) => {
-  const file = { uri, name, type };
-  const body = new FormData();
-  const url = '';
-  body.append('file', file);
-  fetch(url, {
-    method: 'POST',
-    body
-  });
-};

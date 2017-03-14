@@ -24,19 +24,22 @@ export const AddIssueForm = t.struct({
 });
 export const getIssue = (form) => {
   const value = form.getValue();
-  return {
-    observed_on: new Date().toJSON(),
-    group_tokens: '',
-    category: value.category,
-    notes: {
-      details: value.description || '',
-      weather: value.weather || '',
-      seen_before: value.seenBefore || false,
-      notified_agencies: value.notifiedAgencies || ''
-    },
-    contact_info: {
-      email: value.contactEmail || '',
-      phone: value.contactPhone || ''
-    }
-  };
+  if (value) {
+    return {
+      observed_on: new Date().toJSON(),
+      group_tokens: '',
+      category: value.category,
+      notes: {
+        details: value.description || '',
+        weather: value.weather || '',
+        seen_before: value.seenBefore || false,
+        notified_agencies: value.notifiedAgencies || ''
+      },
+      contact_info: {
+        email: value.contactEmail || '',
+        phone: value.contactPhone || ''
+      }
+    };
+  }
+  return null;
 };

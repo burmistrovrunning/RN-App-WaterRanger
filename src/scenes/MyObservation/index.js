@@ -46,7 +46,7 @@ export class MyObservationScene extends BaseScene {
       );
     }
     this.setState({ isSubmitting: false });
-    await this.loadData();
+    await this.refreshData();
   };
 
   refreshData() {
@@ -95,7 +95,11 @@ export class MyObservationScene extends BaseScene {
           </View>
         ) : (
           <View style={addStyles.offlineFormsContainer}>
-            <Text style={addStyles.offlineListRowContainer}>{"You don't have any offline Observations or Issues to submit at the moment. If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point."}</Text>
+            <Text style={addStyles.offlineListRowContainer}>
+              {`You don't have any offline Observations or Issues to submit at the moment.
+               If you are in an area with no cell or wi-fi coverage any forms
+                you submit will be stored to upload at a later point.`}
+            </Text>
           </View>
         )}
         {this.renderWaiting()}

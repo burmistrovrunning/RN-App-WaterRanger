@@ -174,7 +174,7 @@ export class _MapScene extends BaseScene {
         const newMarkers = this.state.newMarkers.concat([newMarker]);
         this.setState({ newMarkers, flagRemove: false });
       }
-    }, 200);
+    }, 500);
   };
   convertClustersToMarkers(clusters) {
     return clusters.map((cluster) => {

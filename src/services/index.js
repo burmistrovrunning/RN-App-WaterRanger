@@ -22,3 +22,5 @@ export {
   uploadFailedForms
 } from './timer';
 export { getClusters } from './cluster';
+export { imagePicker } from './imagePicker';
+

@@ -51,27 +51,30 @@ export const AddObservationForm = t.struct({
 
 export const getObservation = (form) => {
   const value = form.getValue();
-  return {
-    observed_on: new Date().toJSON(),
-    notes: value.notes,
-    group_tokens: '3',
-    data: {
-      wildlife: value.wildlife || [''],
-      invasive_species: value.invasiveSpecies || [''],
-      ph: value.waterQualityPh || '',
-      water_temperature: value.waterQualityWaterTemp || '',
-      air_temperature: value.waterQualityAirTemp || '',
-      oxygen: value.waterQualityDissolvedOxygen || '',
-      ecoli: value.waterQualityEColi || '',
-      conductivity: value.waterQualityConductivity || '',
-      alkalinity: value.waterQualityAlkalinity || '',
-      hardness: value.waterQualityHardness || '',
-      turbidity: value.waterQualityTurbidity || '',
-      total_kjeldahl_nitrogen: value.waterQualityKjeldahlNitrogen || '',
-      total_phosphorus: value.waterQualityPhosphorus || '',
-      salinity: value.waterQualitySalinity || '',
-      water_depth: value.waterQualitySecchiDepth || '',
-      ice: value.iceWatch || false
-    }
-  };
+  if (value) {
+    return {
+      observed_on: new Date().toJSON(),
+      notes: value.notes,
+      group_tokens: '3',
+      data: {
+        wildlife: value.wildlife || [''],
+        invasive_species: value.invasiveSpecies || [''],
+        ph: value.waterQualityPh || '',
+        water_temperature: value.waterQualityWaterTemp || '',
+        air_temperature: value.waterQualityAirTemp || '',
+        oxygen: value.waterQualityDissolvedOxygen || '',
+        ecoli: value.waterQualityEColi || '',
+        conductivity: value.waterQualityConductivity || '',
+        alkalinity: value.waterQualityAlkalinity || '',
+        hardness: value.waterQualityHardness || '',
+        turbidity: value.waterQualityTurbidity || '',
+        total_kjeldahl_nitrogen: value.waterQualityKjeldahlNitrogen || '',
+        total_phosphorus: value.waterQualityPhosphorus || '',
+        salinity: value.waterQualitySalinity || '',
+        water_depth: value.waterQualitySecchiDepth || '',
+        ice: value.iceWatch || false
+      }
+    };
+  }
+  return null;
 };
