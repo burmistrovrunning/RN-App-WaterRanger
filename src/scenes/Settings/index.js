@@ -3,16 +3,18 @@ import {
   Text,
   TouchableHighlight,
   View,
+  ScrollView
 } from 'react-native';
 import BaseScene from '../BaseScene';
 import { localStorage } from '../../services';
+import _ from 'lodash';
 import { styles } from '../../styles/common';
 
 export class SettingsScene extends BaseScene {
   constructor(props) {
     super(props);
     this.state = {
-      profile: ''
+      userProfile: ''
     };
   }
   componentDidMount() {
@@ -30,21 +32,34 @@ export class SettingsScene extends BaseScene {
   refreshData() {
     setTimeout(async () => {
       const profile = await localStorage.get('profile');
-      this.setState({ profile });
+      this.setState({ 
+        userProfile: JSON.parse(profile)
+      });
     }, 100);
   }
   render() {
+    console.log('Profile', this.state.userProfile);
     return (
-      <View style={styles.container}>
-        <Text style={styles.headerOne}>My Settings</Text>
-        <Text>
-          Please visit app.waterrangers.ca on your computer to change your profile.
-        </Text>
-        <Text>Profile: {this.state.profile}</Text>
-        <Text>Logged in as [USERNAME]</Text>
-        <TouchableHighlight onPress={this.onLogout} style={styles.logOutButton}>
-          <Text>Logout</Text>
-        </TouchableHighlight>
+      <View style={styles.noPadContainer}>
+        <Text style={[styles.headerOne, styles.fixedHeader]}>My Settings</Text>
+        <ScrollView style={styles.scrollContainer}>
+          <View style={styles.settingsContainer}>
+            <Text style={styles.smallHeader}>NAME</Text>
+            <Text>{_.get(this.state.userProfile, 'profile.full_name')}</Text>
+          </View>
+          <View style={styles.settingsContainer}>
+            <Text style={styles.smallHeader}>EMAIL</Text>
+            <Text>{_.get(this.state.userProfile, 'email')}</Text>
+          </View>
+          <View style={styles.settingsContainer}>
+            <Text>Please visit app.waterrangers.ca on your computer to change your profile.</Text>
+          </View>
+          <View style={styles.settingsContainer}>
+            <TouchableHighlight onPress={this.onLogout} style={[styles.button, styles.logOutButton]}>
+              <Text style={styles.buttonText}>Logout</Text>
+            </TouchableHighlight>
+          </View>
+        </ScrollView>
       </View>
     );
   }
