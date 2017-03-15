@@ -76,7 +76,7 @@ export class MyObservationScene extends BaseScene {
       'If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point.';
     return (
       <View style={styles.noPadContainer}>
-        <Text style={[styles.headerOne, addStyles.offlineFormsHeader]}>Offline Forms</Text>
+        <Text style={[styles.headerOne, styles.fixedHeader]}>Offline Forms</Text>
         {dataSource.getRowCount() > 0 ? (
           <View style={addStyles.offlineFormsContainer}>
             <ListView
@@ -90,7 +90,7 @@ export class MyObservationScene extends BaseScene {
               }
             />
             <View style={addStyles.offlineFormsFooter}>
-              <TouchableHighlight style={styles.button} onPress={this.onTryAgain} underlayColor="#99d9f4">
+              <TouchableHighlight style={styles.button} onPress={this.onTryAgain}>
                 <Text style={styles.buttonText}>Upload forms</Text>
               </TouchableHighlight>
             </View>

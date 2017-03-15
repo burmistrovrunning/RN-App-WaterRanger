@@ -4,7 +4,7 @@ import '../GlobalStyles';
 export const styles = EStyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    backgroundColor: '$colorLightGrey',
+    backgroundColor: '$colorWhite',
     borderTopColor: '$lineColor',
     borderTopWidth: 1,
     flexDirection: 'row',

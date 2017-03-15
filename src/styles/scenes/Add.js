@@ -2,10 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
-  uploadImage: {
-    width: 100,
-    height: 100,
-  },
   waitingContainer: {
     position: 'absolute',
     left: 0,
@@ -22,8 +18,7 @@ export const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   addScrollContainer: {
-    flex: 1,
-    padding: 10
+    flex: 1
   },
   addSceneTabBarContainer: {
     backgroundColor: '$colorLightGrey',
@@ -53,13 +48,15 @@ export const styles = EStyleSheet.create({
     color: '$colorWhite'
   },
   addSceneLatLngContainer: {
+    borderBottomColor: '$lineColor',
+    borderBottomWidth: 1,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: 20
   },
   addSceneLatLngBlock: {
-    flex: 1,
-    marginBottom: 15
+    flex: 1
   },
   addSceneSmallTitle: {
     color: '$colorMidGrey',
@@ -78,12 +75,12 @@ export const styles = EStyleSheet.create({
   offlineFormsFooter: {
     borderTopColor: '$lineColor',
     borderTopWidth: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingLeft: 10
+    paddingTop: 20,
+    paddingRight: 20,
+    paddingLeft: 20
   },
   offlineListRowContainer: {
-    padding: 10
+    padding: 20
   },
   offlineListTitle: {
     fontSize: 16,
@@ -98,13 +95,71 @@ export const styles = EStyleSheet.create({
     height: 1
   },
   groupSelectContainer: {
-    padding: 10
+    borderBottomColor: '$lineColor',
+    borderBottomWidth: 1,
+    padding: 20
   },
   groupItem: {
     fontSize: 15,
-    marginLeft: 5,
+    marginLeft: 0,
     fontFamily: '$globalFont',
     marginBottom: 5
   },
+  // Observation data layout
+  headingLabel: {
+    fontFamily: '$globalFont',
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'left'
+  },
+  observationDataContainer: {
+    flex: 1,
+    paddingTop: 20,
+    paddingBottom: 20
+  },
+  observationDataRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
+  observationDataCol: {
+    backgroundColor: '$colorLightGrey',
+    borderRadius: 5,
+    maxHeight: 125,
+    marginBottom: 10,
+    padding: 15,
+    width: '43%'
+  },
+  // Image upload
+  imageUploadContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 20
+  },
+  uploadImage: {
+    backgroundColor: '$colorLightGrey',
+    borderRadius: 10,
+    height: 100,
+    width: 100
+  },
+  imageButtonContainer: {
+    padding: 20
+  },
+  imageButton: {
+    borderColor: '$colorBrightBlue',
+    borderRadius: 5,
+    borderWidth: 1,
+    paddingTop: 10,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingLeft: 20
+  },
+  imageButtonText: {
+    color: '$colorBrightBlue',
+    fontFamily: '$globalFont',
+    fontWeight: 'bold'
+  }
 });
 

@@ -9,29 +9,126 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Picker,
+  Picker
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
+import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
-import { KeyboardSpacing } from '../../components';
 import { uploadForm, storeFailedForm, localStorage, imagePicker } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
+function observationDataTemplate(locals) {
+  const inputs = locals.inputs;
+  const inputCheckboxes = Object.keys(inputs).map(key => (
+    <View key={key} style={addStyles.observationDataCol}>
+      {inputs[key]}
+    </View>
+  ));
+  return (
+    <View style={addStyles.observationDataContainer}>
+      <View style={addStyles.observationDataHeading}>
+        <Text style={addStyles.headingLabel}>{locals.label}</Text>
+      </View>
+      <View style={addStyles.observationDataRow}>
+        {inputCheckboxes}
+      </View>
+    </View>
+  );
+}
+
 const { Form } = t.form;
 const Item = Picker.Item;
-Form.i18n = {
-  optional: '',
-  required: ' *' // inverting the behaviour: adding a postfix to the required fields
-};
 const options = {
+  i18n: {
+    optional: '',
+    required: ' *'
+  },
   fields: {
+    notes: {
+      multiline: true,
+      stylesheet: {
+        ...Form.stylesheet,
+        textbox: {
+          ...Form.stylesheet.textbox,
+          normal: {
+            ...Form.stylesheet.textbox.normal,
+            height: 150
+          },
+          error: {
+            ...Form.stylesheet.textbox.error,
+            height: 150
+          }
+        }
+      }
+    },
+    category: {
+      nullOption: {
+        value: '',
+        text: 'Choose Issue category'
+      }
+    },
     wildlife: {
-      factory: t.form.select
+      label: 'Add wildlife',
+      template: observationDataTemplate
+    },
+    invasiveSpecies: {
+      template: observationDataTemplate
+    },
+    ph: {
+      label: 'pH (0-14)'
+    },
+    waterTemp: {
+      label: 'Water Temperature â„ƒ'
+    },
+    airTemp: {
+      label: 'Air Temperature â„ƒ'
+    },
+    disolvedOyxgen: {
+      label: 'Disolved Oxygen (mg/L)'
+    },
+    eColi: {
+      label: 'E.coli per 100mL'
+    },
+    otherColiform: {
+      label: 'Other Coliform per 100mL'
+    },
+    conductivity: {
+      label: 'Conductivity (uS/cm)'
+    },
+    alkalinity: {
+      label: 'Alkalinity (mg/L)'
+    },
+    hardness: {
+      label: 'Hardness (mg/L)'
+    },
+    turbidity: {
+      label: 'Turbidity (JTU)'
+    },
+    kjeldahlNitrogen: {
+      label: 'Total Kjeldahl Nitrogen (Âµg/L)'
+    },
+    phosphorus: {
+      label: 'Total Phosphorus (Âµg/L)'
+    },
+    salinity: {
+      label: 'Salinity (ppt)'
+    },
+    phosphates: {
+      label: 'Phosphates total (mg/L)'
+    },
+    secchiDepth: {
+      label: 'Secchi Depth (m)'
+    },
+    nitrites: {
+      label: 'Nitrites (mg/L)'
+    },
+    nitrates: {
+      label: 'Nitrates (mg/L)'
     }
   }
 };
@@ -46,8 +143,8 @@ export class _AddScene extends BaseScene {
       isSubmitting: false,
       groupValue: 0,
       selectGroup: false,
+      groups: [],
       avatarSource: null,
-      groups: []
     };
     this.formView = null;
     this.scrollView = null;
@@ -80,7 +177,7 @@ export class _AddScene extends BaseScene {
     } catch (err) {
       console.log('Choose picture err', err);
     }
-  };
+  }
 
   onSubmit = async () => {
     const value = this.formView.getValue();
@@ -193,7 +290,7 @@ export class _AddScene extends BaseScene {
       }
       return (
         <View style={addStyles.groupSelectContainer}>
-          <Text style={styles.headerOne}>Select Group</Text>
+          <Text style={styles.headerTwo}>Select Group</Text>
           {component}
         </View>
       );
@@ -202,10 +299,10 @@ export class _AddScene extends BaseScene {
   }
   render() {
     const { marker, form, avatarSource } = this.state;
-    const _ = require('lodash');
     let defaultValue = {};
+    let fieldOptions = null;
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
-      options.fields = {
+      fieldOptions = {
         bodyOfWater: { editable: false },
         locationName: { hidden: true },
         locationDescription: { hidden: true }
@@ -216,10 +313,27 @@ export class _AddScene extends BaseScene {
         locationDescription: ''
       };
     } else {
-      options.fields = {
+      fieldOptions = {
         bodyOfWater: { editable: true },
         locationName: { hidden: false },
-        locationDescription: { hidden: false }
+        locationDescription: {
+          hidden: false,
+          multiline: true,
+          stylesheet: {
+            ...Form.stylesheet,
+            textbox: {
+              ...Form.stylesheet.textbox,
+              normal: {
+                ...Form.stylesheet.textbox.normal,
+                height: 150
+              },
+              error: {
+                ...Form.stylesheet.textbox.error,
+                height: 150
+              }
+            }
+          }
+        }
       };
       defaultValue = {
         bodyOfWater: '',
@@ -227,6 +341,8 @@ export class _AddScene extends BaseScene {
         locationDescription: ''
       };
     }
+    // Is this the best way to add to the form options object?
+    options.fields = { ...options.fields, ...fieldOptions };
     const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
     return (
       <View style={addStyles.addSceneContainer}>
@@ -252,10 +368,8 @@ export class _AddScene extends BaseScene {
             </Text>
           </TouchableHighlight>
         </View>
-        {this.renderGroups()}
         <ScrollView ref={ref => this.scrollView = ref} keyboardDismissMode="on-drag" keyboardShouldPersistTaps="never">
           <View style={addStyles.addScrollContainer}>
-            <Text style={styles.headerOne}>Add new {_.capitalize(this.state.form)}</Text>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
@@ -266,19 +380,28 @@ export class _AddScene extends BaseScene {
                 <Text>{marker.longitude.toFixed(5)}</Text>
               </View>
             </View>
-            <Form
-              ref={ref => this.formView = ref}
-              type={formType}
-              value={defaultValue}
-              options={options}
-            />
-            <TouchableHighlight style={styles.button} onPress={this.onChoosePicture} underlayColor="#99d9f4">
-              <Text style={styles.buttonText}>Choose Image</Text>
-            </TouchableHighlight>
-            <Image source={avatarSource} style={addStyles.uploadImage} />
-            <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableHighlight>
+            {this.renderGroups()}
+            <View style={styles.formContainer}>
+              <Form
+                ref={ref => this.formView = ref}
+                type={formType}
+                value={defaultValue}
+                options={options}
+              />
+              <View style={addStyles.imageUploadContainer}>
+                <View>
+                  <Image source={avatarSource} style={addStyles.uploadImage} />
+                </View>
+                <View style={addStyles.imageButtonContainer}>
+                  <TouchableHighlight style={addStyles.imageButton} onPress={this.onChoosePicture}>
+                    <Text style={addStyles.imageButtonText}>Choose Image</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+              <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </ScrollView>
         {this.renderWaiting()}

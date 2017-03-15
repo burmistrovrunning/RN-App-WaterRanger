@@ -9,7 +9,14 @@ export const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flex: 1,
-    padding: 10,
+    padding: 20,
+  },
+  settingsContainer: {
+    padding: 20
+  },
+  formContainer: {
+    flex: 1,
+    padding: 20
   },
   noPadContainer: {
     backgroundColor: '#FFF',
@@ -31,6 +38,10 @@ export const styles = EStyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  logOutButton: {
+    backgroundColor: '$colorRed',
+    borderColor: '$colorRed'
+  },
   mapMarker: {
     height: 24,
     width: 34
@@ -41,6 +52,24 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFont',
     fontWeight: 'bold',
     marginBottom: 15
+  },
+  headerTwo: {
+    fontSize: 18,
+    fontFamily: '$globalFont',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  fixedHeader: {
+    borderBottomColor: '$lineColor',
+    borderBottomWidth: 1,
+    marginBottom: 0,
+    padding: 20
+  },
+  smallHeader: {
+    color: '$colorMidGrey',
+    fontSize: 12,
+    fontFamily: '$globalFont',
+    fontWeight: 'bold'
   },
   // Forms
   errorTextContainer: {
