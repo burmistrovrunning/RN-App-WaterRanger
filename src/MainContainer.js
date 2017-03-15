@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, NetInfo, ActivityIndicator } from 'react-native';
+import { View, NetInfo, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Router } from './routing';
 import { LocationActions } from './redux/actions';
@@ -52,14 +52,19 @@ class _MainContainer extends Component {
       this.routingRef.resetScene('AddScene');
     }
   };
-  onUpdateTabIndex = index => this.tabView.updateTabIndex(index);
+  onUpdateTabIndex = (index) => {
+    this.tabView.updateTabIndex(index);
+    this.onTabRoute(index);
+  };
   onTabRoute = (activeItem, oldItem) => {
     if (activeItem !== oldItem) {
-      let index = activeItem + 1;
-      if (!this.networkStatus && index === 1) {
-        index = 2;
+      if (!this.networkStatus && activeItem === 0) {
+        Alert.alert('No network access', 'Map is not available when you’re offline.',
+          [{ text: 'Close', onPress: () => this.routingRef.jumpTo(3) }], { cancelable: true }
+        );
+      } else {
+        this.routingRef.jumpTo(activeItem + 1);
       }
-      this.routingRef.jumpTo(index);
     }
   };
   resetScene = (sceneName) => {
@@ -85,6 +90,7 @@ class _MainContainer extends Component {
         <TabView ref={ref => this.tabView = ref} onTabRoute={this.onTabRoute}>
           <Router
             hasToken={this.state.hasToken}
+            onTabRoute={this.onTabRoute}
             updateTabIndex={this.onUpdateTabIndex}
             showTabBar={this.showTabBar}
             ref={ref => this.routingRef = ref}

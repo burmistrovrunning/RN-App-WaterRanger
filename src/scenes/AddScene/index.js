@@ -9,7 +9,7 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Picker
+  Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
@@ -17,6 +17,7 @@ import t from 'tcomb-form-native';
 import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
+import { KeyboardSpacing } from '../../components';
 import { uploadForm, storeFailedForm, localStorage, imagePicker } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
@@ -45,6 +46,7 @@ export class _AddScene extends BaseScene {
       isSubmitting: false,
       groupValue: 0,
       selectGroup: false,
+      avatarSource: null,
       groups: []
     };
     this.formView = null;
@@ -78,7 +80,7 @@ export class _AddScene extends BaseScene {
     } catch (err) {
       console.log('Choose picture err', err);
     }
-  }
+  };
 
   onSubmit = async () => {
     const value = this.formView.getValue();
@@ -114,10 +116,10 @@ export class _AddScene extends BaseScene {
         if (response.status === 200 || response.status === 204) {
           const jsonRes = await response.json();
           flagSuccess = true;
-          console.log('response', jsonRes);
-          const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers.`;
+          const ids = JSON.stringify(jsonRes.observations);
+          const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. ${ids}`;
           Alert.alert('Success!', successAlertMessage,
-            [{ text: 'Continue' }], { cancelable: true }
+            [{ text: 'Continue', onPress: () => this.props.resetScene('MapScene') }], { cancelable: true }
           );
         }
       } catch (err) {
@@ -126,11 +128,12 @@ export class _AddScene extends BaseScene {
       if (!flagSuccess) {
         await storeFailedForm(dictToSend);
         Alert.alert('No network access', 'It looks like you are offline so we have stored your form to be submitted later.',
-          [{ text: 'Close' }], { cancelable: true }
+          [{ text: 'Close', onPress: () => this.props.resetScene('MyObservationScene') }], { cancelable: true }
         );
       }
-      this.setState({ isSubmitting: false });
+      this.setState({ isSubmitting: false, avatarSource: null });
     }
+    this.scrollView.scrollTo({ y: 0, animated: false });
   };
   onGroupValueChange = groupValue => this.setState({ groupValue, selectGroup: false });
   onStartSelectGroup = () => {
@@ -141,6 +144,7 @@ export class _AddScene extends BaseScene {
       const profile = JSON.parse(await localStorage.get('profile'));
       const { groups } = profile;
       this.setState({ groups, groupValue: groups[0].id });
+      this.scrollView.scrollTo({ y: 0, animated: false });
     }, 100);
   }
   renderWaiting() {
@@ -249,17 +253,17 @@ export class _AddScene extends BaseScene {
           </TouchableHighlight>
         </View>
         {this.renderGroups()}
-        <ScrollView ref={ref => this.scrollView = ref}>
+        <ScrollView ref={ref => this.scrollView = ref} keyboardDismissMode="on-drag" keyboardShouldPersistTaps="never">
           <View style={addStyles.addScrollContainer}>
             <Text style={styles.headerOne}>Add new {_.capitalize(this.state.form)}</Text>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
-                <Text>{marker.latitude}</Text>
+                <Text>{marker.latitude.toFixed(5)}</Text>
               </View>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneSmallTitle}>{'Longitude'.toUpperCase()}</Text>
-                <Text>{marker.longitude}</Text>
+                <Text>{marker.longitude.toFixed(5)}</Text>
               </View>
             </View>
             <Form
@@ -278,6 +282,7 @@ export class _AddScene extends BaseScene {
           </View>
         </ScrollView>
         {this.renderWaiting()}
+        <KeyboardSpacing />
       </View>
     );
   }

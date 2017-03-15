@@ -72,6 +72,8 @@ export class MyObservationScene extends BaseScene {
   }
   render() {
     const dataSource = this.dataSource.cloneWithRows(this.state.formsToSubmit);
+    const message = "You don't have any offline Observations or Issues to submit at the moment." +
+      'If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point.';
     return (
       <View style={styles.noPadContainer}>
         <Text style={[styles.headerOne, addStyles.offlineFormsHeader]}>Offline Forms</Text>
@@ -96,9 +98,7 @@ export class MyObservationScene extends BaseScene {
         ) : (
           <View style={addStyles.offlineFormsContainer}>
             <Text style={addStyles.offlineListRowContainer}>
-              {`You don't have any offline Observations or Issues to submit at the moment.
-               If you are in an area with no cell or wi-fi coverage any forms
-                you submit will be stored to upload at a later point.`}
+              {message}
             </Text>
           </View>
         )}

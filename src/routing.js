@@ -54,7 +54,6 @@ export class Router extends Component {
     });
     if (index > -1) {
       this.props.updateTabIndex(index - 1);
-      return this.jumpTo(index);
     }
     return '';
   };
