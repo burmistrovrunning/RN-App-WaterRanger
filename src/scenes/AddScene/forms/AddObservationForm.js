@@ -57,13 +57,13 @@ export const AddObservationForm = t.struct({
   notes: t.maybe(t.String)
 });
 
-export const getObservation = (form) => {
+export const getObservation = (form, groupValue) => {
   const value = form.getValue();
   if (value) {
     return {
       observed_on: new Date().toJSON(),
       notes: value.notes,
-      group_tokens: '3',
+      group_tokens: groupValue,
       data: {
         wildlife: [value.wildlife] || [''],
         invasive_species: [value.invasiveSpecies] || [''],

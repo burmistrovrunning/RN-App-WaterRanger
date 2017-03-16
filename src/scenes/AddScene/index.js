@@ -141,7 +141,7 @@ export class _AddScene extends BaseScene {
       form: 'observation',
       marker: props.marker,
       isSubmitting: false,
-      groupValue: 0,
+      groupValue: -1,
       selectGroup: false,
       groups: [],
     };
@@ -178,9 +178,9 @@ export class _AddScene extends BaseScene {
       this.setState({ isSubmitting: true });
       const dictToSend = {};
       if (this.state.form === 'issue') {
-        dictToSend.issues = [getIssue(this.formView)];
+        dictToSend.issues = [getIssue(this.formView, this.state.groupValue)];
       } else {
-        dictToSend.observations = [getObservation(this.formView)];
+        dictToSend.observations = [getObservation(this.formView, this.state.groupValue)];
       }
       const dictKey = (this.state.form === 'issue')
         ? 'issues'
@@ -255,7 +255,6 @@ export class _AddScene extends BaseScene {
   renderGroups() {
     const { form, selectGroup, groupValue, groups } = this.state;
     if (form === 'observation' && groups.length > 0) {
-      console.log('groups', groups);
       let component = (
         <Picker
           selectedValue={groupValue}

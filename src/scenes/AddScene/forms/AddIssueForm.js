@@ -22,12 +22,12 @@ export const AddIssueForm = t.struct({
   contactEmail: t.maybe(t.String),
   contactPhone: t.maybe(t.String)
 });
-export const getIssue = (form) => {
+export const getIssue = (form, groupValue) => {
   const value = form.getValue();
   if (value) {
     return {
       observed_on: new Date().toJSON(),
-      group_tokens: '',
+      group_tokens: groupValue,
       category: value.category,
       notes: {
         details: value.description || '',
