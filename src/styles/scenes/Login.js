@@ -2,13 +2,20 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
-  loginContainer: {
+  container: {
     backgroundColor: '$colorBlue',
     flex: 1,
     margin: 0,
     borderWidth: 0,
     paddingLeft: 40,
     paddingRight: 40,
+    justifyContent: 'center'
+  },
+  loginContainer: {
+    backgroundColor: '$colorBlue',
+    flex: 1,
+    margin: 0,
+    borderWidth: 0,
     justifyContent: 'center'
   },
   loginLogoContainer: {

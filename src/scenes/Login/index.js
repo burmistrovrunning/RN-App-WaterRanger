@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import {
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
   Image,
   StatusBar,
   WebView,
-  Modal
+  Modal,
+  Keyboard
 } from 'react-native';
 import t from 'tcomb-form-native';
+import { KeyboardSpacing } from '../../components';
 import { login } from '../../services';
 import { styles as loginStyles } from '../../styles/scenes/Login';
 import { styles } from '../../styles/common';
@@ -61,6 +64,9 @@ export class LoginScene extends Component {
   onHandleWebViewChange = () => {
 
   };
+  hideKeyboard = () => {
+    Keyboard.dismiss();
+  }
   renderWebView() {
     const { webViewVisible } = this.state;
     if (webViewVisible) {
@@ -88,29 +94,36 @@ export class LoginScene extends Component {
   }
   render() {
     return (
-      <View style={loginStyles.loginContainer}>
-        <StatusBar barStyle={'light-content'} />
-        <View style={loginStyles.loginLogoContainer}>
-          <Image
-            style={loginStyles.loginLogo}
-            source={require('../../images/rangers-logo.png')}
+      <View style={loginStyles.container}>
+        <TouchableOpacity
+          style={loginStyles.loginContainer}
+          onPress={this.hideKeyboard}
+          activeOpacity={1}
+        >
+          <StatusBar barStyle={'light-content'} />
+          <View style={loginStyles.loginLogoContainer}>
+            <Image
+              style={loginStyles.loginLogo}
+              source={require('../../images/rangers-logo.png')}
+            />
+          </View>
+          <View style={[styles.errorTextContainer, this.state.error ? {} : loginStyles.hidden]}>
+            <Text style={styles.errorText}>{this.state.error}</Text>
+          </View>
+          <Form
+            ref={ref => this.formView = ref}
+            value={defaultValue}
+            type={LoginForm}
+            options={options}
+            style={loginStyles.loginFormContainer}
           />
-        </View>
-        <View style={[styles.errorTextContainer, this.state.error ? {} : loginStyles.hidden]}>
-          <Text style={styles.errorText}>{this.state.error}</Text>
-        </View>
-        <Form
-          ref={ref => this.formView = ref}
-          value={defaultValue}
-          type={LoginForm}
-          options={options}
-          style={loginStyles.loginFormContainer}
-        />
-        <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-        {/* this.renderSocialLoginButton() */}
-        {/* this.renderWebView() */}
+          <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+          {/* this.renderSocialLoginButton() */}
+          {/* this.renderWebView() */}
+        </TouchableOpacity>
+        <KeyboardSpacing />
       </View>
     );
   }

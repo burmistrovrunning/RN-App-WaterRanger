@@ -27,7 +27,6 @@ export class KeyboardSpacing extends Component {
 
   onKeyboardUpdated = (event, type) => {
     const toValue = !type ? 0 : (event.endCoordinates.height - 50);
-    console.log('onKeyboardUpdated', toValue);
     Animated.timing(
       this.state.keyboardHeight, {
         toValue,
