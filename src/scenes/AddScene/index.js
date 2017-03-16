@@ -83,10 +83,10 @@ const options = {
       label: 'pH (0-14)'
     },
     waterTemp: {
-      label: 'Water Temperature â„ƒ'
+      label: 'Water Temperature ℃'
     },
     airTemp: {
-      label: 'Air Temperature â„ƒ'
+      label: 'Air Temperature ℃'
     },
     disolvedOyxgen: {
       label: 'Disolved Oxygen (mg/L)'
@@ -110,10 +110,10 @@ const options = {
       label: 'Turbidity (JTU)'
     },
     kjeldahlNitrogen: {
-      label: 'Total Kjeldahl Nitrogen (Âµg/L)'
+      label: 'Total Kjeldahl Nitrogen (µg/L)'
     },
     phosphorus: {
-      label: 'Total Phosphorus (Âµg/L)'
+      label: 'Total Phosphorus (µg/L)'
     },
     salinity: {
       label: 'Salinity (ppt)'
