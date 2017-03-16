@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Image,
   Text,
   TouchableHighlight,
   View,
@@ -14,11 +13,12 @@ import {
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
+import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
-import { uploadForm, storeFailedForm, localStorage, imagePicker } from '../../services';
+import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
@@ -144,10 +144,10 @@ export class _AddScene extends BaseScene {
       groupValue: 0,
       selectGroup: false,
       groups: [],
-      avatarSource: null,
     };
     this.formView = null;
     this.scrollView = null;
+    this.attachImageRef = null;
   }
 
   componentDidMount() {
@@ -170,18 +170,10 @@ export class _AddScene extends BaseScene {
     this.setState({ form: 'issue' });
   };
 
-  onChoosePicture = async () => {
-    try {
-      const res = await imagePicker.show();
-      this.setState({ avatarSource: res.source });
-    } catch (err) {
-      console.log('Choose picture err', err);
-    }
-  }
-
   onSubmit = async () => {
     const value = this.formView.getValue();
-    const { marker, avatarSource } = this.state;
+    const { marker } = this.state;
+    const avatarSource = this.attachImageRef.getImage();
     if (value) {
       this.setState({ isSubmitting: true });
       const dictToSend = {};
@@ -228,7 +220,8 @@ export class _AddScene extends BaseScene {
           [{ text: 'Close', onPress: () => this.props.resetScene('MyObservationScene') }], { cancelable: true }
         );
       }
-      this.setState({ isSubmitting: false, avatarSource: null });
+      this.setState({ isSubmitting: false });
+      this.attachImageRef.resetImage();
     }
     this.scrollView.scrollTo({ y: 0, animated: false });
   };
@@ -298,7 +291,7 @@ export class _AddScene extends BaseScene {
     return (<View />);
   }
   render() {
-    const { marker, form, avatarSource } = this.state;
+    const { marker, form } = this.state;
     let defaultValue = {};
     let fieldOptions = null;
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
@@ -388,16 +381,7 @@ export class _AddScene extends BaseScene {
                 value={defaultValue}
                 options={options}
               />
-              <View style={addStyles.imageUploadContainer}>
-                <View>
-                  <Image source={avatarSource} style={addStyles.uploadImage} />
-                </View>
-                <View style={addStyles.imageButtonContainer}>
-                  <TouchableHighlight style={addStyles.imageButton} onPress={this.onChoosePicture}>
-                    <Text style={addStyles.imageButtonText}>Choose Image</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
+              <AttachedImageView ref={ref => this.attachImageRef = ref} />
               <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
                 <Text style={styles.buttonText}>Submit</Text>
               </TouchableHighlight>
