@@ -34,7 +34,7 @@ export class _MapScene extends BaseScene {
     this.tapMaker = false;
   }
   componentDidMount() {
-    this.loadLocationsAsync();
+    this.refreshData();
     Icon.getImageSource('ios-add-circle-outline', 25, '#1c3653')
       .then(addIcon => this.setState({ addIcon }));
     Icon.getImageSource('ios-remove-circle-outline', 25, '#1c3653')
@@ -198,12 +198,14 @@ export class _MapScene extends BaseScene {
       return marker;
     });
   }
-  loadLocationsAsync = async () => {
-    const locations = await getLocations();
-    const clusters = getClusters(locations, this.state.zoom);
-    const mapMarkers = this.convertClustersToMarkers(clusters);
-    this.latClusteringZoom = this.state.zoom;
-    this.setState({ locations, mapMarkers });
+  refreshData = () => {
+    setTimeout(async () => {
+      const locations = await getLocations();
+      const clusters = getClusters(locations, this.state.zoom);
+      const mapMarkers = this.convertClustersToMarkers(clusters);
+      this.latClusteringZoom = this.state.zoom;
+      this.setState({ locations, mapMarkers });
+    }, 100);
   };
   renderRemoveView() {
     const backgroundColor = this.state.flagRemove ? '#888' : '#EEE';
