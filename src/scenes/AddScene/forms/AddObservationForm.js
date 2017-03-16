@@ -1,4 +1,5 @@
 import t from 'tcomb-form-native';
+import _ from 'lodash';
 
 const WildlifeType = t.struct({
   Mammal: t.maybe(t.Boolean),
@@ -60,13 +61,31 @@ export const AddObservationForm = t.struct({
 export const getObservation = (form, groupValue) => {
   const value = form.getValue();
   if (value) {
+    const wildlife = [];
+    _.map(value.wildlife, (itemValue, key) => {
+      if (itemValue) {
+        wildlife.push(key);
+      }
+    });
+    if (wildlife.length === 0) {
+      wildlife.push('');
+    }
+    const invasiveSpecies = [''];
+    _.map(value.invasiveSpecies, (itemValue, key) => {
+      if (itemValue) {
+        invasiveSpecies.push(key);
+      }
+    });
+    if (invasiveSpecies.length === 0) {
+      invasiveSpecies.push('');
+    }
     return {
       observed_on: new Date().toJSON(),
       notes: value.notes,
       group_tokens: groupValue,
       data: {
-        wildlife: [value.wildlife] || [''],
-        invasive_species: [value.invasiveSpecies] || [''],
+        wildlife,
+        invasive_species: invasiveSpecies,
         ph: value.ph || '',
         water_temperature: value.waterTemp || '',
         air_temperature: value.airTemp || '',
