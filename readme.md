@@ -68,6 +68,11 @@ If there's errors on files in lint-rules, commit will be failed.
   - Compile JS: `./compile.sh;`
   - Build APK through Android Studio: Menu / Build / Generate Signed APK
 
+### Deployment to testflight
+
+ - Run 'gem install' to get the fastlane gem and other utilities
+ - The shared private keys are already stored on a github repo so run 'fastlane beta' to deploy to device
+ - The platform number 'should' auto increase for each build
 
 ### Usage
 

@@ -1,6 +1,6 @@
 export default {
-  BASE_URL: 'https://water-rangers-staging-pr-25.herokuapp.com/api/',
-  URL: 'https://water-rangers-staging-pr-25.herokuapp.com/',
+  BASE_URL: 'https://water-rangers-staging.herokuapp.com/api/',
+  URL: 'https://water-rangers-staging.herokuapp.com/',
   // BASE_URL: 'https://app.waterrangers.ca/api/',
 };
 
