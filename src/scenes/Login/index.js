@@ -13,7 +13,7 @@ import {
 import t from 'tcomb-form-native';
 import { KeyboardSpacing } from '../../components';
 import { login } from '../../services';
-import { styles as loginStyles } from '../../styles/scenes/Login';
+import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
 import { styles } from '../../styles/common';
 import '../../styles/FormStyles';
 import GLOBAL from '../../Globals';
@@ -44,7 +44,8 @@ export class LoginScene extends Component {
       error: '',
       visible: false,
       webViewVisible: false,
-      authUrl: ''
+      authUrl: '',
+      keyboardHeight: 0,
     };
     this.formView = null;
   }
@@ -64,9 +65,10 @@ export class LoginScene extends Component {
   onHandleWebViewChange = () => {
 
   };
+  onKeyboardUpdated = keyboardHeight => this.setState({ keyboardHeight });
   hideKeyboard = () => {
     Keyboard.dismiss();
-  }
+  };
   renderWebView() {
     const { webViewVisible } = this.state;
     if (webViewVisible) {
@@ -93,6 +95,11 @@ export class LoginScene extends Component {
     );
   }
   render() {
+    const { keyboardHeight } = this.state;
+    const imageStyle = {
+      width: (deviceHeight - keyboardHeight) / 4,
+      height: (deviceHeight - keyboardHeight) / 4
+    };
     return (
       <View style={loginStyles.container}>
         <TouchableOpacity
@@ -101,9 +108,9 @@ export class LoginScene extends Component {
           activeOpacity={1}
         >
           <StatusBar barStyle={'light-content'} />
-          <View style={loginStyles.loginLogoContainer}>
+          <View style={[loginStyles.loginLogoContainer, imageStyle]}>
             <Image
-              style={loginStyles.loginLogo}
+              style={[loginStyles.loginLogo, imageStyle]}
               source={require('../../images/rangers-logo.png')}
             />
           </View>
@@ -123,7 +130,7 @@ export class LoginScene extends Component {
           {/* this.renderSocialLoginButton() */}
           {/* this.renderWebView() */}
         </TouchableOpacity>
-        <KeyboardSpacing />
+        <KeyboardSpacing onKeyboardUpdated={this.onKeyboardUpdated} />
       </View>
     );
   }

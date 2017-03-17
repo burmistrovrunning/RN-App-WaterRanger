@@ -21,10 +21,9 @@ export const styles = EStyleSheet.create({
     // height: IOS_NAV_BAR_HEIGHT,
     paddingLeft: 8,
     paddingRight: 8,
-
+    height: 30,
     // default Android styles:
     // height: ANDROID_NAV_BAR_HEIGHT,
-    padding: 16,
   },
   navHidden: {
     position: 'absolute',

@@ -1,6 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Dimensions } from 'react-native';
 import '../GlobalStyles';
 
+export const height = Dimensions.get('window').height;
 export const styles = EStyleSheet.create({
   container: {
     backgroundColor: '$colorBlue',
@@ -20,16 +22,14 @@ export const styles = EStyleSheet.create({
   },
   loginLogoContainer: {
     alignSelf: 'center',
-    height: 150,
-    width: 150
+    overflow: 'visible'
   },
   loginFormContainer: {
     flex: 1,
     justifyContent: 'center'
   },
   loginLogo: {
-    height: 150,
-    width: 150
+    overflow: 'visible',
   },
   hidden: {
     height: 0,
