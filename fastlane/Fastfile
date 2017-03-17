@@ -29,7 +29,7 @@ platform :ios do
   end
 
   after_all do |lane|
-    slack(channel: "deploys", message: "Successfully deployed new Water Rangers alpha update to TestFlight.")
+    slack(channel: "development", message: "Successfully deployed new Water Rangers alpha update to TestFlight.")
   end
 end
 
@@ -46,6 +46,6 @@ platform :android do
   end
 
   after_all do |lane|
-    slack(channel: "deploys", message: "Successfully deployed new Water Rangers Beta update to the Play Store.")
+    slack(channel: "development", message: "Successfully deployed new Water Rangers Beta update to the Play Store.")
   end
 end
