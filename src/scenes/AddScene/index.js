@@ -232,8 +232,12 @@ export class _AddScene extends BaseScene {
   refreshData() {
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
-      const { groups } = profile;
-      this.setState({ groups, groupValue: groups[0].id });
+      if (profile) {
+        const { groups } = profile;
+        if (groups) {
+          this.setState({ groups, groupValue: groups[0].id });
+        }
+      }
       this.scrollView.scrollTo({ y: 0, animated: false });
     }, 100);
   }

@@ -70,7 +70,7 @@ export const getObservation = (form, groupValue) => {
     if (wildlife.length === 0) {
       wildlife.push('');
     }
-    const invasiveSpecies = [''];
+    const invasiveSpecies = [];
     _.map(value.invasiveSpecies, (itemValue, key) => {
       if (itemValue) {
         invasiveSpecies.push(key);
@@ -86,20 +86,20 @@ export const getObservation = (form, groupValue) => {
       data: {
         wildlife,
         invasive_species: invasiveSpecies,
-        ph: value.ph || '',
-        water_temperature: value.waterTemp || '',
-        air_temperature: value.airTemp || '',
-        oxygen: value.dissolvedOxygen || '',
-        ecoli: value.eColi || '',
-        conductivity: value.conductivity || '',
-        alkalinity: value.alkalinity || '',
-        hardness: value.hardness || '',
-        turbidity: value.turbidity || '',
-        total_kjeldahl_nitrogen: value.kjeldahlNitrogen || '',
-        total_phosphorus: value.phosphorus || '',
-        salinity: value.salinity || '',
-        water_depth: value.secchiDepth || '',
-        ice: value.iceWatch || false
+        ph: (value.ph || '').toString(),
+        water_temperature: (value.waterTemp || '').toString(),
+        air_temperature: (value.airTemp || '').toString(),
+        oxygen: (value.dissolvedOxygen || '').toString(),
+        ecoli: (value.eColi || '').toString(),
+        conductivity: (value.conductivity || '').toString(),
+        alkalinity: (value.alkalinity || '').toString(),
+        hardness: (value.hardness || '').toString(),
+        turbidity: (value.turbidity || '').toString(),
+        total_kjeldahl_nitrogen: (value.kjeldahlNitrogen || '').toString(),
+        total_phosphorus: (value.phosphorus || '').toString(),
+        salinity: (value.salinity || '').toString(),
+        water_depth: (value.secchiDepth || '').toString(),
+        ice: value.iceWatch ? 'on' : 'off'
       }
     };
   }

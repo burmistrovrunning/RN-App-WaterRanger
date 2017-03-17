@@ -32,7 +32,7 @@ export const getIssue = (form, groupValue) => {
       notes: {
         details: value.description || '',
         weather: value.weather || '',
-        seen_before: value.seenBefore || false,
+        seen_before: (value.seenBefore || false).toString(),
         notified_agencies: value.notifiedAgencies || ''
       },
       contact_info: {
