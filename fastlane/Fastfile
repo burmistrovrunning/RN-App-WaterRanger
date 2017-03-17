@@ -13,40 +13,10 @@ default_platform :ios
 # Fastfile actions accept additional configuration, but
 # don't worry, fastlane will prompt you for required
 # info which you can add here later
-#lane :beta do
-#  # build your iOS app
-#  gym(
-#    # scheme: "YourScheme"
-#  )
-
-#  # upload to Testflight
-#  pilot(skip_waiting_for_build_processing: true)
-
-#  slack(
-#    # slack_url: "https://hooks.slack.com/services/IDS"
-#  )
-#end
-
-# platform :ios do
-
-#   desc "Submit a new Beta Build to Apple TestFlight"
-#   desc "This will also make sure the profile is up to date"
-#   lane :beta do
-#     match(type: "appstore")
-
-#     gym(
-#       scheme: "WaterRangers",
-#       project: './ios/WaterRangers.xcodeproj'
-#     )
-
-#     pilot
-
-#   end
-# end
 
 platform :ios do
   before_all do
-    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
   end
 
   desc "Submit a new Build to Apple TestFlight"
@@ -65,7 +35,7 @@ end
 
 platform :android do
   before_all do
-    ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
   end
 
   desc "Submit a new Beta Build to Play Store"
