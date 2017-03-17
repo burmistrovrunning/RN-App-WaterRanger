@@ -8,7 +8,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import BaseScene from '../BaseScene';
-import { getFailedForms, uploadFailedForms } from '../../services';
+import { getFailedForms, uploadFailedForms, isNetworkOnline } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 import OfflineRow from './OfflineRow';
@@ -37,9 +37,16 @@ export class MyObservationScene extends BaseScene {
     this.setState({ isSubmitting: true });
     const success = await uploadFailedForms(formsToSubmit);
     if (!success) {
-      Alert.alert('Sorry', "It looks like you still don't have network access. Please try again later.",
-        [{ text: 'Close' }], { cancelable: true }
-      );
+      const isOnline = await isNetworkOnline();
+      if (isOnline) {
+        Alert.alert('Sorry', 'There was a problem submitting. Please try again later.',
+          [{ text: 'Close' }], { cancelable: true }
+        );
+      } else {
+        Alert.alert('Sorry', "It looks like you still don't have network access. Please try again later.",
+          [{ text: 'Close' }], { cancelable: true }
+        );
+      }
     } else {
       Alert.alert('Success', 'Your offline forms have now been submitted to Water Rangers',
         [{ text: 'Continue' }], { cancelable: true }

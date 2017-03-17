@@ -198,25 +198,23 @@ export class _AddScene extends BaseScene {
       }
       dictToSend[dictKey][0].local_id = `${new Date().getTime()}`;
       dictToSend.uid = `${new Date()}`;
-      dictToSend.imageFile = avatarSource;
-      let flagSuccess = false;
-      try {
-        const response = await uploadForm(dictToSend);
-        if (response.status === 200 || response.status === 204) {
-          const jsonRes = await response.json();
-          flagSuccess = true;
-          const ids = JSON.stringify(jsonRes.observations);
-          const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. ${ids}`;
-          Alert.alert('Success!', successAlertMessage,
-            [{ text: 'Continue', onPress: () => this.props.resetScene('MapScene') }], { cancelable: true }
-          );
-        }
-      } catch (err) {
-        console.log('err', err);
-      }
-      if (!flagSuccess) {
+      dictToSend[dictKey][0].imageFile = avatarSource;
+      const response = await uploadForm(dictToSend);
+      if (response.status === 200 || response.status === 204) {
+        const jsonRes = await response.json();
+        const ids = JSON.stringify(jsonRes.observations);
+        const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. ${ids}`;
+        Alert.alert('Success!', successAlertMessage,
+          [{ text: 'Continue', onPress: () => this.props.resetScene('MapScene') }], { cancelable: true }
+        );
+      } else if (response.status === -1) {
         await storeFailedForm(dictToSend);
         Alert.alert('No network access', 'It looks like you are offline so we have stored your form to be submitted later.',
+          [{ text: 'Close', onPress: () => this.props.resetScene('MyObservationScene') }], { cancelable: true }
+        );
+      } else {
+        await storeFailedForm(dictToSend);
+        Alert.alert('Server error returned', 'There was a problem submitting so we have stored your form to be submitted later.',
           [{ text: 'Close', onPress: () => this.props.resetScene('MyObservationScene') }], { cancelable: true }
         );
       }

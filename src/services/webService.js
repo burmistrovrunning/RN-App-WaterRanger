@@ -84,27 +84,47 @@ export const uploadFile = async (uri, name, type) => {
   return ret;
 };
 
-// upload a form to the server
+/**
+ * submit issue/observation to server
+ * @status return value for status
+ * 200: success
+ * -1: no network access
+ * *: server error
+ */
 export async function uploadForm(formToSubmit) {
-  const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
-  // const TOKEN = await AsyncStorage.getItem('accessToken');
-  if (formToSubmit.imageFile) {
-    await uploadFile(formToSubmit.imageFile.uri, 'image', 'image/jpg');
+  let response = { status: -1 };
+  const flagConnected = await isNetworkOnline();
+  if (flagConnected) {
+    try {
+      const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
+      const headers = await getHeader();
+      console.log('uploadForm url', url, formToSubmit);
+      console.log('headers', headers);
+      console.log('uploadForm', formToSubmit);
+      response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(formToSubmit)
+      });
+      const jsonRes = await response.json();
+      console.log('jsonRes', jsonRes);
+      const uploadImages = [];
+      const items = formToSubmit.issues ? formToSubmit.issues : formToSubmit.observations;
+      items.forEach((item) => {
+        if (item.imageFile) {
+          uploadImages.push({
+            id: 6,
+            path: item.imageFile.uri
+          });
+        }
+      });
+      console.log('uploadImages', uploadImages);
+    } catch (err) {
+      console.log('uploadForm err', err);
+      response.status = 400;
+    }
   }
-  const headers = await getHeader();
-  console.log('uploadForm url', url, formToSubmit);
-  console.log('headers', headers);
-  console.log('uploadForm', formToSubmit);
-  return fetch(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(formToSubmit)
-  })
-  .then(async response => response)
-  .catch((error) => {
-    console.log('error uploadForm', error);
-    return Promise.reject(error);
-  });
+  return response;
 }
 
 export const getLocations = async () => {
