@@ -62,7 +62,7 @@ export const uploadFile = async (item, name, type) => {
   const headers = await getHeader();
   const url = `${GLOBAL.BASE_URL}${item.type}/${item.id}/images`;
   let ret = true;
-  body.append('Image', file);
+  body.append('image', file);
   try {
     console.log('url', url);
     console.log('body', body);
