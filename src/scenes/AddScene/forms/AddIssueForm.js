@@ -27,17 +27,17 @@ export const getIssue = (form, groupValue) => {
   if (value) {
     return {
       observed_on: new Date().toJSON(),
-      group_tokens: groupValue,
+      group_tokens: groupValue.toString(),
       category: value.category,
       notes: {
-        details: value.description || '',
-        weather: value.weather || '',
+        details: (value.description || '').toString(),
+        weather: (value.weather || '').toString(),
         seen_before: (value.seenBefore || false).toString(),
         notified_agencies: value.notifiedAgencies || ''
       },
       contact_info: {
-        email: value.contactEmail || '',
-        phone: value.contactPhone || ''
+        email: (value.contactEmail || '').toString(),
+        phone: (value.contactPhone || '').toString()
       }
     };
   }

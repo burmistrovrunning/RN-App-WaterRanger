@@ -172,17 +172,17 @@ export class _AddScene extends BaseScene {
 
   onSubmit = async () => {
     const value = this.formView.getValue();
-    const { marker } = this.state;
+    const { marker, form } = this.state;
     const avatarSource = this.attachImageRef.getImage();
     if (value) {
       this.setState({ isSubmitting: true });
       const dictToSend = {};
-      if (this.state.form === 'issue') {
+      if (form === 'issue') {
         dictToSend.issues = [getIssue(this.formView, this.state.groupValue)];
       } else {
         dictToSend.observations = [getObservation(this.formView, this.state.groupValue)];
       }
-      const dictKey = (this.state.form === 'issue')
+      const dictKey = (form === 'issue')
         ? 'issues'
         : 'observations';
       if (marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
@@ -201,8 +201,7 @@ export class _AddScene extends BaseScene {
       dictToSend[dictKey][0].imageFile = avatarSource;
       const response = await uploadForm(dictToSend);
       if (response.status === 200 || response.status === 204) {
-        const jsonRes = await response.json();
-        const ids = JSON.stringify(jsonRes.observations);
+        const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues : response.jsonRes.observations);
         const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. ${ids}`;
         Alert.alert('Success!', successAlertMessage,
           [{ text: 'Continue', onPress: () => this.props.resetScene('MapScene') }], { cancelable: true }

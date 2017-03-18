@@ -82,7 +82,7 @@ export const getObservation = (form, groupValue) => {
     return {
       observed_on: new Date().toJSON(),
       notes: value.notes,
-      group_tokens: groupValue,
+      group_tokens: groupValue.toString(),
       data: {
         wildlife,
         invasive_species: invasiveSpecies,

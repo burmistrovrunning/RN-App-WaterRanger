@@ -6,10 +6,8 @@ const getHeader = async () => {
   const loginDetailsJSON = await localStorage.get('loginDetails');
   const loginDetails = JSON.parse(loginDetailsJSON);
   return {
-    'Content-Type': 'application/json',
     'Access-Token': loginDetails['access-token'],
     'Token-Type': loginDetails['token-type'],
-    Accept: 'application/json',
     Client: loginDetails.client,
     Expiry: loginDetails.expiry,
     UID: loginDetails.uid
@@ -58,24 +56,25 @@ export async function login(email, password) {
  * @param name file name like as image123.jpg
  * @param type upload file type image/jpg
  */
-export const uploadFile = async (uri, name, type) => {
-  const file = { uri, name, type };
+export const uploadFile = async (item, name, type) => {
+  const file = { uri: item.path, name, type };
   const body = new FormData();
   const headers = await getHeader();
-  const url = `${GLOBAL.BASE_URL}observations/8/images`;
+  const url = `${GLOBAL.BASE_URL}${item.type}/${item.id}/images`;
   let ret = true;
-  body.append('Image', [file]);
+  body.append('Image', file);
   try {
     console.log('url', url);
+    console.log('body', body);
     const response = await fetch(url, {
       method: 'POST',
-      headers,
+      headers: {
+        ...headers,
+        'Content-Type': 'multipart/form-data'
+      },
       body
     });
-    console.log('res', response);
-    const jsonResponse = await response.json();
-    console.log('jsonResponse', jsonResponse);
-    // alert('jsonResponse' + jsonResponse);
+    console.log('uploadFile res', response);
   } catch (err) {
     ret = false;
     console.log('failed', err);
@@ -103,20 +102,38 @@ export async function uploadForm(formToSubmit) {
       console.log('uploadForm', formToSubmit);
       response = await fetch(url, {
         method: 'POST',
-        headers,
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify(formToSubmit)
       });
       const jsonRes = await response.json();
+      response.jsonRes = jsonRes;
       console.log('jsonRes', jsonRes);
       const uploadImages = [];
       const items = formToSubmit.issues ? formToSubmit.issues : formToSubmit.observations;
+      const jsonItems = formToSubmit.issues ? jsonRes.issues : jsonRes.observations;
       items.forEach((item) => {
         if (item.imageFile) {
-          uploadImages.push({
-            id: 6,
-            path: item.imageFile.uri
+          let id = -1;
+          jsonItems.forEach((jsonItem) => {
+            if (jsonItem.local_id === item.local_id) {
+              id = formToSubmit.issues ? jsonItem.issue_id : jsonItem.observation_id;
+            }
           });
+          if (id !== -1) {
+            uploadImages.push({
+              type: formToSubmit.issues ? 'issues' : 'observations',
+              id,
+              path: item.imageFile.uri
+            });
+          }
         }
+      });
+      uploadImages.forEach(async (item) => {
+        await uploadFile(item, 'image', 'image/jpg');
       });
       console.log('uploadImages', uploadImages);
     } catch (err) {

@@ -18,7 +18,7 @@ export const imagePicker = {
             message: response.error,
           });
         } else {
-          const uri = response.uri.replace('file://', '');
+          const uri = response.uri.replace('', '');
           result.source = { uri, isStatic: true };
         }
         return resolve(result);
