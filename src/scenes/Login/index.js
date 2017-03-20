@@ -11,6 +11,7 @@ import {
   Keyboard
 } from 'react-native';
 import t from 'tcomb-form-native';
+import _ from 'lodash';
 import { KeyboardSpacing } from '../../components';
 import { login } from '../../services';
 import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
@@ -20,6 +21,15 @@ import GLOBAL from '../../Globals';
 
 const { Form } = t.form;
 const LoginForm = t.struct({ email: t.String, password: t.String });
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
+
+stylesheet.textbox.normal.backgroundColor = '#ffffff';
+stylesheet.textbox.normal.borderColor = '#ffffff';
+stylesheet.textbox.normal.height = 42;
+stylesheet.textbox.error.backgroundColor = '#ffffff';
+stylesheet.textbox.error.borderColor = '#a94442';
+stylesheet.textbox.error.height = 42;
+
 const options = {
   fields: {
     email: {
@@ -30,6 +40,7 @@ const options = {
       secureTextEntry: true
     }
   },
+  stylesheet,
   auto: 'placeholders'
 };
 const defaultValue = {
