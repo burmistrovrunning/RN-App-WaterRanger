@@ -1,18 +1,17 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
-import './GlobalStyles.js';
 import { Platform } from 'react-native';
+import './GlobalStyles.js';
 
-var LABEL_COLOR = '#000000';
-var INPUT_COLOR = '#000000';
-var ERROR_COLOR = '#a94442';
-var HELP_COLOR = '#999999';
-var BORDER_COLOR = '#c3c3a9';
-var DISABLED_COLOR = '#777777';
-var DISABLED_BACKGROUND_COLOR = '#eeeeee';
-var FONT_SIZE = 16;
-var FONT_WEIGHT = '500';
+const LABEL_COLOR = '#000000';
+const INPUT_COLOR = '#000000';
+const ERROR_COLOR = '#a94442';
+const HELP_COLOR = '#999999';
+const BORDER_COLOR = '#c3c3a9';
+const DISABLED_COLOR = '#777777';
+const DISABLED_BACKGROUND_COLOR = '#eeeeee';
+const FONT_SIZE = 16;
+const FONT_WEIGHT = '500';
 
-var stylesheet = Object.freeze({
+const stylesheet = Object.freeze({
   fieldset: {},
   // the style applied to the container of all inputs
   formGroup: {

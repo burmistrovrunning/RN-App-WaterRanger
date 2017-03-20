@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import {
   Text,
   TouchableHighlight,
-  View,
-  TouchableOpacity,
-  Image
+  View
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import ResponsiveImage from 'react-native-responsive-image';
-import { styles } from '../../../styles/common';
 import { styles as addStyles } from '../../../styles/scenes/Add';
 
 class ObservationDataTemplate extends Component {
@@ -20,37 +16,36 @@ class ObservationDataTemplate extends Component {
       isActive: false
     };
   }
-  
+
   _toggleExpanded = () => {
-    this.setState({ 
+    this.setState({
       collapsed: !this.state.collapsed,
       isActive: !this.state.isActive
     });
   }
 
-  render () {
+  render() {
     const label = this.props.locals.label;
     const inputs = this.props.locals.inputs;
-    const inputRef = this.props.locals.path[0];
     const activeState = this.state.isActive;
 
-    const inputCheckboxes = Object.keys(inputs).map((key) => {
-      const imageURI = '../../../images/obsimages/' + key.replace(/\s+/g, '-').toLowerCase() + '.jpg';
-      return (
-        <View key={key} style={addStyles.observationDataCol}>
-          <View>
-            {inputs[key]}
-          </View>
+    const inputCheckboxes = Object.keys(inputs).map(key =>
+      <View key={key} style={addStyles.observationDataCol}>
+        <View>
+          {inputs[key]}
         </View>
-      )
-    });
+      </View>
+    );
 
     return (
       <View>
         <TouchableHighlight onPress={this._toggleExpanded} underlayColor="#edede5">
           <View style={[addStyles.formCollapsibleButton]}>
-            <Text 
-              style={[addStyles.formCollapsibleButtonIcon, activeState && addStyles.formCollapsibleButtonActive]}
+            <Text
+              style={[
+                addStyles.formCollapsibleButtonIcon,
+                activeState && addStyles.formCollapsibleButtonActive
+              ]}
             >
               {activeState === true ? '-' : '+'}
             </Text>

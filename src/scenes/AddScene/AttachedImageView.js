@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  Image,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import BaseScene from '../BaseScene';
 import ResponsiveImage from 'react-native-responsive-image';
+import BaseScene from '../BaseScene';
 import { imagePicker } from '../../services';
 import { styles as addStyles } from '../../styles/scenes/Add';
+
 
 export class AttachedImageView extends BaseScene {
   constructor(props) {
@@ -35,10 +35,18 @@ export class AttachedImageView extends BaseScene {
     return (
       <View style={[addStyles.formFieldset, addStyles.formImageUploadContainer]}>
         <View>
-          <ResponsiveImage source={this.state.avatarSource} initWidth="150" initHeight="150" style={addStyles.formImageUploadPlaceHolder}/>
+          <ResponsiveImage
+            source={this.state.avatarSource}
+            initWidth="150"
+            initHeight="150"
+            style={addStyles.formImageUploadPlaceHolder}
+          />
         </View>
         <View style={addStyles.formImageUploadButtonContainer}>
-          <TouchableHighlight style={addStyles.formImageUploadButton} onPress={this.onChoosePicture}>
+          <TouchableHighlight
+            style={addStyles.formImageUploadButton}
+            onPress={this.onChoosePicture}
+          >
             <Text style={addStyles.formImageUploadButtonText}>Choose Image</Text>
           </TouchableHighlight>
         </View>

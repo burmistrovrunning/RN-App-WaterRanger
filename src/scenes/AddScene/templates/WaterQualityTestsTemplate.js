@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import {
   Text,
   TouchableHighlight,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import { styles } from '../../../styles/common';
 import { styles as addStyles } from '../../../styles/scenes/Add';
 
 class WaterQualityTestsTemplate extends Component {
@@ -18,23 +16,26 @@ class WaterQualityTestsTemplate extends Component {
       isActive: false
     };
   }
-  
+
   _toggleExpanded = () => {
-    this.setState({ 
+    this.setState({
       collapsed: !this.state.collapsed,
       isActive: !this.state.isActive
     });
   }
 
-  render () {
+  render() {
     const inputs = this.props.locals;
     const activeState = this.state.isActive;
     return (
       <View>
         <TouchableHighlight onPress={this._toggleExpanded} underlayColor="#edede5">
           <View style={[addStyles.formCollapsibleButton]}>
-            <Text 
-              style={[addStyles.formCollapsibleButtonIcon, activeState && addStyles.formCollapsibleButtonActive]}
+            <Text
+              style={[
+                addStyles.formCollapsibleButtonIcon,
+                activeState && addStyles.formCollapsibleButtonActive
+              ]}
             >
               {activeState === true ? '-' : '+'}
             </Text>

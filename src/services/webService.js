@@ -132,9 +132,9 @@ export async function uploadForm(formToSubmit) {
           }
         }
       });
-      uploadImages.forEach(async (item) => {
-        await uploadFile(item, 'image', 'image/jpg');
-      });
+      for (let index = 0; index < uploadImages.length; index += 1) {
+        await uploadFile(uploadImages[index], 'image', 'image/jpg');
+      }
       console.log('uploadImages', uploadImages);
     } catch (err) {
       console.log('uploadForm err', err);

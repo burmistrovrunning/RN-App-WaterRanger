@@ -163,7 +163,6 @@ export const styles = EStyleSheet.create({
   },
   formCollapsibleButtonIcon: {
     borderRadius: 15,
-    borderWidth: '$colorBlack',
     borderWidth: 1,
     fontFamily: '$globalFontHeader',
     fontSize: 24,

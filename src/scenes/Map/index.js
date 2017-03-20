@@ -248,7 +248,6 @@ export class _MapScene extends BaseScene {
           onTap={this.addNewMarker}
           onFinishLoadingMap={this.onFinishLoadingMap}
         />
-        {this.renderRemoveView()}
       </View>
     );
   }

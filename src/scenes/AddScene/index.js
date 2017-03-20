@@ -16,13 +16,11 @@ import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
-import Collapsible from 'react-native-collapsible';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import FormTemplateObservation from './templates/FormTemplateObservation';
 import FormTemplateIssue from './templates/FormTemplateIssue';
-import ObservationDataTemplate from './templates/ObservationDataTemplate';
 import WildlifeDataTemplate from './templates/WildlifeDataTemplate';
 import InvasiveSpeciesDataTemplate from './templates/InvasiveSpeciesDataTemplate';
 import { styles } from '../../styles/common';
@@ -34,20 +32,20 @@ const Item = Picker.Item;
 Form.stylesheet = stylesheet;
 
 function formLayoutTemplateObservation(locals) {
-  return <FormTemplateObservation locals={locals}/>;
-};
+  return <FormTemplateObservation locals={locals} />;
+}
 
 function formLayoutTemplateIssue(locals) {
-  return <FormTemplateIssue locals={locals}/>;
-};
+  return <FormTemplateIssue locals={locals} />;
+}
 
 function wildlifeLayoutTemplate(locals) {
-  return <WildlifeDataTemplate locals={locals}/>;
-};
+  return <WildlifeDataTemplate locals={locals} />;
+}
 
 function invasiveSpeciesLayoutTemplate(locals) {
-  return <InvasiveSpeciesDataTemplate locals={locals}/>;
-};
+  return <InvasiveSpeciesDataTemplate locals={locals} />;
+}
 
 export class _AddScene extends BaseScene {
   constructor(props) {
@@ -78,15 +76,12 @@ export class _AddScene extends BaseScene {
       }
     }
   }
-  
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
-
   onChooseIssue = () => {
     this.setState({ form: 'issue' });
   };
-
   onSubmit = async () => {
     const value = this.formView.getValue();
     const { marker, form } = this.state;
@@ -143,7 +138,6 @@ export class _AddScene extends BaseScene {
   onStartSelectGroup = () => {
     this.setState({ selectGroup: true });
   };
-  
   refreshData() {
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
@@ -156,7 +150,6 @@ export class _AddScene extends BaseScene {
       this.scrollView.scrollTo({ y: 0, animated: false });
     }, 100);
   }
-  
   renderWaiting() {
     if (this.state.isSubmitting) {
       return (
@@ -171,7 +164,6 @@ export class _AddScene extends BaseScene {
     }
     return <View />;
   }
-
   renderGroups() {
     const { form, selectGroup, groupValue, groups } = this.state;
     if (form === 'observation' && groups.length > 0) {
@@ -209,20 +201,20 @@ export class _AddScene extends BaseScene {
     }
     return (<View />);
   }
-
   render() {
     const { marker, form } = this.state;
+    const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
     const options = {
       i18n: {
         optional: '',
         required: ' *'
       },
-      stylesheet: stylesheet,
-      template: form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation,
+      stylesheet,
+      template: formTemplate,
       fields: {
         notes: {
           multiline: true,
-          placeholder: "Enter additional information about the Observation here...",
+          placeholder: 'Enter additional information about the Observation here...',
           stylesheet: {
             ...Form.stylesheet,
             textbox: {
@@ -240,7 +232,7 @@ export class _AddScene extends BaseScene {
         },
         description: {
           multiline: true,
-          placeholder: "Enter additional information about the Issue here...",
+          placeholder: 'Enter additional information about the Issue here...',
           stylesheet: {
             ...Form.stylesheet,
             textbox: {
@@ -392,7 +384,7 @@ export class _AddScene extends BaseScene {
           >
             <Text
               style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
-            > 
+            >
               {'Observation'.toUpperCase()}
             </Text>
           </TouchableHighlight>
