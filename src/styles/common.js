@@ -7,19 +7,15 @@ export const styles = EStyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colorBeige',
     flex: 1,
     padding: 20,
   },
   settingsContainer: {
     padding: 20
   },
-  formContainer: {
-    flex: 1,
-    padding: 20
-  },
   noPadContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colorBeige',
     flex: 1
   },
   buttonText: {
@@ -29,11 +25,11 @@ export const styles = EStyleSheet.create({
     alignSelf: 'center'
   },
   button: {
-    height: 36,
     backgroundColor: '$colorBrightBlue',
     borderColor: '$colorBrightBlue',
     borderWidth: 1,
     borderRadius: 5,
+    height: 50,
     marginBottom: 15,
     alignSelf: 'stretch',
     justifyContent: 'center'
@@ -48,14 +44,14 @@ export const styles = EStyleSheet.create({
   },
   // Fonts
   headerOne: {
-    fontSize: 22,
-    fontFamily: '$globalFont',
+    fontSize: 26,
+    fontFamily: '$globalFontHeader',
     fontWeight: 'bold',
     marginBottom: 15
   },
   headerTwo: {
-    fontSize: 18,
-    fontFamily: '$globalFont',
+    fontSize: 24,
+    fontFamily: '$globalFontHeader',
     fontWeight: 'bold',
     marginBottom: 10
   },

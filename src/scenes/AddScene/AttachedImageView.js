@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import BaseScene from '../BaseScene';
+import ResponsiveImage from 'react-native-responsive-image';
 import { imagePicker } from '../../services';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
@@ -13,7 +14,7 @@ export class AttachedImageView extends BaseScene {
   constructor(props) {
     super(props);
     this.state = {
-      avatarSource: null
+      avatarSource: require('../../images/camera-placeholder.jpg')
     };
   }
   onChoosePicture = async () => {
@@ -28,17 +29,17 @@ export class AttachedImageView extends BaseScene {
     return this.state.avatarSource;
   }
   resetImage() {
-    this.setState({ avatarSource: null });
+    this.setState({ avatarSource: require('../../images/camera-placeholder.jpg') });
   }
   render() {
     return (
-      <View style={addStyles.imageUploadContainer}>
+      <View style={[addStyles.formFieldset, addStyles.formImageUploadContainer]}>
         <View>
-          <Image source={this.state.avatarSource} style={addStyles.uploadImage} />
+          <ResponsiveImage source={this.state.avatarSource} initWidth="150" initHeight="150" style={addStyles.formImageUploadPlaceHolder}/>
         </View>
-        <View style={addStyles.imageButtonContainer}>
-          <TouchableHighlight style={addStyles.imageButton} onPress={this.onChoosePicture}>
-            <Text style={addStyles.imageButtonText}>Choose Image</Text>
+        <View style={addStyles.formImageUploadButtonContainer}>
+          <TouchableHighlight style={addStyles.formImageUploadButton} onPress={this.onChoosePicture}>
+            <Text style={addStyles.formImageUploadButtonText}>Choose Image</Text>
           </TouchableHighlight>
         </View>
       </View>

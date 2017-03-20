@@ -16,121 +16,37 @@ import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
+import Collapsible from 'react-native-collapsible';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
+import FormTemplateObservation from './templates/FormTemplateObservation';
+import FormTemplateIssue from './templates/FormTemplateIssue';
+import ObservationDataTemplate from './templates/ObservationDataTemplate';
+import WildlifeDataTemplate from './templates/WildlifeDataTemplate';
+import InvasiveSpeciesDataTemplate from './templates/InvasiveSpeciesDataTemplate';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
-
-function observationDataTemplate(locals) {
-  const inputs = locals.inputs;
-  const inputCheckboxes = Object.keys(inputs).map(key => (
-    <View key={key} style={addStyles.observationDataCol}>
-      {inputs[key]}
-    </View>
-  ));
-  return (
-    <View style={addStyles.observationDataContainer}>
-      <View style={addStyles.observationDataHeading}>
-        <Text style={addStyles.headingLabel}>{locals.label}</Text>
-      </View>
-      <View style={addStyles.observationDataRow}>
-        {inputCheckboxes}
-      </View>
-    </View>
-  );
-}
+import stylesheet from '../../styles/FormStyles';
 
 const { Form } = t.form;
 const Item = Picker.Item;
-const options = {
-  i18n: {
-    optional: '',
-    required: ' *'
-  },
-  fields: {
-    notes: {
-      multiline: true,
-      stylesheet: {
-        ...Form.stylesheet,
-        textbox: {
-          ...Form.stylesheet.textbox,
-          normal: {
-            ...Form.stylesheet.textbox.normal,
-            height: 150
-          },
-          error: {
-            ...Form.stylesheet.textbox.error,
-            height: 150
-          }
-        }
-      }
-    },
-    category: {
-      nullOption: {
-        value: '',
-        text: 'Choose Issue category'
-      }
-    },
-    wildlife: {
-      label: 'Add wildlife',
-      template: observationDataTemplate
-    },
-    invasiveSpecies: {
-      template: observationDataTemplate
-    },
-    ph: {
-      label: 'pH (0-14)'
-    },
-    waterTemp: {
-      label: 'Water Temperature ℃'
-    },
-    airTemp: {
-      label: 'Air Temperature ℃'
-    },
-    disolvedOyxgen: {
-      label: 'Disolved Oxygen (mg/L)'
-    },
-    eColi: {
-      label: 'E.coli per 100mL'
-    },
-    otherColiform: {
-      label: 'Other Coliform per 100mL'
-    },
-    conductivity: {
-      label: 'Conductivity (uS/cm)'
-    },
-    alkalinity: {
-      label: 'Alkalinity (mg/L)'
-    },
-    hardness: {
-      label: 'Hardness (mg/L)'
-    },
-    turbidity: {
-      label: 'Turbidity (JTU)'
-    },
-    kjeldahlNitrogen: {
-      label: 'Total Kjeldahl Nitrogen (µg/L)'
-    },
-    phosphorus: {
-      label: 'Total Phosphorus (µg/L)'
-    },
-    salinity: {
-      label: 'Salinity (ppt)'
-    },
-    phosphates: {
-      label: 'Phosphates total (mg/L)'
-    },
-    secchiDepth: {
-      label: 'Secchi Depth (m)'
-    },
-    nitrites: {
-      label: 'Nitrites (mg/L)'
-    },
-    nitrates: {
-      label: 'Nitrates (mg/L)'
-    }
-  }
+Form.stylesheet = stylesheet;
+
+function formLayoutTemplateObservation(locals) {
+  return <FormTemplateObservation locals={locals}/>;
+};
+
+function formLayoutTemplateIssue(locals) {
+  return <FormTemplateIssue locals={locals}/>;
+};
+
+function wildlifeLayoutTemplate(locals) {
+  return <WildlifeDataTemplate locals={locals}/>;
+};
+
+function invasiveSpeciesLayoutTemplate(locals) {
+  return <InvasiveSpeciesDataTemplate locals={locals}/>;
 };
 
 export class _AddScene extends BaseScene {
@@ -162,6 +78,7 @@ export class _AddScene extends BaseScene {
       }
     }
   }
+  
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
@@ -226,6 +143,7 @@ export class _AddScene extends BaseScene {
   onStartSelectGroup = () => {
     this.setState({ selectGroup: true });
   };
+  
   refreshData() {
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
@@ -238,6 +156,7 @@ export class _AddScene extends BaseScene {
       this.scrollView.scrollTo({ y: 0, animated: false });
     }, 100);
   }
+  
   renderWaiting() {
     if (this.state.isSubmitting) {
       return (
@@ -282,16 +201,142 @@ export class _AddScene extends BaseScene {
         );
       }
       return (
-        <View style={addStyles.groupSelectContainer}>
-          <Text style={styles.headerTwo}>Select Group</Text>
+        <View style={addStyles.formFieldset}>
+          <Text style={styles.headerTwo}>{'Select Group'.toUpperCase()}</Text>
           {component}
         </View>
       );
     }
     return (<View />);
   }
+
   render() {
     const { marker, form } = this.state;
+    const options = {
+      i18n: {
+        optional: '',
+        required: ' *'
+      },
+      stylesheet: stylesheet,
+      template: form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation,
+      fields: {
+        notes: {
+          multiline: true,
+          placeholder: "Enter additional information about the Observation here...",
+          stylesheet: {
+            ...Form.stylesheet,
+            textbox: {
+              ...Form.stylesheet.textbox,
+              normal: {
+                ...Form.stylesheet.textbox.normal,
+                height: 150
+              },
+              error: {
+                ...Form.stylesheet.textbox.error,
+                height: 150
+              }
+            }
+          }
+        },
+        description: {
+          multiline: true,
+          placeholder: "Enter additional information about the Issue here...",
+          stylesheet: {
+            ...Form.stylesheet,
+            textbox: {
+              ...Form.stylesheet.textbox,
+              normal: {
+                ...Form.stylesheet.textbox.normal,
+                height: 150
+              },
+              error: {
+                ...Form.stylesheet.textbox.error,
+                height: 150
+              }
+            }
+          }
+        },
+        category: {
+          nullOption: {
+            value: '',
+            text: 'Choose Issue category'
+          }
+        },
+        wildlife: {
+          label: 'Add wildlife',
+          tintColor: '#fff',
+          onTintColor: '#246EC0',
+          template: wildlifeLayoutTemplate
+        },
+        invasiveSpecies: {
+          label: 'Add Invasive Species',
+          tintColor: '#fff',
+          onTintColor: '#246EC0',
+          template: invasiveSpeciesLayoutTemplate
+        },
+        iceWatch: {
+          help: 'Is the ice on or off the Water?',
+          tintColor: '#fff',
+          onTintColor: '#246EC0'
+        },
+        seenBefore: {
+          tintColor: '#fff',
+          onTintColor: '#246EC0'
+        },
+        ph: {
+          label: 'pH (0-14)'
+        },
+        waterTemp: {
+          label: 'Water Temperature ℃'
+        },
+        airTemp: {
+          label: 'Air Temperature ℃'
+        },
+        disolvedOyxgen: {
+          label: 'Disolved Oxygen (mg/L)'
+        },
+        eColi: {
+          label: 'E.coli per 100mL'
+        },
+        otherColiform: {
+          label: 'Other Coliform per 100mL'
+        },
+        conductivity: {
+          label: 'Conductivity (uS/cm)'
+        },
+        alkalinity: {
+          label: 'Alkalinity (mg/L)'
+        },
+        hardness: {
+          label: 'Hardness (mg/L)'
+        },
+        turbidity: {
+          label: 'Turbidity (JTU)'
+        },
+        kjeldahlNitrogen: {
+          label: 'Total Kjeldahl Nitrogen (µg/L)'
+        },
+        phosphorus: {
+          label: 'Total Phosphorus (µg/L)'
+        },
+        salinity: {
+          label: 'Salinity (ppt)'
+        },
+        phosphates: {
+          label: 'Phosphates total (mg/L)'
+        },
+        secchiDepth: {
+          label: 'Secchi Depth (m)'
+        },
+        nitrites: {
+          label: 'Nitrites (mg/L)'
+        },
+        nitrates: {
+          label: 'Nitrates (mg/L)'
+        }
+      }
+    };
+
     let defaultValue = {};
     let fieldOptions = null;
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
@@ -334,7 +379,7 @@ export class _AddScene extends BaseScene {
         locationDescription: ''
       };
     }
-    // Is this the best way to add to the form options object?
+
     options.fields = { ...options.fields, ...fieldOptions };
     const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
     return (
@@ -343,21 +388,23 @@ export class _AddScene extends BaseScene {
           <TouchableHighlight
             style={[addStyles.addSceneTabBarButton, form === 'observation' && addStyles.addSceneTabBarButtonActive]}
             onPress={this.onChooseObservation}
+            underlayColor="white"
           >
             <Text
               style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
-            >
-              Observation
+            > 
+              {'Observation'.toUpperCase()}
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={[addStyles.addSceneTabBarButton, form === 'issue' && addStyles.addSceneTabBarButtonActive]}
             onPress={this.onChooseIssue}
+            underlayColor="white"
           >
             <Text
               style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextActive]}
             >
-              Issue
+              {'Issue'.toUpperCase()}
             </Text>
           </TouchableHighlight>
         </View>
@@ -380,11 +427,14 @@ export class _AddScene extends BaseScene {
                 type={formType}
                 value={defaultValue}
                 options={options}
+                onChange={this._onChange}
               />
               <AttachedImageView ref={ref => this.attachImageRef = ref} />
-              <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
-                <Text style={styles.buttonText}>Submit</Text>
-              </TouchableHighlight>
+              <View style={addStyles.formSubmit}>
+                <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </ScrollView>

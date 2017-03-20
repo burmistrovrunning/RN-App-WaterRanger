@@ -29,7 +29,7 @@ platform :ios do
   end
 
   after_all do |lane|
-    slack(channel: "development", message: "Successfully deployed new Water Rangers alpha update to TestFlight.")
+    slack(channel: "development", message: "Successfully deployed new Water Rangers Beta update to TestFlight.")
   end
 end
 

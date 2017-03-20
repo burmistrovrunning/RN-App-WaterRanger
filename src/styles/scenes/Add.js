@@ -12,51 +12,72 @@ export const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  formWrapper: {
+    backgroundColor: '$colorBeige'
+  },
+  formFieldset: {
+    borderBottomColor: '$borderColor',
+    borderBottomWidth: 1,
+    padding: 20
+  },
+  formImageUpload: {
+    padding: 20
+  },
+  formSubmit: {
+    paddingLeft: 20,
+    paddingTop: 20,
+    paddingRight: 20
+  },
+  // formRow: {
+  //   borderBottomColor: '$borderColor',
+  //   borderBottomWidth: 1,
+  // },
   addSceneContainer: {
-    backgroundColor: '$colorWhite',
+    backgroundColor: '$colorBeige',
     flex: 1,
     justifyContent: 'center',
   },
   addScrollContainer: {
+    backgroundColor: '$colorBeige',
     flex: 1
   },
   addSceneTabBarContainer: {
-    backgroundColor: '$colorLightGrey',
-    borderBottomColor: '$lineColor',
-    borderBottomWidth: 1,
+    backgroundColor: '$colorWhite',
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5
+    padding: 0
   },
   addSceneTabBarButton: {
-    backgroundColor: '$colorMidGrey',
-    borderRadius: 5,
+    backgroundColor: '$colorWhite',
+    borderBottomWidth: 3,
+    borderBottomColor: '$colorWhite',
     flex: 1,
     justifyContent: 'center',
-    margin: 5,
-    padding: 5
+    padding: 10
   },
   addSceneTabBarButtonActive: {
-    backgroundColor: '$colorBrightBlue'
+    borderBottomColor: '$colorBrightBlue'
   },
   addSceneTabBarText: {
     color: '$colorDarkGrey',
+    fontFamily: '$globalFontHeader',
     textAlign: 'center'
   },
   addSceneTabBarTextActive: {
-    color: '$colorWhite'
+    color: '$colorBrightBlue'
   },
   addSceneLatLngContainer: {
+    backgroundColor: '$colorBeige',
     borderBottomColor: '$lineColor',
     borderBottomWidth: 1,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20
   },
   addSceneLatLngBlock: {
-    flex: 1
+    flex: 1,
+    padding: 20
   },
   addSceneSmallTitle: {
     color: '$colorMidGrey',
@@ -96,8 +117,7 @@ export const styles = EStyleSheet.create({
   },
   groupSelectContainer: {
     borderBottomColor: '$lineColor',
-    borderBottomWidth: 1,
-    padding: 20
+    borderBottomWidth: 1
   },
   groupItem: {
     fontSize: 15,
@@ -119,35 +139,64 @@ export const styles = EStyleSheet.create({
     paddingBottom: 20
   },
   observationDataRow: {
+    alignItems: 'flex-start',
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'
   },
   observationDataCol: {
-    backgroundColor: '$colorLightGrey',
-    borderRadius: 5,
-    maxHeight: 125,
-    marginBottom: 10,
-    padding: 15,
-    width: '43%'
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    width: 150
+  },
+  // Collapsible sections
+  formCollapsibleContainer: {
+    paddingTop: 20
+  },
+  formCollapsibleButton: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  formCollapsibleButtonIcon: {
+    borderRadius: 15,
+    borderWidth: '$colorBlack',
+    borderWidth: 1,
+    fontFamily: '$globalFontHeader',
+    fontSize: 24,
+    height: 30,
+    lineHeight: 32,
+    marginRight: 10,
+    textAlign: 'center',
+    width: 30
+  },
+  formCollapsibleButtonActive: {
+    lineHeight: 29
+  },
+  formCollapsibleButtonText: {
+    fontFamily: '$globalFontHeader',
+    fontSize: 24,
+    lineHeight: 30
   },
   // Image upload
-  imageUploadContainer: {
+  formImageUploadContainer: {
     alignItems: 'center',
     flex: 1,
-    flexDirection: 'row',
-    marginBottom: 20
+    flexDirection: 'row'
   },
-  uploadImage: {
+  formImageUploadPlaceHolder: {
     backgroundColor: '$colorLightGrey',
     borderRadius: 10,
     height: 100,
     width: 100
   },
-  imageButtonContainer: {
+  formImageUploadButtonContainer: {
     padding: 20
   },
-  imageButton: {
+  formImageUploadButton: {
     borderColor: '$colorBrightBlue',
     borderRadius: 5,
     borderWidth: 1,
@@ -156,10 +205,14 @@ export const styles = EStyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20
   },
-  imageButtonText: {
+  formImageUploadButtonText: {
     color: '$colorBrightBlue',
     fontFamily: '$globalFont',
     fontWeight: 'bold'
   }
+  // Custom elements
+  // datePickerView: {
+  //   backgroundColor: '$colorWhite'
+  // }
 });
 

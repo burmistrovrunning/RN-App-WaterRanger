@@ -4,9 +4,9 @@ import '../GlobalStyles';
 export const styles = EStyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    backgroundColor: '$colorWhite',
+    backgroundColor: '#c1c1b3',
     borderTopColor: '$lineColor',
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     flexDirection: 'row',
     height: 50,
     paddingVertical: 3
@@ -17,12 +17,12 @@ export const styles = EStyleSheet.create({
     justifyContent: 'space-between'
   },
   tabLabel: {
-    color: '$colorMidGrey',
+    color: '$colorWhite',
     fontSize: 12,
     fontFamily: '$globalFont'
   },
   tabIcon: {
-    color: '$colorMidGrey',
+    color: '$colorWhite',
     fontSize: 25,
     height: 25,
     marginTop: 0,
