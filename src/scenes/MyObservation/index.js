@@ -83,18 +83,15 @@ export class MyObservationScene extends BaseScene {
       'If you are in an area with no cell or wi-fi coverage any forms you submit will be stored to upload at a later point.';
     return (
       <View style={styles.noPadContainer}>
-        <Text style={[styles.headerOne, styles.fixedHeader]}>Offline Forms</Text>
+        <Text style={[styles.headerOne, styles.fixedHeader]}>{'Offline Forms'.toUpperCase()}</Text>
         {dataSource.getRowCount() > 0 ? (
           <View style={addStyles.offlineFormsContainer}>
             <ListView
-              style={{ flex: 1 }}
+              style={addStyles.offlineFormsListView}
               enableEmptySections={true}
               removeClippedSubviews={false}
               dataSource={dataSource}
               renderRow={(rowData, sectionID, rowID) => <OfflineRow key={rowID} {...rowData} />}
-              renderSeparator={
-                (sectionID, rowID) => <View key={rowID} style={addStyles.listSeparator} />
-              }
             />
             <View style={addStyles.offlineFormsFooter}>
               <TouchableHighlight style={styles.button} onPress={this.onTryAgain}>

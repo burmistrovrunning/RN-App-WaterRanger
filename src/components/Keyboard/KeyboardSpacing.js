@@ -6,7 +6,7 @@ export class KeyboardSpacing extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      keyboardHeight: new Animated.Value(0),
+      keyboardHeight: new Animated.Value(),
       keyboardShown: false,
     };
   }
@@ -41,7 +41,7 @@ export class KeyboardSpacing extends Component {
 
   render() {
     return (
-      <Animated.View style={{ height: this.state.keyboardHeight, backgroundColor: 'white' }} />
+      <Animated.View style={{ height: this.state.keyboardHeight }} />
     );
   }
 }

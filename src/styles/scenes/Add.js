@@ -2,6 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
+  //$outline: 1,
   waitingContainer: {
     position: 'absolute',
     left: 0,
@@ -46,21 +47,45 @@ export const styles = EStyleSheet.create({
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 0
+    padding: 10
   },
   addSceneTabBarButton: {
-    backgroundColor: '$colorWhite',
-    borderBottomWidth: 3,
-    borderBottomColor: '$colorWhite',
     flex: 1,
     justifyContent: 'center',
-    padding: 10
+    padding: 5
+    // '@media ios': { 
+    //   borderColor: '$colorBrightBlue',
+    //   borderWidth: 1,
+    //   padding: 5
+    // },
+    // '@media android': {
+    //   backgroundColor: '$colorWhite',
+    //   borderBottomWidth: 3,
+    //   borderBottomColor: '$colorWhite',
+    //   padding: 10
+    // },
+  },
+  addSceneTabBarButtonLeft: {
+    backgroundColor: '$colorWhite',
+    borderColor: '$colorGreen',
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5
+  },
+  addSceneTabBarButtonLeftActive: {
+    backgroundColor: '$colorGreen',
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5
+  },
+  addSceneTabBarButtonRight: {
+    backgroundColor: '$colorRed',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5
   },
   addSceneTabBarButtonActive: {
     borderBottomColor: '$colorBrightBlue'
   },
   addSceneTabBarText: {
-    color: '$colorDarkGrey',
+    color: '$colorWhite',
     fontFamily: '$globalFontHeader',
     textAlign: 'center'
   },
@@ -80,7 +105,7 @@ export const styles = EStyleSheet.create({
     padding: 20
   },
   addSceneSmallTitle: {
-    color: '$colorMidGrey',
+    color: '$colorDarkBeige',
     fontSize: 12
   },
   // Offline page
@@ -93,6 +118,10 @@ export const styles = EStyleSheet.create({
     borderTopWidth: 1,
     flex: 1
   },
+  offlineFormsListView: {
+    flex: 1,
+    padding: 20
+  },
   offlineFormsFooter: {
     borderTopColor: '$lineColor',
     borderTopWidth: 1,
@@ -101,14 +130,23 @@ export const styles = EStyleSheet.create({
     paddingLeft: 20
   },
   offlineListRowContainer: {
-    padding: 20
+    backgroundColor: '$colorWhite',
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: "#000000",
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    }
   },
   offlineListTitle: {
     fontSize: 16,
     fontWeight: 'bold'
   },
   offlineListDate: {
-    color: '$colorMidGrey',
+    color: '$colorDarkBeige',
     fontSize: 12
   },
   listSeparator: {
@@ -135,7 +173,6 @@ export const styles = EStyleSheet.create({
   },
   observationDataContainer: {
     flex: 1,
-    paddingTop: 20,
     paddingBottom: 20
   },
   observationDataRow: {
@@ -148,18 +185,30 @@ export const styles = EStyleSheet.create({
   observationDataCol: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
-    width: 150
+    paddingTop: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    width: '50%'
+  },
+  singleDataCol: {
+    paddingBottom: 20,
+    paddingRight: 20,
+    paddingLeft: 20
   },
   // Collapsible sections
-  formCollapsibleContainer: {
-    paddingTop: 20
+  formCollapsibleWrapper: {
+    borderBottomColor: '$borderColor',
+    borderBottomWidth: 1
   },
+  // formCollapsibleContainer: {
+  //   paddingTop: 20
+  // },
   formCollapsibleButton: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    padding: 20
   },
   formCollapsibleButtonIcon: {
     borderRadius: 15,
@@ -208,6 +257,9 @@ export const styles = EStyleSheet.create({
     color: '$colorBrightBlue',
     fontFamily: '$globalFont',
     fontWeight: 'bold'
+  },
+  picker: {
+    backgroundColor: '$colorWhite'
   }
   // Custom elements
   // datePickerView: {

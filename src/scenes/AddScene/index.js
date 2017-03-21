@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import moment from 'moment'
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
@@ -58,6 +59,7 @@ export class _AddScene extends BaseScene {
       groupValue: -1,
       selectGroup: false,
       groups: [],
+      date: new Date()
     };
     this.formView = null;
     this.scrollView = null;
@@ -202,8 +204,9 @@ export class _AddScene extends BaseScene {
     return (<View />);
   }
   render() {
-    const { marker, form } = this.state;
+    const { date, marker, form } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
+    console.log(date);
     const options = {
       i18n: {
         optional: '',
@@ -254,6 +257,12 @@ export class _AddScene extends BaseScene {
             text: 'Choose Issue category'
           }
         },
+        date: {
+          maximumDate: date,
+          config: {
+            format: (value) => moment(value).format("MM/DD/YYYY : HH:MM")
+          }
+        },
         wildlife: {
           label: 'Add wildlife',
           tintColor: '#fff',
@@ -267,6 +276,7 @@ export class _AddScene extends BaseScene {
           template: invasiveSpeciesLayoutTemplate
         },
         iceWatch: {
+          label: '',
           help: 'Is the ice on or off the Water?',
           tintColor: '#fff',
           onTintColor: '#246EC0'
@@ -378,23 +388,23 @@ export class _AddScene extends BaseScene {
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'observation' && addStyles.addSceneTabBarButtonActive]}
+            style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonLeft, form === 'observation' && addStyles.addSceneTabBarButtonLeftActive]}
             onPress={this.onChooseObservation}
             underlayColor="white"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextLeftActive]}
             >
               {'Observation'.toUpperCase()}
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'issue' && addStyles.addSceneTabBarButtonActive]}
+            style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonRight, form === 'issue' && addStyles.addSceneTabBarButtonRightActive]}
             onPress={this.onChooseIssue}
             underlayColor="white"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextRightActive]}
             >
               {'Issue'.toUpperCase()}
             </Text>

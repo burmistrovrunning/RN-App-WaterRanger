@@ -57,27 +57,21 @@ const stylesheet = Object.freeze({
   },
   textboxView: {
     normal: {
-      borderColor: BORDER_COLOR,
-      borderStyle: 'dashed',
-      borderWidth: 1,
       marginBottom: 5
     },
     error: {
-      borderColor: ERROR_COLOR,
-      borderStyle: 'dashed',
-      borderWidth: 1,
       marginBottom: 5
     },
     notEditable: {
-      borderColor: BORDER_COLOR,
-      borderStyle: 'dashed',
-      borderWidth: 1,
       marginBottom: 5
     }
   },
   textbox: {
     normal: {
       backgroundColor: '#fff',
+      borderColor: BORDER_COLOR,
+      borderRadius: 5,
+      borderWidth: 1,
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
       height: 42,
@@ -88,6 +82,9 @@ const stylesheet = Object.freeze({
     // the style applied when a validation error occours
     error: {
       backgroundColor: '#fff',
+      borderColor: ERROR_COLOR,
+      borderRadius: 5,
+      borderWidth: 1,
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
       height: 42,
@@ -96,6 +93,9 @@ const stylesheet = Object.freeze({
     },
     // the style applied when the textbox is not editable
     notEditable: {
+      borderColor: BORDER_COLOR,
+      borderRadius: 5,
+      borderWidth: 1,
       fontSize: FONT_SIZE,
       height: 42,
       paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
@@ -132,6 +132,7 @@ const stylesheet = Object.freeze({
   select: {
     normal: Platform.select({
       android: {
+        backgroundColor: '#fff',
         paddingLeft: 7,
         color: INPUT_COLOR
       },
@@ -152,6 +153,7 @@ const stylesheet = Object.freeze({
   },
   pickerTouchable: {
     normal: {
+      backgroundColor: '#fff',
       height: 44,
       flexDirection: 'row',
       alignItems: 'center'
@@ -162,12 +164,14 @@ const stylesheet = Object.freeze({
       alignItems: 'center'
     },
     active: {
+      backgroundColor: '#fff',
       borderBottomWidth: 1,
       borderColor: BORDER_COLOR
     }
   },
   pickerValue: {
     normal: {
+      backgroundColor: '#fff',
       fontSize: FONT_SIZE,
       paddingLeft: 7
     },
@@ -187,11 +191,14 @@ const stylesheet = Object.freeze({
     }
   },
   dateTouchable: {
-    normal: {},
+    normal: {
+      backgroundColor: '#fff',
+    },
     error: {}
   },
   dateValue: {
     normal: {
+      backgroundColor: '#fff',
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
       padding: 7,

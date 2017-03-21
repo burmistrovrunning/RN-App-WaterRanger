@@ -31,7 +31,7 @@ class InvasiveSpeciesDataTemplate extends Component {
     const activeState = this.state.isActive;
 
     return (
-      <View>
+      <View style={addStyles.formCollapsibleWrapper}>
         <TouchableHighlight onPress={this._toggleExpanded} underlayColor="#edede5">
           <View style={[addStyles.formCollapsibleButton]}>
             <Text

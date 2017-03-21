@@ -4,24 +4,24 @@ import '../GlobalStyles.js';
 
 export const styles = EStyleSheet.create({
   statusBar: {
-    backgroundColor: '#1c3653',
+    backgroundColor: '$colorBlue',
   },
   navBarContainer: {
-    backgroundColor: '#1c3653',
+    backgroundColor: '$colorBlue',
   },
   navBar: {
     borderTopWidth: 0,
-    borderBottomColor: '#1c3653',
+    borderBottomColor: '$colorBlue',
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     // default iOS styles:
-    backgroundColor: '#1c3653',
+    backgroundColor: '$colorBlue',
     // height: IOS_NAV_BAR_HEIGHT,
     paddingLeft: 8,
     paddingRight: 8,
-    height: 30,
+    height: 44,
     // default Android styles:
     // height: ANDROID_NAV_BAR_HEIGHT,
   },

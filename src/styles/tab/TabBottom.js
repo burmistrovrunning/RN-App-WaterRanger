@@ -4,11 +4,11 @@ import '../GlobalStyles';
 export const styles = EStyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    backgroundColor: '#c1c1b3',
+    backgroundColor: '$colorBlue',
     borderTopColor: '$lineColor',
     borderTopWidth: 0,
     flexDirection: 'row',
-    height: 50,
+    height: 49,
     paddingVertical: 3
   },
   tabContainer: {
@@ -18,15 +18,15 @@ export const styles = EStyleSheet.create({
   },
   tabLabel: {
     color: '$colorWhite',
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: '$globalFont'
   },
   tabIcon: {
     color: '$colorWhite',
-    fontSize: 25,
-    height: 25,
+    fontSize: 30,
+    height: 30,
     marginTop: 0,
     textAlign: 'center',
-    width: 25
+    width: 30
   },
 });
