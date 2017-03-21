@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Platform } from 'react-native';
+import { Animated, Platform, View } from 'react-native';
 import Keyboard from 'Keyboard';
 
 export class KeyboardSpacing extends Component {
@@ -40,8 +40,11 @@ export class KeyboardSpacing extends Component {
   };
 
   render() {
-    return (
-      <Animated.View style={{ height: this.state.keyboardHeight, backgroundColor: 'white' }} />
-    );
+    if (!this.props.hide) {
+      return (
+        <Animated.View style={{ height: this.state.keyboardHeight, backgroundColor: 'white' }} />
+      );
+    }
+    return <View />;
   }
 }

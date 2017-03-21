@@ -44,8 +44,8 @@ const options = {
   auto: 'placeholders'
 };
 const defaultValue = {
-  email: 'ollie@waterrangers.ca',
-  password: '1q2w3e4r'
+  email: '',
+  password: ''
 };
 export class LoginScene extends Component {
 
