@@ -1,9 +1,27 @@
 package com.waterrangers;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.cboy.rn.splashscreen.SplashScreen;
+import android.app.Activity;
+import android.os.Handler;
 
 public class MainActivity extends ReactActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  // here
+      final Activity activity = this;
+      final Handler handler = new Handler();
+      handler.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          SplashScreen.hide(activity);
+        }
+      }, 3000);
+      super.onCreate(savedInstanceState);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -11,7 +29,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-      SplashScreen.show(this);
       return "WaterRangers";
     }
+
 }

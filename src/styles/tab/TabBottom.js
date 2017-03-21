@@ -31,7 +31,7 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFont',
     '@media android': {
       fontSize: 12,
-      fontWeight: 'bold'
+      fontFamily: '$globalFontHeader'
     },
   },
   tabIcon: {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, NetInfo, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import { Router } from './routing';
 import { LocationActions } from './redux/actions';
 import { NavigationBar } from './components';
@@ -12,7 +13,6 @@ import {
 } from './services';
 import { TabView } from './tab/TabView';
 import { styles } from './styles/MainContainer';
-import SplashScreen from 'react-native-splash-screen';
 
 class _MainContainer extends Component {
   constructor(props, context) {
@@ -39,7 +39,7 @@ class _MainContainer extends Component {
         startSubmitFailedDataInterval();
       })
       .catch(() => this.setState({ hasToken: false, waiting: false }));
-      SplashScreen.hide();
+    SplashScreen.hide();
   }
   componentWillUnmount() {
     NetInfo.removeEventListener('change', this.onNetworkStatusChange);

@@ -59,13 +59,11 @@ export const styles = EStyleSheet.create({
   headerOne: {
     fontSize: 26,
     fontFamily: '$globalFontHeader',
-    fontWeight: 'bold',
     marginBottom: 15
   },
   headerTwo: {
     fontSize: 24,
     fontFamily: '$globalFontHeader',
-    fontWeight: 'bold',
     marginBottom: 10
   },
   fixedHeader: {
@@ -78,7 +76,6 @@ export const styles = EStyleSheet.create({
     color: '$colorDarkBeige',
     fontSize: 14,
     fontFamily: '$globalFontHeader',
-    fontWeight: 'bold'
   },
   helpText: {
     lineHeight: 20,
