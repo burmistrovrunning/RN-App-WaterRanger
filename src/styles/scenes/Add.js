@@ -2,7 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
-  //$outline: 1,
   waitingContainer: {
     position: 'absolute',
     left: 0,
@@ -53,17 +52,6 @@ export const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 5
-    // '@media ios': { 
-    //   borderColor: '$colorBrightBlue',
-    //   borderWidth: 1,
-    //   padding: 5
-    // },
-    // '@media android': {
-    //   backgroundColor: '$colorWhite',
-    //   borderBottomWidth: 3,
-    //   borderBottomColor: '$colorWhite',
-    //   padding: 10
-    // },
   },
   addSceneTabBarButtonLeft: {
     backgroundColor: '$colorWhite',
@@ -133,7 +121,7 @@ export const styles = EStyleSheet.create({
     backgroundColor: '$colorWhite',
     padding: 20,
     marginBottom: 20,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.2,
     shadowRadius: 2,
     shadowOffset: {

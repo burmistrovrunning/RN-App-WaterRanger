@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
-import moment from 'moment'
+import moment from 'moment';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
@@ -260,7 +260,7 @@ export class _AddScene extends BaseScene {
         date: {
           maximumDate: date,
           config: {
-            format: (value) => moment(value).format("MM/DD/YYYY : HH:MM")
+            format: value => moment(value).format('MM/DD/YYYY : HH:MM')
           }
         },
         wildlife: {

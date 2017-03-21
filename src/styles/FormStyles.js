@@ -77,7 +77,6 @@ const stylesheet = Object.freeze({
       height: 42,
       paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
       paddingHorizontal: 7,
-      borderWidth: 0
     },
     // the style applied when a validation error occours
     error: {

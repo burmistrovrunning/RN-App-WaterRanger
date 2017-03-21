@@ -28,7 +28,7 @@ export class TabView extends Component {
   }
   render() {
     const { children, onTabRoute } = this.props;
-    if(Platform.OS === 'ios') {
+    if (Platform.OS === 'ios') {
       return (
         <View style={styles.container}>
           <View style={styles.container}>{children}</View>
@@ -40,7 +40,7 @@ export class TabView extends Component {
           }
         </View>
       );
-    } else {
+    } else if (Platform.OS === 'android') {
       return (
         <View style={styles.container}>
           { this.state.visible &&
