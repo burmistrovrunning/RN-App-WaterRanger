@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import moment from 'moment';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
@@ -221,6 +222,9 @@ export class _AddScene extends BaseScene {
       },
       stylesheet,
       template: formTemplate,
+      checkbox: {
+        label: ''
+      },
       fields: {
         notes: {
           multiline: true,
@@ -264,6 +268,12 @@ export class _AddScene extends BaseScene {
             text: 'Choose Issue category'
           }
         },
+        date: {
+          maximumDate: new Date(),
+          config: {
+            format: value => moment(value).format('MM/DD/YYYY : HH:MM')
+          }
+        },
         wildlife: {
           label: 'Add wildlife',
           tintColor: '#fff',
@@ -277,6 +287,7 @@ export class _AddScene extends BaseScene {
           template: invasiveSpeciesLayoutTemplate
         },
         iceWatch: {
+          label: '',
           help: 'Is the ice on or off the Water?',
           tintColor: '#fff',
           onTintColor: '#246EC0'
@@ -388,23 +399,31 @@ export class _AddScene extends BaseScene {
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'observation' && addStyles.addSceneTabBarButtonActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonLeft,
+              form === 'observation' && addStyles.addSceneTabBarButtonLeftActive
+            ]}
             onPress={this.onChooseObservation}
-            underlayColor="white"
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarTextLeft, form === 'observation' && addStyles.addSceneTabBarTextActive]}
             >
               {'Observation'.toUpperCase()}
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'issue' && addStyles.addSceneTabBarButtonActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonRight,
+              form === 'issue' && addStyles.addSceneTabBarButtonRightActive
+            ]}
             onPress={this.onChooseIssue}
-            underlayColor="white"
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarTextRight, form === 'issue' && addStyles.addSceneTabBarTextActive]}
             >
               {'Issue'.toUpperCase()}
             </Text>
@@ -414,12 +433,16 @@ export class _AddScene extends BaseScene {
           <Animated.View style={[addStyles.addScrollContainer, { top: this.state.keyboardHeight }]}>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
-                <Text>{marker.latitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lat:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.latitude.toFixed(5)}
+                </Text>
               </View>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Longitude'.toUpperCase()}</Text>
-                <Text>{marker.longitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lng:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.longitude.toFixed(5)}
+                </Text>
               </View>
             </View>
             {this.renderGroups()}

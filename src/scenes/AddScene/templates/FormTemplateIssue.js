@@ -32,7 +32,7 @@ function FormTemplateIssue(props) {
       </View>
       <View style={addStyles.formFieldset}>
         <Text style={[styles.headerTwo]}>{'Contact Details'.toUpperCase()}</Text>
-        <Text>
+        <Text style={styles.helpText}>
           In case more information or clarification is needed regarding the issue.
           Your contact details are not publicly visible!
         </Text>

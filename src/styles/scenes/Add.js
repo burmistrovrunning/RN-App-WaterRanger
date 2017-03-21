@@ -28,10 +28,6 @@ export const styles = EStyleSheet.create({
     paddingTop: 20,
     paddingRight: 20
   },
-  // formRow: {
-  //   borderBottomColor: '$borderColor',
-  //   borderBottomWidth: 1,
-  // },
   addSceneContainer: {
     backgroundColor: '$colorBeige',
     flex: 1,
@@ -42,30 +38,49 @@ export const styles = EStyleSheet.create({
     flex: 1
   },
   addSceneTabBarContainer: {
-    backgroundColor: '$colorWhite',
+    backgroundColor: '$colorBeige',
+    borderColor: '$lineColor',
+    borderWidth: 1,
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 0
+    paddingLeft: 10,
+    paddingRight: 10
   },
   addSceneTabBarButton: {
-    backgroundColor: '$colorWhite',
-    borderBottomWidth: 3,
-    borderBottomColor: '$colorWhite',
+    borderRadius: 5,
+    borderWidth: 1,
     flex: 1,
     justifyContent: 'center',
-    padding: 10
+    margin: 10,
+    padding: 5
   },
-  addSceneTabBarButtonActive: {
-    borderBottomColor: '$colorBrightBlue'
+  addSceneTabBarButtonLeft: {
+    borderColor: '$colorGreen'
   },
-  addSceneTabBarText: {
-    color: '$colorDarkGrey',
+  addSceneTabBarButtonLeftActive: {
+    backgroundColor: '$colorGreen'
+  },
+  addSceneTabBarButtonRight: {
+    borderColor: '$colorRed'
+  },
+  addSceneTabBarButtonRightActive: {
+    backgroundColor: '$colorRed',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5
+  },
+  addSceneTabBarTextLeft: {
+    color: '$colorGreen',
+    fontFamily: '$globalFontHeader',
+    textAlign: 'center'
+  },
+  addSceneTabBarTextRight: {
+    color: '$colorRed',
     fontFamily: '$globalFontHeader',
     textAlign: 'center'
   },
   addSceneTabBarTextActive: {
-    color: '$colorBrightBlue'
+    color: '$colorWhite'
   },
   addSceneLatLngContainer: {
     backgroundColor: '$colorBeige',
@@ -77,10 +92,20 @@ export const styles = EStyleSheet.create({
   },
   addSceneLatLngBlock: {
     flex: 1,
+    flexDirection: 'row',
     padding: 20
   },
+  addSceneLatLngTitle: {
+    color: '$colorDarkBeige',
+    fontFamily: '$globalFontHeader',
+    fontSize: 18,
+    marginRight: 5
+  },
+  addSceneLatLngValue: {
+    color: '$colorBlack'
+  },
   addSceneSmallTitle: {
-    color: '$colorMidGrey',
+    color: '$colorDarkBeige',
     fontSize: 12
   },
   // Offline page
@@ -93,6 +118,10 @@ export const styles = EStyleSheet.create({
     borderTopWidth: 1,
     flex: 1
   },
+  offlineFormsListView: {
+    flex: 1,
+    padding: 20
+  },
   offlineFormsFooter: {
     borderTopColor: '$lineColor',
     borderTopWidth: 1,
@@ -101,15 +130,28 @@ export const styles = EStyleSheet.create({
     paddingLeft: 20
   },
   offlineListRowContainer: {
-    padding: 20
+    backgroundColor: '$colorWhite',
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000000',
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    }
   },
   offlineListTitle: {
     fontSize: 16,
     fontWeight: 'bold'
   },
   offlineListDate: {
-    color: '$colorMidGrey',
+    color: '$colorDarkBeige',
     fontSize: 12
+  },
+  offlineFormsMessage: {
+    lineHeight: 20,
+    padding: 20
   },
   listSeparator: {
     backgroundColor: '$lineColor',
@@ -134,9 +176,7 @@ export const styles = EStyleSheet.create({
     textAlign: 'left'
   },
   observationDataContainer: {
-    flex: 1,
-    paddingTop: 20,
-    paddingBottom: 20
+    flex: 1
   },
   observationDataRow: {
     alignItems: 'flex-start',
@@ -148,18 +188,40 @@ export const styles = EStyleSheet.create({
   observationDataCol: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
-    width: 150
+    paddingBottom: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    width: '50%'
+  },
+  observationDataCheckbox: {
+    alignItems: 'flex-start',
+    height: 100,
+    padding: 10
+  },
+  invasiveSpeciesCol: {
+    backgroundColor: '#dbdbca',
+    borderRadius: 5,
+    overflow: 'hidden'
+  },
+  singleDataCol: {
+    paddingBottom: 20,
+    paddingRight: 20,
+    paddingLeft: 20
   },
   // Collapsible sections
-  formCollapsibleContainer: {
-    paddingTop: 20
+  formCollapsibleWrapper: {
+    borderBottomColor: '$borderColor',
+    borderBottomWidth: 1
   },
+  // formCollapsibleContainer: {
+  //   paddingTop: 20
+  // },
   formCollapsibleButton: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    padding: 20
   },
   formCollapsibleButtonIcon: {
     borderRadius: 15,
@@ -179,6 +241,17 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFontHeader',
     fontSize: 24,
     lineHeight: 30
+  },
+  // Invasive Species
+  invasiveSpeciesImages: {
+    borderRadius: 5,
+    marginBottom: 10
+  },
+  // Water Tests
+  waterTestsRow: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10
   },
   // Image upload
   formImageUploadContainer: {
@@ -208,6 +281,9 @@ export const styles = EStyleSheet.create({
     color: '$colorBrightBlue',
     fontFamily: '$globalFont',
     fontWeight: 'bold'
+  },
+  picker: {
+    backgroundColor: '$colorWhite'
   }
   // Custom elements
   // datePickerView: {

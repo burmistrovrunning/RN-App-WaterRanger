@@ -4,6 +4,7 @@ import {
   View
 } from 'react-native';
 import WaterQualityTestsTemplate from './WaterQualityTestsTemplate';
+import IceWatchTemplate from './IceWatchTemplate';
 import { styles } from '../../../styles/common';
 import { styles as addStyles } from '../../../styles/scenes/Add';
 
@@ -25,18 +26,10 @@ function FormTemplateObservation(props) {
         </View>
       </View>
       <View style={addStyles.formCollapsible}>
-        <View style={addStyles.formFieldset}>
-          {inputs.wildlife}
-        </View>
-        <View style={addStyles.formFieldset}>
-          {inputs.invasiveSpecies}
-        </View>
-        <View style={addStyles.formFieldset}>
-          <WaterQualityTestsTemplate locals={inputs} />
-        </View>
-        <View style={addStyles.formFieldset}>
-          {inputs.iceWatch}
-        </View>
+        {inputs.wildlife}
+        {inputs.invasiveSpecies}
+        <WaterQualityTestsTemplate locals={inputs} />
+        <IceWatchTemplate locals={inputs} />
       </View>
       <View style={addStyles.formFieldset}>
         <View style={addStyles.formRow}>

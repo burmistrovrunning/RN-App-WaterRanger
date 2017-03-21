@@ -43,10 +43,10 @@ export class TabBottom extends Component {
     const { activeItem } = this.state;
     return tabItems.map((tabItem, index) => {
       let iconName = tabItem.normalIcon;
-      let labelColor = '#6b6b5a';
+      let labelColor = '#97acc3';
       if (activeItem === index) {
         iconName = tabItem.focusIcon;
-        labelColor = '#1c3653';
+        labelColor = '#ffffff';
       }
       return (
         <TouchableOpacity

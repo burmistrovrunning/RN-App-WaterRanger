@@ -4,8 +4,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 EStyleSheet.build({
   colorBeige: '#edede5',
+  colorDarkBeige: '#6b6b5a',
   colorBlue: '#1c3653',
   colorBrightBlue: '#246EC0',
+  colorGreen: '#70901c',
   colorRed: '#981818',
   colorWhite: '#ffffff',
   colorBlack: '#000000',
