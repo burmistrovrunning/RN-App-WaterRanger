@@ -36,7 +36,6 @@ export class SettingsScene extends BaseScene {
     }, 100);
   }
   render() {
-    console.log('Profile', this.state.userProfile);
     return (
       <View style={styles.noPadContainer}>
         <Text style={[styles.headerOne, styles.fixedHeader]}>{'Settings'.toUpperCase()}</Text>
