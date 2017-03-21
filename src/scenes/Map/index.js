@@ -61,18 +61,10 @@ export class _MapScene extends BaseScene {
       const mapMarkers = this.convertClustersToMarkers(clusters);
       this.setState({ mapMarkers });
     }
-  }
-  onRegionWillChange() {
-  }
-  onUpdateUserLocation() {
-  }
+  };
   onOpenAnnotation = () => {
     this.tapMaker = true;
-  }
-  onLongPress() {
-  }
-  onTap() {
-  }
+  };
   onRightAnnotationTapped = (marker) => {
     if (!this.state.flagRemove) {
       this.props.dispatch(MarkerActions.updateMarker(marker));
@@ -235,10 +227,8 @@ export class _MapScene extends BaseScene {
           annotationsAreImmutable
           onChangeUserTrackingMode={this.onChangeUserTrackingMode}
           onRegionDidChange={this.onRegionDidChange}
-          onRegionWillChange={this.onRegionWillChange}
           onOpenAnnotation={this.onOpenAnnotation}
           onRightAnnotationTapped={this.onRightAnnotationTapped}
-          onUpdateUserLocation={this.onUpdateUserLocation}
           onTap={this.addNewMarker}
           onFinishLoadingMap={this.onFinishLoadingMap}
         />
