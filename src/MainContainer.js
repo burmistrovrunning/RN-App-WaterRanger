@@ -12,6 +12,7 @@ import {
 } from './services';
 import { TabView } from './tab/TabView';
 import { styles } from './styles/MainContainer';
+import SplashScreen from 'react-native-splash-screen';
 
 class _MainContainer extends Component {
   constructor(props, context) {
@@ -38,6 +39,7 @@ class _MainContainer extends Component {
         startSubmitFailedDataInterval();
       })
       .catch(() => this.setState({ hasToken: false, waiting: false }));
+      SplashScreen.hide();
   }
   componentWillUnmount() {
     NetInfo.removeEventListener('change', this.onNetworkStatusChange);
@@ -81,7 +83,7 @@ class _MainContainer extends Component {
     const { waiting } = this.state;
     if (waiting) {
       return (
-        <ActivityIndicator animating={true} style={styles.centering} size="large" />
+        <ActivityIndicator animating={true} color="white" style={styles.centering} size="large" />
       );
     }
     return (

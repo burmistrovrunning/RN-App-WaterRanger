@@ -50,7 +50,9 @@ export class SettingsScene extends BaseScene {
             <Text>{_.get(this.state.userProfile, 'email')}</Text>
           </View>
           <View style={styles.settingsContainer}>
-            <Text style={styles.helpText}>Please visit app.waterrangers.ca on your computer to change your profile.</Text>
+            <Text style={styles.helpText}>
+              Please visit app.waterrangers.ca on your computer to change your profile.
+            </Text>
           </View>
         </ScrollView>
         <View style={styles.settingsFooter}>

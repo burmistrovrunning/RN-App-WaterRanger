@@ -7,6 +7,7 @@ export const styles = EStyleSheet.create({
     flex: 1
   },
   centering: {
+    backgroundColor: '$colorBlue',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

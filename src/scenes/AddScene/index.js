@@ -201,7 +201,7 @@ export class _AddScene extends BaseScene {
         });
         component = (
           <TouchableOpacity onPress={this.onStartSelectGroup} style={addStyles.pickerTouchable}>
-            <Text style={addStyles.pickerTouchableText}>{groupName ? groupName : 'Please select group'}</Text>
+            <Text style={addStyles.pickerTouchableText}>{groupName || 'Please select group'}</Text>
           </TouchableOpacity>
         );
       }

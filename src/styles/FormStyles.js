@@ -113,12 +113,8 @@ const stylesheet = Object.freeze({
     }
   },
   pickerContainer: {
-    normal: {
-      
-    },
-    error: {
-      
-    },
+    normal: {},
+    error: {},
     open: {}
   },
   select: {
