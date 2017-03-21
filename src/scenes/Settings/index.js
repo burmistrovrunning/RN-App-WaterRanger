@@ -39,8 +39,8 @@ export class SettingsScene extends BaseScene {
     console.log('Profile', this.state.userProfile);
     return (
       <View style={styles.noPadContainer}>
-        <Text style={[styles.headerOne, styles.fixedHeader]}>My Settings</Text>
-        <ScrollView style={styles.scrollContainer}>
+        <Text style={[styles.headerOne, styles.fixedHeader]}>{'Settings'.toUpperCase()}</Text>
+        <ScrollView style={styles.settingsWrapper}>
           <View style={styles.settingsContainer}>
             <Text style={styles.smallHeader}>NAME</Text>
             <Text>{_.get(this.state.userProfile, 'profile.full_name')}</Text>
@@ -50,17 +50,17 @@ export class SettingsScene extends BaseScene {
             <Text>{_.get(this.state.userProfile, 'email')}</Text>
           </View>
           <View style={styles.settingsContainer}>
-            <Text>Please visit app.waterrangers.ca on your computer to change your profile.</Text>
-          </View>
-          <View style={styles.settingsContainer}>
-            <TouchableHighlight
-              onPress={this.onLogout}
-              style={[styles.button, styles.logOutButton]}
-            >
-              <Text style={styles.buttonText}>Logout</Text>
-            </TouchableHighlight>
+            <Text style={styles.helpText}>Please visit app.waterrangers.ca on your computer to change your profile.</Text>
           </View>
         </ScrollView>
+        <View style={styles.settingsFooter}>
+          <TouchableHighlight
+            onPress={this.onLogout}
+            style={[styles.button, styles.logOutButton]}
+          >
+            <Text style={styles.buttonText}>{'Logout'.toUpperCase()}</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }

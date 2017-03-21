@@ -21,6 +21,7 @@ function FormTemplateObservation(props) {
         </View>
       </View>
       <View style={addStyles.formFieldset}>
+        <Text style={styles.headerTwo}>{'Observation Details'.toUpperCase()}</Text>
         <View style={[addStyles.formRow, addStyles.datePickerView]}>
           {inputs.date}
         </View>

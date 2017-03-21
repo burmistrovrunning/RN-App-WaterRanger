@@ -107,7 +107,7 @@ export class LoginScene extends Component {
   renderSocialLoginButton() {
     return (
       <TouchableHighlight style={styles.button} onPress={this.onLoginFacebook} underlayColor="#99d9f4">
-        <Text style={styles.buttonText}>Login With Facebook</Text>
+        <Text style={styles.buttonText}>{'Facebook Login'.toUpperCase()}</Text>
       </TouchableHighlight>
     );
   }
@@ -143,7 +143,7 @@ export class LoginScene extends Component {
             style={loginStyles.loginFormContainer}
           />
           <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>{'Login'.toUpperCase()}</Text>
           </TouchableHighlight>
           {/* this.renderSocialLoginButton() */}
           {/* this.renderWebView() */}

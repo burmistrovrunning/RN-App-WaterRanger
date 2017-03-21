@@ -176,31 +176,32 @@ export const styles = EStyleSheet.create({
     textAlign: 'left'
   },
   observationDataContainer: {
-    flex: 1
+    flex: 1,
+    paddingBottom: 10
   },
-  observationDataRow: {
+  observationDataCol: {
     alignItems: 'flex-start',
     flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
-  },
-  observationDataCol: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingBottom: 20,
     paddingRight: 20,
     paddingLeft: 20,
-    width: '50%'
+    width: '100%'
   },
   observationDataCheckbox: {
-    alignItems: 'flex-start',
-    height: 100,
-    padding: 10
+    padding: 15
   },
   invasiveSpeciesCol: {
+    alignItems: 'flex-start',
     backgroundColor: '#dbdbca',
     borderRadius: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 10,
+    marginLeft: 20,
+    marginBottom: 10,
+    marginRight: 20,
     overflow: 'hidden'
   },
   singleDataCol: {
@@ -283,11 +284,30 @@ export const styles = EStyleSheet.create({
     fontWeight: 'bold'
   },
   picker: {
-    backgroundColor: '$colorWhite'
+    backgroundColor: '$colorWhite',
+    borderRadius: 5,
+    borderColor: '$lineColor',
+    borderWidth: 1
+  },
+  pickerTouchable: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderColor: '$lineColor',
+    borderWidth: 1,
+    marginBottom: 5,
+    overflow: 'hidden',
+    paddingHorizontal: 7,
+    '@media android': {
+      paddingVertical: 0,
+    },
+    '@media ios': {
+      paddingVertical: 7,
+    }
+  },
+  pickerTouchableText: {
+    color: '$colorBlack',
+    fontSize: 16,
+    lineHeight: 26
   }
-  // Custom elements
-  // datePickerView: {
-  //   backgroundColor: '$colorWhite'
-  // }
 });
 

@@ -186,6 +186,7 @@ export class _AddScene extends BaseScene {
           onValueChange={this.onGroupValueChange}
           mode="dialog"
         >
+          <Item label="Don't add to a group" key="" value="" />
           {groups.map(group => (
             <Item label={group.name} key={group.id} value={group.id} />
           ))}
@@ -199,8 +200,8 @@ export class _AddScene extends BaseScene {
           }
         });
         component = (
-          <TouchableOpacity onPress={this.onStartSelectGroup}>
-            <Text style={addStyles.groupItem}>{groupName}</Text>
+          <TouchableOpacity onPress={this.onStartSelectGroup} style={addStyles.pickerTouchable}>
+            <Text style={addStyles.pickerTouchableText}>{groupName ? groupName : 'Please select group'}</Text>
           </TouchableOpacity>
         );
       }
@@ -458,7 +459,7 @@ export class _AddScene extends BaseScene {
               <AttachedImageView ref={ref => this.attachImageRef = ref} />
               <View style={addStyles.formSubmit}>
                 <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
-                  <Text style={styles.buttonText}>Submit</Text>
+                  <Text style={styles.buttonText}>{'Submit'.toUpperCase()}</Text>
                 </TouchableHighlight>
               </View>
             </View>

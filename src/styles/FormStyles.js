@@ -114,100 +114,113 @@ const stylesheet = Object.freeze({
   },
   pickerContainer: {
     normal: {
+      
+    },
+    error: {
+      
+    },
+    open: {}
+  },
+  select: {
+    normal: {
       backgroundColor: '#fff',
-      marginBottom: 4,
-      borderRadius: 4,
+      borderRadius: 5,
       borderColor: BORDER_COLOR,
       borderWidth: 1
     },
     error: {
-      borderColor: ERROR_COLOR
-    },
-    open: {
       backgroundColor: '#fff',
-      // Alter styles when select container is open
+      borderRadius: 5,
+      borderColor: ERROR_COLOR,
+      borderWidth: 1
     }
-  },
-  select: {
-    normal: Platform.select({
-      android: {
-        backgroundColor: '#fff',
-        paddingLeft: 7,
-        color: INPUT_COLOR
-      },
-      ios: {
-        backgroundColor: '#fff'
-      }
-    }),
-    // the style applied when a validation error occours
-    error: Platform.select({
-      android: {
-        paddingLeft: 7,
-        color: ERROR_COLOR
-      },
-      ios: {
-
-      }
-    })
   },
   pickerTouchable: {
     normal: {
       backgroundColor: '#fff',
-      height: 44,
-      flexDirection: 'row',
-      alignItems: 'center'
+      borderRadius: 5,
+      borderColor: BORDER_COLOR,
+      borderWidth: 1,
+      height: 42,
+      marginBottom: 5,
+      overflow: 'hidden',
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
     },
     error: {
-      height: 44,
-      flexDirection: 'row',
-      alignItems: 'center'
-    },
-    active: {
       backgroundColor: '#fff',
-      borderBottomWidth: 1,
-      borderColor: BORDER_COLOR
-    }
+      borderRadius: 5,
+      borderColor: ERROR_COLOR,
+      borderWidth: 1,
+      height: 42,
+      marginBottom: 5,
+      overflow: 'hidden',
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
+    },
+    active: {}
   },
   pickerValue: {
     normal: {
-      backgroundColor: '#fff',
+      color: INPUT_COLOR,
       fontSize: FONT_SIZE,
-      paddingLeft: 7
+      lineHeight: 26
     },
     error: {
+      color: ERROR_COLOR,
       fontSize: FONT_SIZE,
-      paddingLeft: 7
+      lineHeight: 26
     }
   },
   datepicker: {
     normal: {
       backgroundColor: '#fff',
-      marginBottom: 4
+      borderRadius: 5,
+      borderColor: BORDER_COLOR,
+      borderWidth: 1
     },
     // the style applied when a validation error occours
     error: {
-      marginBottom: 4
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      borderColor: ERROR_COLOR,
+      borderWidth: 1
     }
   },
   dateTouchable: {
     normal: {
       backgroundColor: '#fff',
+      borderRadius: 5,
+      borderColor: BORDER_COLOR,
+      borderWidth: 1,
+      height: 42,
+      marginBottom: 5,
+      overflow: 'hidden',
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
     },
-    error: {}
+    error: {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      borderColor: ERROR_COLOR,
+      borderWidth: 1,
+      height: 42,
+      marginBottom: 5,
+      overflow: 'hidden',
+      paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
+      paddingHorizontal: 7,
+    }
   },
   dateValue: {
     normal: {
-      backgroundColor: '#fff',
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
-      padding: 7,
-      marginBottom: 5
+      lineHeight: 26
     },
     error: {
       color: ERROR_COLOR,
       fontSize: FONT_SIZE,
-      padding: 7,
-      marginBottom: 5
+      lineHeight: 26
     }
   },
   buttonText: {

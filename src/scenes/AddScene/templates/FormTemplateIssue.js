@@ -19,12 +19,9 @@ function FormTemplateIssue(props) {
         </View>
       </View>
       <View style={addStyles.formFieldset}>
+        <Text style={styles.headerTwo}>{'Issue Details'.toUpperCase()}</Text>
         {inputs.category}
-      </View>
-      <View style={addStyles.formFieldset}>
         {inputs.date}
-      </View>
-      <View style={addStyles.formFieldset}>
         {inputs.description}
         {inputs.weather}
         {inputs.seenBefore}
