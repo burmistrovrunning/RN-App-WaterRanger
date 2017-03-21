@@ -401,10 +401,10 @@ export class _AddScene extends BaseScene {
           <TouchableHighlight
             style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonLeft, form === 'observation' && addStyles.addSceneTabBarButtonLeftActive]}
             onPress={this.onChooseObservation}
-            underlayColor="white"
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextLeftActive]}
+              style={[addStyles.addSceneTabBarTextLeft, form === 'observation' && addStyles.addSceneTabBarTextActive]}
             >
               {'Observation'.toUpperCase()}
             </Text>
@@ -412,10 +412,10 @@ export class _AddScene extends BaseScene {
           <TouchableHighlight
             style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonRight, form === 'issue' && addStyles.addSceneTabBarButtonRightActive]}
             onPress={this.onChooseIssue}
-            underlayColor="white"
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextRightActive]}
+              style={[addStyles.addSceneTabBarTextRight, form === 'issue' && addStyles.addSceneTabBarTextActive]}
             >
               {'Issue'.toUpperCase()}
             </Text>
@@ -425,12 +425,12 @@ export class _AddScene extends BaseScene {
           <Animated.View style={[addStyles.addScrollContainer, { top: this.state.keyboardHeight }]}>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
-                <Text>{marker.latitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lat:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>{marker.latitude.toFixed(5)}</Text>
               </View>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Longitude'.toUpperCase()}</Text>
-                <Text>{marker.longitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lng:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>{marker.longitude.toFixed(5)}</Text>
               </View>
             </View>
             {this.renderGroups()}

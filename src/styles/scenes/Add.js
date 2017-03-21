@@ -42,43 +42,49 @@ export const styles = EStyleSheet.create({
     flex: 1
   },
   addSceneTabBarContainer: {
-    backgroundColor: '$colorWhite',
+    backgroundColor: '$colorBeige',
+    borderColor: '$lineColor',
+    borderWidth: 1,
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10
+    paddingLeft: 10,
+    paddingRight: 10
   },
   addSceneTabBarButton: {
+    borderRadius: 5,
+    borderWidth: 1,
     flex: 1,
     justifyContent: 'center',
+    margin: 10,
     padding: 5
   },
   addSceneTabBarButtonLeft: {
-    backgroundColor: '$colorWhite',
-    borderColor: '$colorGreen',
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5
+    borderColor: '$colorGreen'
   },
   addSceneTabBarButtonLeftActive: {
-    backgroundColor: '$colorGreen',
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5
+    backgroundColor: '$colorGreen'
   },
   addSceneTabBarButtonRight: {
+    borderColor: '$colorRed'
+  },
+  addSceneTabBarButtonRightActive: {
     backgroundColor: '$colorRed',
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5
   },
-  addSceneTabBarButtonActive: {
-    borderBottomColor: '$colorBrightBlue'
+  addSceneTabBarTextLeft: {
+    color: '$colorGreen',
+    fontFamily: '$globalFontHeader',
+    textAlign: 'center'
   },
-  addSceneTabBarText: {
-    color: '$colorWhite',
+  addSceneTabBarTextRight: {
+    color: '$colorRed',
     fontFamily: '$globalFontHeader',
     textAlign: 'center'
   },
   addSceneTabBarTextActive: {
-    color: '$colorBrightBlue'
+    color: '$colorWhite'
   },
   addSceneLatLngContainer: {
     backgroundColor: '$colorBeige',
@@ -90,7 +96,17 @@ export const styles = EStyleSheet.create({
   },
   addSceneLatLngBlock: {
     flex: 1,
+    flexDirection: 'row',
     padding: 20
+  },
+  addSceneLatLngTitle: {
+    color: '$colorDarkBeige',
+    fontFamily: '$globalFontHeader',
+    fontSize: 18,
+    marginRight: 5
+  },
+  addSceneLatLngValue: {
+    color: '$colorBlack'
   },
   addSceneSmallTitle: {
     color: '$colorDarkBeige',
@@ -136,6 +152,10 @@ export const styles = EStyleSheet.create({
   offlineListDate: {
     color: '$colorDarkBeige',
     fontSize: 12
+  },
+  offlineFormsMessage: {
+    lineHeight: 20,
+    padding: 20
   },
   listSeparator: {
     backgroundColor: '$lineColor',
@@ -216,6 +236,12 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFontHeader',
     fontSize: 24,
     lineHeight: 30
+  },
+  // Water Tests
+  waterTestsRow: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10
   },
   // Image upload
   formImageUploadContainer: {
