@@ -8,7 +8,8 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Picker
+  Picker,
+  Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
@@ -59,7 +60,8 @@ export class _AddScene extends BaseScene {
       groupValue: -1,
       selectGroup: false,
       groups: [],
-      date: new Date()
+      date: new Date(),
+      keyboardHeight: new Animated.Value(0),
     };
     this.formView = null;
     this.scrollView = null;
@@ -83,6 +85,15 @@ export class _AddScene extends BaseScene {
   };
   onChooseIssue = () => {
     this.setState({ form: 'issue' });
+  };
+  onKeyboardUpdated = (toValue) => {
+    console.log('toValue', toValue);
+    Animated.timing(
+      this.state.keyboardHeight, {
+        toValue: toValue > 0 ? -toValue + 50 : 0,
+        duration: 150,
+      }
+    ).start();
   };
   onSubmit = async () => {
     const value = this.formView.getValue();
@@ -411,7 +422,7 @@ export class _AddScene extends BaseScene {
           </TouchableHighlight>
         </View>
         <ScrollView ref={ref => this.scrollView = ref} keyboardDismissMode="on-drag" keyboardShouldPersistTaps="never">
-          <View style={addStyles.addScrollContainer}>
+          <Animated.View style={[addStyles.addScrollContainer, { top: this.state.keyboardHeight }]}>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
@@ -438,10 +449,10 @@ export class _AddScene extends BaseScene {
                 </TouchableHighlight>
               </View>
             </View>
-          </View>
+          </Animated.View>
         </ScrollView>
         {this.renderWaiting()}
-        <KeyboardSpacing />
+        <KeyboardSpacing hide onKeyboardUpdated={this.onKeyboardUpdated} />
       </View>
     );
   }
