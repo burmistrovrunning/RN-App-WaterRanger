@@ -77,6 +77,12 @@ export class LoginScene extends Component {
 
   };
   onKeyboardUpdated = keyboardHeight => this.setState({ keyboardHeight });
+  onChange = (value) => {
+    if (value) {
+      defaultValue.email = value.email;
+      defaultValue.password = value.password;
+    }
+  };
   hideKeyboard = () => {
     Keyboard.dismiss();
   };
@@ -133,6 +139,7 @@ export class LoginScene extends Component {
             value={defaultValue}
             type={LoginForm}
             options={options}
+            onChange={this.onChange}
             style={loginStyles.loginFormContainer}
           />
           <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
