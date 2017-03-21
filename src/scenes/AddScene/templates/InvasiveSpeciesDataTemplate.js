@@ -49,52 +49,100 @@ class InvasiveSpeciesDataTemplate extends Component {
           <View style={[addStyles.formCollapsibleContainer, addStyles.observationDataContainer]}>
             <View style={addStyles.observationDataRow}>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/phragmites.jpg')} initWidth="150" initHeight="150" />
-                {inputs.Phragmites}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/phragmites.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs.Phragmites}
+                  </View>
+                </View>
+              </View>
+              <View style={[addStyles.observationDataCol, addStyles.InvasiveSpeciesCol]}>
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/loosestrife.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs.Loosestrife}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/loosestrife.jpg')} initWidth="150" initHeight="150" />
-                {inputs.Loosestrife}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/zebra-mussels.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Zebra Mussels']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/zebra-mussels.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Zebra Mussels']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/other-invasive.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Other Invasive']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/other-invasive.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Other Invasive']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/eurasian-milfoil.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Eurasian Milfoil']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/eurasian-milfoil.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Eurasian Milfoil']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/european-frog-bit.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['European Frog-bit']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/european-frog-bit.jpg')} initWidth="150" initHeight="150" />
-                {inputs['European Frog-bit']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/european-water-chestnut.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['European Water Chestnut']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/european-water-chestnut.jpg')} initWidth="150" initHeight="150" />
-                {inputs['European Water Chestnut']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/yellow-iris.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Yellow Iris']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/yellow-iris.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Yellow Iris']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/yellow-floating-heart.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Yellow Floating Heart']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/yellow-floating-heart.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Yellow Floating Heart']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/bloody-red-shrimp.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Bloody Red Shrimp']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/bloody-red-shrimp.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Bloody Red Shrimp']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/rusty-crayfish.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Rusty Crayfish']}
+                  </View>
+                </View>
               </View>
               <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/rusty-crayfish.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Rusty Crayfish']}
-              </View>
-              <View style={addStyles.observationDataCol}>
-                <ResponsiveImage source={require('../../../images/obsimages/spiny-waterfleas.jpg')} initWidth="150" initHeight="150" />
-                {inputs['Spiny Waterfleas']}
+                <View style={addStyles.invasiveSpeciesCol}>
+                  <ResponsiveImage source={require('../../../images/obsimages/spiny-waterfleas.jpg')} initWidth="160" initHeight="160" />
+                  <View style={addStyles.observationDataCheckbox}>
+                    {inputs['Spiny Waterfleas']}
+                  </View>
+                </View>
               </View>
             </View>
           </View>

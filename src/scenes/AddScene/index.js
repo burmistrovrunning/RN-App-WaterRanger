@@ -60,7 +60,6 @@ export class _AddScene extends BaseScene {
       groupValue: -1,
       selectGroup: false,
       groups: [],
-      date: new Date(),
       keyboardHeight: new Animated.Value(0),
     };
     this.formView = null;
@@ -215,9 +214,8 @@ export class _AddScene extends BaseScene {
     return (<View />);
   }
   render() {
-    const { date, marker, form } = this.state;
+    const { marker, form } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
-    console.log(date);
     const options = {
       i18n: {
         optional: '',
@@ -225,6 +223,9 @@ export class _AddScene extends BaseScene {
       },
       stylesheet,
       template: formTemplate,
+      checkbox: {
+        label: ''
+      },
       fields: {
         notes: {
           multiline: true,
@@ -269,7 +270,7 @@ export class _AddScene extends BaseScene {
           }
         },
         date: {
-          maximumDate: date,
+          maximumDate: new Date(),
           config: {
             format: value => moment(value).format('MM/DD/YYYY : HH:MM')
           }
@@ -399,7 +400,11 @@ export class _AddScene extends BaseScene {
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonLeft, form === 'observation' && addStyles.addSceneTabBarButtonLeftActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonLeft,
+              form === 'observation' && addStyles.addSceneTabBarButtonLeftActive
+            ]}
             onPress={this.onChooseObservation}
             underlayColor="#edede5"
           >
@@ -410,7 +415,11 @@ export class _AddScene extends BaseScene {
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, addStyles.addSceneTabBarButtonRight, form === 'issue' && addStyles.addSceneTabBarButtonRightActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonRight,
+              form === 'issue' && addStyles.addSceneTabBarButtonRightActive
+            ]}
             onPress={this.onChooseIssue}
             underlayColor="#edede5"
           >
@@ -426,11 +435,15 @@ export class _AddScene extends BaseScene {
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneLatLngTitle}>{'Lat:'.toUpperCase()}</Text>
-                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>{marker.latitude.toFixed(5)}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.latitude.toFixed(5)}
+                </Text>
               </View>
               <View style={addStyles.addSceneLatLngBlock}>
                 <Text style={addStyles.addSceneLatLngTitle}>{'Lng:'.toUpperCase()}</Text>
-                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>{marker.longitude.toFixed(5)}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.longitude.toFixed(5)}
+                </Text>
               </View>
             </View>
             {this.renderGroups()}

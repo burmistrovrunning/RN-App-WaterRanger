@@ -67,6 +67,10 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFont',
     fontWeight: 'bold'
   },
+  helpText: {
+    lineHeight: 20,
+    marginBottom: 20
+  },
   // Forms
   errorTextContainer: {
     backgroundColor: '$colorRed',

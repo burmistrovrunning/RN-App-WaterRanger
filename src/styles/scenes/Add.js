@@ -28,10 +28,6 @@ export const styles = EStyleSheet.create({
     paddingTop: 20,
     paddingRight: 20
   },
-  // formRow: {
-  //   borderBottomColor: '$borderColor',
-  //   borderBottomWidth: 1,
-  // },
   addSceneContainer: {
     backgroundColor: '$colorBeige',
     flex: 1,
@@ -180,8 +176,7 @@ export const styles = EStyleSheet.create({
     textAlign: 'left'
   },
   observationDataContainer: {
-    flex: 1,
-    paddingBottom: 20
+    flex: 1
   },
   observationDataRow: {
     alignItems: 'flex-start',
@@ -193,10 +188,20 @@ export const styles = EStyleSheet.create({
   observationDataCol: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingBottom: 20,
     paddingRight: 20,
     paddingLeft: 20,
     width: '50%'
+  },
+  observationDataCheckbox: {
+    alignItems: 'flex-start',
+    height: 100,
+    padding: 10
+  },
+  invasiveSpeciesCol: {
+    backgroundColor: '#dbdbca',
+    borderRadius: 5,
+    overflow: 'hidden'
   },
   singleDataCol: {
     paddingBottom: 20,
@@ -236,6 +241,11 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFontHeader',
     fontSize: 24,
     lineHeight: 30
+  },
+  // Invasive Species
+  invasiveSpeciesImages: {
+    borderRadius: 5,
+    marginBottom: 10
   },
   // Water Tests
   waterTestsRow: {

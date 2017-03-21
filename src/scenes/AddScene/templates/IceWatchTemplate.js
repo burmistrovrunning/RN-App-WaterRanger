@@ -27,7 +27,6 @@ class IceWatchTemplate extends Component {
   render() {
     const inputs = this.props.locals;
     const activeState = this.state.isActive;
-    console.log('Ice watch:', inputs.iceWatch);
     return (
       <View style={addStyles.formCollapsibleWrapper}>
         <TouchableHighlight onPress={this._toggleExpanded} underlayColor="#edede5">
