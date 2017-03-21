@@ -85,7 +85,6 @@ export class _AddScene extends BaseScene {
     this.setState({ form: 'issue' });
   };
   onKeyboardUpdated = (toValue) => {
-    console.log('toValue', toValue);
     Animated.timing(
       this.state.keyboardHeight, {
         toValue: toValue > 0 ? -toValue + 50 : 0,

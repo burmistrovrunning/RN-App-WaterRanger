@@ -62,22 +62,16 @@ export class _MapScene extends BaseScene {
       this.setState({ mapMarkers });
     }
   }
-  onRegionWillChange(location) {
-    console.log(location);
+  onRegionWillChange() {
   }
-  onUpdateUserLocation(location) {
-    console.log(location);
+  onUpdateUserLocation() {
   }
-  onOpenAnnotation = (annotation) => {
+  onOpenAnnotation = () => {
     this.tapMaker = true;
-    console.log('onOpenAnnotation', annotation, this.tapMaker);
-    // this.props.showForm(annotation);
   }
-  onLongPress(location) {
-    console.log(location);
+  onLongPress() {
   }
-  onTap(location) {
-    console.log(location);
+  onTap() {
   }
   onRightAnnotationTapped = (marker) => {
     if (!this.state.flagRemove) {
