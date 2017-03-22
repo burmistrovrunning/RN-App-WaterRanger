@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { styles } from '../styles/tab/TabBottom';
 
 const tabItems = [{
-  label: 'Map',
+  label: (Platform.OS === 'ios') ? 'Map' : 'MAP',
   normalIcon: 'ios-map-outline',
   focusIcon: 'ios-map',
 }, {
-  label: 'Add',
+  label: (Platform.OS === 'ios') ? 'Add' : 'ADD',
   normalIcon: 'ios-add-circle-outline',
   focusIcon: 'ios-add-circle',
 }, {
-  label: 'Offline',
+  label: (Platform.OS === 'ios') ? 'Offline' : 'OFFLINE',
   normalIcon: 'ios-cloud-upload-outline',
   focusIcon: 'ios-cloud-upload',
 }, {
-  label: 'Settings',
+  label: (Platform.OS === 'ios') ? 'Settings' : 'SETTINGS',
   normalIcon: 'ios-settings-outline',
   focusIcon: 'ios-settings',
 }];

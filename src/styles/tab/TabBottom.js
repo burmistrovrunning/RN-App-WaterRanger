@@ -13,7 +13,8 @@ export const styles = EStyleSheet.create({
     '@media android': {
       borderTopWidth: 1,
       borderTopColor: '#264364',
-      overflow: 'visible'
+      overflow: 'visible',
+      justifyContent: 'flex-start'
     },
   },
   tabContainer: {
@@ -22,7 +23,8 @@ export const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     '@media android': {
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
+      paddingLeft: 5
     },
   },
   tabLabel: {
@@ -30,7 +32,7 @@ export const styles = EStyleSheet.create({
     fontSize: 10,
     fontFamily: '$globalFont',
     '@media android': {
-      fontSize: 12,
+      fontSize: 11,
       fontFamily: '$globalFontHeader'
     },
   },

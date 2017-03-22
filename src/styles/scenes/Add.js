@@ -40,7 +40,7 @@ export const styles = EStyleSheet.create({
   addSceneTabBarContainer: {
     backgroundColor: '$colorBeige',
     borderColor: '$lineColor',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
