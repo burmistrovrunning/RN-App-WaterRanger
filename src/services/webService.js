@@ -50,6 +50,43 @@ export async function login(email, password) {
   return error;
 }
 
+export async function facebookLogin(fb_access_token) {
+  let error = '';
+  alert(`${GLOBAL.URL}users/auth/mobile`);
+  try {
+    const response = await fetch(`${GLOBAL.URL}users/auth/mobile`, {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fb_access_token })
+    });
+    const json = await response.json();
+    const { map } = response.headers;
+    const accessToken = map['access-token'][0] || null;
+    const client = map.client[0] || null;
+    const expiry = map.expiry[0] || null;
+    const tokenType = map['token-type'][0] || null;
+    const uid = map.uid[0] || null;
+    if (response.status === 200 && accessToken != null) {
+      const loginDetails = {
+        'access-token': accessToken,
+        'token-type': tokenType,
+        client,
+        expiry,
+        uid
+      };
+      await localStorage.set('accessToken', accessToken);
+      await localStorage.set('loginDetails', JSON.stringify(loginDetails));
+      await localStorage.set('profile', JSON.stringify(json));
+    } else {
+      error = 'Please check your login and try again.';
+    }
+  } catch (err) {
+    console.log('login err', err);
+    error = err;
+  }
+  return error;
+}
+
 /**
  * upload file via fetch
  * @param uri file uri it should be file:///path/to/file/image123.jpg

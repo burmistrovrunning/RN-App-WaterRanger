@@ -10,13 +10,16 @@ import {
   Modal,
   Keyboard
 } from 'react-native';
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
+
 import t from 'tcomb-form-native';
 import { KeyboardSpacing } from '../../components';
-import { login } from '../../services';
+import { login, facebookLogin } from '../../services';
 import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
 import { styles } from '../../styles/common';
 import '../../styles/FormStyles';
 import GLOBAL from '../../Globals';
+
 
 const { Form } = t.form;
 const LoginForm = t.struct({ email: t.String, password: t.String });
@@ -49,11 +52,16 @@ export class LoginScene extends Component {
     };
     this.formView = null;
   }
-  onLoginFacebook = () => {
-    console.log('authUrl', `${GLOBAL.BASE_URL}users/auth/facebook`);
-    // this.setState({ webViewVisible: true, authUrl: `${GLOBAL.URL}users/auth/facebook` });
-    this.setState({ webViewVisible: true, authUrl: 'https://water-rangers-staging.herokuapp.com/users/auth/facebook' });
+
+  onLoginFacebook = async (token) => {
+    const error = await facebookLogin(token);
+    if (error && error.length > 0) {
+      alert(error);
+      return this.setState({ error });
+    }
+    this.props.onLoginSuccess();
   };
+
   onLogin = async () => {
     const value = this.formView.getValue();
     const error = await login(value.email, value.password);
@@ -127,7 +135,25 @@ export class LoginScene extends Component {
           <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
             <Text style={styles.buttonText}>Login</Text>
           </TouchableHighlight>
-          {/* this.renderSocialLoginButton() */}
+
+          <LoginButton
+            publishPermissions={['publish_actions']}
+            onLoginFinished={(error, result) => {
+              if (error) {
+                alert("Login failed with error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("Login was cancelled");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    this.onLoginFacebook(data.accessToken.toString());
+                  }
+                );
+              }
+            }}
+            onLogoutFinished={() => alert("User logged out")}
+          />
+
           {/* this.renderWebView() */}
         </TouchableOpacity>
         <KeyboardSpacing onKeyboardUpdated={this.onKeyboardUpdated} />

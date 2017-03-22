@@ -10,7 +10,8 @@ export {
 export {
   uploadForm,
   getLocations,
-  login
+  login,
+  facebookLogin
 } from './webService';
 export {
   isNetworkOnline,
