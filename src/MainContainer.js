@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, NetInfo, ActivityIndicator, Alert } from 'react-native';
+import { View, NetInfo, ActivityIndicator, Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 import { Router } from './routing';
 import { LocationActions } from './redux/actions';
 import { NavigationBar } from './components';
@@ -23,8 +24,12 @@ class _MainContainer extends Component {
     this.networkStatus = false;
     this.state = {
       hasToken: false,
-      waiting: true
+      waiting: true,
+      showPage: Platform.OS === 'ios'
     };
+    if (Platform.OS === 'android') {
+      this.checkIsLocation();
+    }
   }
 
   componentDidMount() {
@@ -75,13 +80,25 @@ class _MainContainer extends Component {
     }
   };
   showTabBar = visible => this.tabView.updateTabVisible(visible);
+  checkIsLocation() {
+    setTimeout(async () => {
+      const check = await LocationServicesDialogBox.checkLocationServicesIsEnabled({
+        message: 'You have to turn on location to use this application. Do you want to turn on it now?',
+        ok: 'YES',
+        cancel: 'NO'
+      }).catch(error => error);
+      if (check === 'enabled') {
+        this.setState({ showPage: true });
+      }
+    }, 100);
+  }
   watchNetworkStatus() {
     NetInfo.addEventListener('change', this.onNetworkStatusChange);
     NetInfo.fetch().done(this.onNetworkStatusChange);
   }
   render() {
-    const { waiting } = this.state;
-    if (waiting) {
+    const { waiting, showPage } = this.state;
+    if (waiting || !showPage) {
       return (
         <ActivityIndicator animating={true} color="white" style={styles.centering} size="large" />
       );
