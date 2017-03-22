@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { TabBottom } from './TabBottom';
 
 const styles = StyleSheet.create({
@@ -28,16 +28,30 @@ export class TabView extends Component {
   }
   render() {
     const { children, onTabRoute } = this.props;
-    return (
-      <View style={styles.container}>
-        <View style={styles.container}>{children}</View>
-        { this.state.visible &&
-          <TabBottom
-            resetScene={onTabRoute}
-            ref={ref => this.tabBottomView = ref}
-          />
-        }
-      </View>
-    );
+    if (Platform.OS === 'ios') {
+      return (
+        <View style={styles.container}>
+          <View style={styles.container}>{children}</View>
+          { this.state.visible &&
+            <TabBottom
+              resetScene={onTabRoute}
+              ref={ref => this.tabBottomView = ref}
+            />
+          }
+        </View>
+      );
+    } else if (Platform.OS === 'android') {
+      return (
+        <View style={styles.container}>
+          { this.state.visible &&
+            <TabBottom
+              resetScene={onTabRoute}
+              ref={ref => this.tabBottomView = ref}
+            />
+          }
+          <View style={styles.container}>{children}</View>
+        </View>
+      );
+    }
   }
 }

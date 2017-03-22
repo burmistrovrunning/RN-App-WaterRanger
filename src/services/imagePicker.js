@@ -1,9 +1,10 @@
 import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 export const imagePicker = {
   show() {
     return new Promise((resolve, reject) => {
-      ImagePicker.showImagePicker({}, (response) => {
+      ImagePicker.showImagePicker({}, async (response) => {
         const result = {
           source: null,
           type: null,
@@ -19,7 +20,10 @@ export const imagePicker = {
           });
         } else {
           const uri = response.uri.replace('', '');
-          result.source = { uri, isStatic: true };
+          console.log('uri', uri);
+          const newUri = await ImageResizer.createResizedImage(uri, 1024, 1024, 'JPEG', 80);
+          console.log('newUri', newUri);
+          result.source = { uri: newUri, isStatic: true };
         }
         return resolve(result);
       });

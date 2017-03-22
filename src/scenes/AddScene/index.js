@@ -8,10 +8,12 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Picker
+  Picker,
+  Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import moment from 'moment';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
@@ -19,119 +21,33 @@ import BaseScene from '../BaseScene';
 import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
+import FormTemplateObservation from './templates/FormTemplateObservation';
+import FormTemplateIssue from './templates/FormTemplateIssue';
+import WildlifeDataTemplate from './templates/WildlifeDataTemplate';
+import InvasiveSpeciesDataTemplate from './templates/InvasiveSpeciesDataTemplate';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
-
-function observationDataTemplate(locals) {
-  const inputs = locals.inputs;
-  const inputCheckboxes = Object.keys(inputs).map(key => (
-    <View key={key} style={addStyles.observationDataCol}>
-      {inputs[key]}
-    </View>
-  ));
-  return (
-    <View style={addStyles.observationDataContainer}>
-      <View style={addStyles.observationDataHeading}>
-        <Text style={addStyles.headingLabel}>{locals.label}</Text>
-      </View>
-      <View style={addStyles.observationDataRow}>
-        {inputCheckboxes}
-      </View>
-    </View>
-  );
-}
+import stylesheet from '../../styles/FormStyles';
 
 const { Form } = t.form;
 const Item = Picker.Item;
-const options = {
-  i18n: {
-    optional: '',
-    required: ' *'
-  },
-  fields: {
-    notes: {
-      multiline: true,
-      stylesheet: {
-        ...Form.stylesheet,
-        textbox: {
-          ...Form.stylesheet.textbox,
-          normal: {
-            ...Form.stylesheet.textbox.normal,
-            height: 150
-          },
-          error: {
-            ...Form.stylesheet.textbox.error,
-            height: 150
-          }
-        }
-      }
-    },
-    category: {
-      nullOption: {
-        value: '',
-        text: 'Choose Issue category'
-      }
-    },
-    wildlife: {
-      label: 'Add wildlife',
-      template: observationDataTemplate
-    },
-    invasiveSpecies: {
-      template: observationDataTemplate
-    },
-    ph: {
-      label: 'pH (0-14)'
-    },
-    waterTemp: {
-      label: 'Water Temperature ℃'
-    },
-    airTemp: {
-      label: 'Air Temperature ℃'
-    },
-    disolvedOyxgen: {
-      label: 'Disolved Oxygen (mg/L)'
-    },
-    eColi: {
-      label: 'E.coli per 100mL'
-    },
-    otherColiform: {
-      label: 'Other Coliform per 100mL'
-    },
-    conductivity: {
-      label: 'Conductivity (uS/cm)'
-    },
-    alkalinity: {
-      label: 'Alkalinity (mg/L)'
-    },
-    hardness: {
-      label: 'Hardness (mg/L)'
-    },
-    turbidity: {
-      label: 'Turbidity (JTU)'
-    },
-    kjeldahlNitrogen: {
-      label: 'Total Kjeldahl Nitrogen (µg/L)'
-    },
-    phosphorus: {
-      label: 'Total Phosphorus (µg/L)'
-    },
-    salinity: {
-      label: 'Salinity (ppt)'
-    },
-    phosphates: {
-      label: 'Phosphates total (mg/L)'
-    },
-    secchiDepth: {
-      label: 'Secchi Depth (m)'
-    },
-    nitrites: {
-      label: 'Nitrites (mg/L)'
-    },
-    nitrates: {
-      label: 'Nitrates (mg/L)'
-    }
-  }
-};
+Form.stylesheet = stylesheet;
+
+function formLayoutTemplateObservation(locals) {
+  return <FormTemplateObservation locals={locals} />;
+}
+
+function formLayoutTemplateIssue(locals) {
+  return <FormTemplateIssue locals={locals} />;
+}
+
+function wildlifeLayoutTemplate(locals) {
+  return <WildlifeDataTemplate locals={locals} />;
+}
+
+function invasiveSpeciesLayoutTemplate(locals) {
+  return <InvasiveSpeciesDataTemplate locals={locals} />;
+}
 
 export class _AddScene extends BaseScene {
   constructor(props) {
@@ -144,6 +60,7 @@ export class _AddScene extends BaseScene {
       groupValue: -1,
       selectGroup: false,
       groups: [],
+      keyboardHeight: new Animated.Value(0),
     };
     this.formView = null;
     this.scrollView = null;
@@ -165,11 +82,17 @@ export class _AddScene extends BaseScene {
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
-
   onChooseIssue = () => {
     this.setState({ form: 'issue' });
   };
-
+  onKeyboardUpdated = (toValue) => {
+    Animated.timing(
+      this.state.keyboardHeight, {
+        toValue: toValue > 0 ? -toValue + 50 : 0,
+        duration: 150,
+      }
+    ).start();
+  };
   onSubmit = async () => {
     const value = this.formView.getValue();
     const { marker, form } = this.state;
@@ -252,7 +175,6 @@ export class _AddScene extends BaseScene {
     }
     return <View />;
   }
-
   renderGroups() {
     const { form, selectGroup, groupValue, groups } = this.state;
     if (form === 'observation' && groups.length > 0) {
@@ -263,6 +185,7 @@ export class _AddScene extends BaseScene {
           onValueChange={this.onGroupValueChange}
           mode="dialog"
         >
+          <Item label="Don't add to a group" key="" value="" />
           {groups.map(group => (
             <Item label={group.name} key={group.id} value={group.id} />
           ))}
@@ -276,14 +199,14 @@ export class _AddScene extends BaseScene {
           }
         });
         component = (
-          <TouchableOpacity onPress={this.onStartSelectGroup}>
-            <Text style={addStyles.groupItem}>{groupName}</Text>
+          <TouchableOpacity onPress={this.onStartSelectGroup} style={addStyles.pickerTouchable}>
+            <Text style={addStyles.pickerTouchableText}>{groupName || 'Please select group'}</Text>
           </TouchableOpacity>
         );
       }
       return (
-        <View style={addStyles.groupSelectContainer}>
-          <Text style={styles.headerTwo}>Select Group</Text>
+        <View style={addStyles.formFieldset}>
+          <Text style={styles.headerTwo}>{'Select Group'.toUpperCase()}</Text>
           {component}
         </View>
       );
@@ -292,6 +215,142 @@ export class _AddScene extends BaseScene {
   }
   render() {
     const { marker, form } = this.state;
+    const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
+    const options = {
+      i18n: {
+        optional: '',
+        required: ' *'
+      },
+      stylesheet,
+      template: formTemplate,
+      checkbox: {
+        label: ''
+      },
+      fields: {
+        notes: {
+          multiline: true,
+          placeholder: 'Enter additional information about the Observation here...',
+          stylesheet: {
+            ...Form.stylesheet,
+            textbox: {
+              ...Form.stylesheet.textbox,
+              normal: {
+                ...Form.stylesheet.textbox.normal,
+                height: 150
+              },
+              error: {
+                ...Form.stylesheet.textbox.error,
+                height: 150
+              }
+            }
+          }
+        },
+        description: {
+          multiline: true,
+          placeholder: 'Enter additional information about the Issue here...',
+          stylesheet: {
+            ...Form.stylesheet,
+            textbox: {
+              ...Form.stylesheet.textbox,
+              normal: {
+                ...Form.stylesheet.textbox.normal,
+                height: 150
+              },
+              error: {
+                ...Form.stylesheet.textbox.error,
+                height: 150
+              }
+            }
+          }
+        },
+        category: {
+          nullOption: {
+            value: '',
+            text: 'Choose Issue category'
+          }
+        },
+        date: {
+          maximumDate: new Date(),
+          config: {
+            format: value => moment(value).format('MM/DD/YYYY : HH:MM')
+          }
+        },
+        wildlife: {
+          label: 'Add wildlife',
+          tintColor: '#fff',
+          onTintColor: '#246EC0',
+          template: wildlifeLayoutTemplate
+        },
+        invasiveSpecies: {
+          label: 'Add Invasive Species',
+          tintColor: '#fff',
+          onTintColor: '#246EC0',
+          template: invasiveSpeciesLayoutTemplate
+        },
+        iceWatch: {
+          label: '',
+          help: 'Is the ice on or off the Water?',
+          tintColor: '#fff',
+          onTintColor: '#246EC0'
+        },
+        seenBefore: {
+          tintColor: '#fff',
+          onTintColor: '#246EC0'
+        },
+        ph: {
+          label: 'pH (0-14)'
+        },
+        waterTemp: {
+          label: 'Water Temperature ℃'
+        },
+        airTemp: {
+          label: 'Air Temperature ℃'
+        },
+        disolvedOyxgen: {
+          label: 'Disolved Oxygen (mg/L)'
+        },
+        eColi: {
+          label: 'E.coli per 100mL'
+        },
+        otherColiform: {
+          label: 'Other Coliform per 100mL'
+        },
+        conductivity: {
+          label: 'Conductivity (uS/cm)'
+        },
+        alkalinity: {
+          label: 'Alkalinity (mg/L)'
+        },
+        hardness: {
+          label: 'Hardness (mg/L)'
+        },
+        turbidity: {
+          label: 'Turbidity (JTU)'
+        },
+        kjeldahlNitrogen: {
+          label: 'Total Kjeldahl Nitrogen (µg/L)'
+        },
+        phosphorus: {
+          label: 'Total Phosphorus (µg/L)'
+        },
+        salinity: {
+          label: 'Salinity (ppt)'
+        },
+        phosphates: {
+          label: 'Phosphates total (mg/L)'
+        },
+        secchiDepth: {
+          label: 'Secchi Depth (m)'
+        },
+        nitrites: {
+          label: 'Nitrites (mg/L)'
+        },
+        nitrates: {
+          label: 'Nitrates (mg/L)'
+        }
+      }
+    };
+
     let defaultValue = {};
     let fieldOptions = null;
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
@@ -334,43 +393,57 @@ export class _AddScene extends BaseScene {
         locationDescription: ''
       };
     }
-    // Is this the best way to add to the form options object?
+
     options.fields = { ...options.fields, ...fieldOptions };
     const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
     return (
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'observation' && addStyles.addSceneTabBarButtonActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonLeft,
+              form === 'observation' && addStyles.addSceneTabBarButtonLeftActive
+            ]}
             onPress={this.onChooseObservation}
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'observation' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarTextLeft, form === 'observation' && addStyles.addSceneTabBarTextActive]}
             >
-              Observation
+              {'Observation'.toUpperCase()}
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
-            style={[addStyles.addSceneTabBarButton, form === 'issue' && addStyles.addSceneTabBarButtonActive]}
+            style={[
+              addStyles.addSceneTabBarButton,
+              addStyles.addSceneTabBarButtonRight,
+              form === 'issue' && addStyles.addSceneTabBarButtonRightActive
+            ]}
             onPress={this.onChooseIssue}
+            underlayColor="#edede5"
           >
             <Text
-              style={[addStyles.addSceneTabBarText, form === 'issue' && addStyles.addSceneTabBarTextActive]}
+              style={[addStyles.addSceneTabBarTextRight, form === 'issue' && addStyles.addSceneTabBarTextActive]}
             >
-              Issue
+              {'Issue'.toUpperCase()}
             </Text>
           </TouchableHighlight>
         </View>
         <ScrollView ref={ref => this.scrollView = ref} keyboardDismissMode="on-drag" keyboardShouldPersistTaps="never">
-          <View style={addStyles.addScrollContainer}>
+          <Animated.View style={[addStyles.addScrollContainer, { top: this.state.keyboardHeight }]}>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Latitude'.toUpperCase()}</Text>
-                <Text>{marker.latitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lat:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.latitude.toFixed(5)}
+                </Text>
               </View>
               <View style={addStyles.addSceneLatLngBlock}>
-                <Text style={addStyles.addSceneSmallTitle}>{'Longitude'.toUpperCase()}</Text>
-                <Text>{marker.longitude.toFixed(5)}</Text>
+                <Text style={addStyles.addSceneLatLngTitle}>{'Lng:'.toUpperCase()}</Text>
+                <Text style={[addStyles.addSceneLatLngTitle, addStyles.addSceneLatLngValue]}>
+                  {marker.longitude.toFixed(5)}
+                </Text>
               </View>
             </View>
             {this.renderGroups()}
@@ -380,16 +453,19 @@ export class _AddScene extends BaseScene {
                 type={formType}
                 value={defaultValue}
                 options={options}
+                onChange={this._onChange}
               />
               <AttachedImageView ref={ref => this.attachImageRef = ref} />
-              <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
-                <Text style={styles.buttonText}>Submit</Text>
-              </TouchableHighlight>
+              <View style={addStyles.formSubmit}>
+                <TouchableHighlight style={styles.button} onPress={this.onSubmit} underlayColor="#99d9f4">
+                  <Text style={styles.buttonText}>{'Submit'.toUpperCase()}</Text>
+                </TouchableHighlight>
+              </View>
             </View>
-          </View>
+          </Animated.View>
         </ScrollView>
         {this.renderWaiting()}
-        <KeyboardSpacing />
+        <KeyboardSpacing hide onKeyboardUpdated={this.onKeyboardUpdated} />
       </View>
     );
   }

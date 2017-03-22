@@ -7,33 +7,42 @@ export const styles = EStyleSheet.create({
     flex: 1,
   },
   container: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colorBeige',
     flex: 1,
     padding: 20,
   },
-  settingsContainer: {
-    padding: 20
-  },
-  formContainer: {
+  settingsWrapper: {
+    borderTopColor: '$lineColor',
+    borderTopWidth: 1,
     flex: 1,
     padding: 20
   },
+  settingsContainer: {
+    marginBottom: 20
+  },
+  settingsFooter: {
+    borderTopColor: '$lineColor',
+    borderTopWidth: 1,
+    paddingTop: 20,
+    paddingRight: 20,
+    paddingLeft: 20
+  },
   noPadContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colorBeige',
     flex: 1
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontFamily: '$globalFontHeader',
     color: 'white',
     alignSelf: 'center'
   },
   button: {
-    height: 36,
     backgroundColor: '$colorBrightBlue',
     borderColor: '$colorBrightBlue',
     borderWidth: 1,
     borderRadius: 5,
+    height: 50,
     marginBottom: 15,
     alignSelf: 'stretch',
     justifyContent: 'center'
@@ -48,15 +57,13 @@ export const styles = EStyleSheet.create({
   },
   // Fonts
   headerOne: {
-    fontSize: 22,
-    fontFamily: '$globalFont',
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontFamily: '$globalFontHeader',
     marginBottom: 15
   },
   headerTwo: {
-    fontSize: 18,
-    fontFamily: '$globalFont',
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: '$globalFontHeader',
     marginBottom: 10
   },
   fixedHeader: {
@@ -66,10 +73,13 @@ export const styles = EStyleSheet.create({
     padding: 20
   },
   smallHeader: {
-    color: '$colorMidGrey',
-    fontSize: 12,
-    fontFamily: '$globalFont',
-    fontWeight: 'bold'
+    color: '$colorDarkBeige',
+    fontSize: 14,
+    fontFamily: '$globalFontHeader',
+  },
+  helpText: {
+    lineHeight: 20,
+    marginBottom: 20
   },
   // Forms
   errorTextContainer: {

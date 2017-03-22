@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, NetInfo, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import { Router } from './routing';
 import { LocationActions } from './redux/actions';
 import { NavigationBar } from './components';
@@ -38,6 +39,7 @@ class _MainContainer extends Component {
         startSubmitFailedDataInterval();
       })
       .catch(() => this.setState({ hasToken: false, waiting: false }));
+    SplashScreen.hide();
   }
   componentWillUnmount() {
     NetInfo.removeEventListener('change', this.onNetworkStatusChange);
@@ -81,7 +83,7 @@ class _MainContainer extends Component {
     const { waiting } = this.state;
     if (waiting) {
       return (
-        <ActivityIndicator animating={true} style={styles.centering} size="large" />
+        <ActivityIndicator animating={true} color="white" style={styles.centering} size="large" />
       );
     }
     return (

@@ -100,8 +100,6 @@ export const uploadFile = async (item, name, type) => {
   let ret = true;
   body.append('image', file);
   try {
-    console.log('url', url);
-    console.log('body', body);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -133,9 +131,6 @@ export async function uploadForm(formToSubmit) {
     try {
       const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
       const headers = await getHeader();
-      console.log('uploadForm url', url, formToSubmit);
-      console.log('headers', headers);
-      console.log('uploadForm', formToSubmit);
       response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -147,7 +142,6 @@ export async function uploadForm(formToSubmit) {
       });
       const jsonRes = await response.json();
       response.jsonRes = jsonRes;
-      console.log('jsonRes', jsonRes);
       const uploadImages = [];
       const items = formToSubmit.issues ? formToSubmit.issues : formToSubmit.observations;
       const jsonItems = formToSubmit.issues ? jsonRes.issues : jsonRes.observations;
@@ -168,10 +162,9 @@ export async function uploadForm(formToSubmit) {
           }
         }
       });
-      uploadImages.forEach(async (item) => {
-        await uploadFile(item, 'image', 'image/jpg');
-      });
-      console.log('uploadImages', uploadImages);
+      for (let index = 0; index < uploadImages.length; index += 1) {
+        await uploadFile(uploadImages[index], 'image', 'image/jpg');
+      }
     } catch (err) {
       console.log('uploadForm err', err);
       response.status = 400;

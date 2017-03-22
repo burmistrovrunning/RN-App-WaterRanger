@@ -21,12 +21,12 @@ export const watchLocation = (resolve) => {
       longitude: position.coords.longitude,
     });
   });
-  setTimeout(() => {
-    resolve({
-      latitude: 45.3493143,
-      longitude: -75.8246687
-    });
-  }, 5000);
+  // setTimeout(() => {
+  //   resolve({
+  //     latitude: 45.3493143,
+  //     longitude: -75.8246687
+  //   });
+  // }, 5000);
 };
 const uploadFailedForm = async (data) => {
   console.log('observations', data);

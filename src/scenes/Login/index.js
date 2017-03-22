@@ -13,6 +13,7 @@ import {
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 
 import t from 'tcomb-form-native';
+import _ from 'lodash';
 import { KeyboardSpacing } from '../../components';
 import { login, facebookLogin } from '../../services';
 import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
@@ -22,6 +23,15 @@ import '../../styles/FormStyles';
 
 const { Form } = t.form;
 const LoginForm = t.struct({ email: t.String, password: t.String });
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
+
+stylesheet.textbox.normal.backgroundColor = '#ffffff';
+stylesheet.textbox.normal.borderColor = '#ffffff';
+stylesheet.textbox.normal.height = 42;
+stylesheet.textbox.error.backgroundColor = '#ffffff';
+stylesheet.textbox.error.borderColor = '#a94442';
+stylesheet.textbox.error.height = 42;
+
 const options = {
   fields: {
     email: {
@@ -32,11 +42,12 @@ const options = {
       secureTextEntry: true
     }
   },
+  stylesheet,
   auto: 'placeholders'
 };
 const defaultValue = {
-  email: 'ollie@waterrangers.ca',
-  password: '1q2w3e4r'
+  email: '',
+  password: ''
 };
 export class LoginScene extends Component {
 
@@ -72,6 +83,12 @@ export class LoginScene extends Component {
 
   };
   onKeyboardUpdated = keyboardHeight => this.setState({ keyboardHeight });
+  onChange = (value) => {
+    if (value) {
+      defaultValue.email = value.email;
+      defaultValue.password = value.password;
+    }
+  };
   hideKeyboard = () => {
     Keyboard.dismiss();
   };
@@ -96,7 +113,7 @@ export class LoginScene extends Component {
   renderSocialLoginButton() {
     return (
       <TouchableHighlight style={styles.button} onPress={this.onLoginFacebook} underlayColor="#99d9f4">
-        <Text style={styles.buttonText}>Login With Facebook</Text>
+        <Text style={styles.buttonText}>{'Facebook Login'.toUpperCase()}</Text>
       </TouchableHighlight>
     );
   }
@@ -128,10 +145,11 @@ export class LoginScene extends Component {
             value={defaultValue}
             type={LoginForm}
             options={options}
+            onChange={this.onChange}
             style={loginStyles.loginFormContainer}
           />
           <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>{'Login'.toUpperCase()}</Text>
           </TouchableHighlight>
 
           <LoginButton

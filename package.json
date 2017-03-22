@@ -20,9 +20,12 @@
     "react-native-fbsdk": "github:facebook/react-native-fbsdk",
     "react-native-hideable-view": "^1.0.3",
     "react-native-image-picker": "^0.25.1",
+    "react-native-image-resizer": "^0.1.0",
     "react-native-mapbox-gl": "git+https://github.com/mapbox/react-native-mapbox-gl.git",
     "react-native-nav": "^1.1.4",
+    "react-native-responsive-image": "^2.0.2",
     "react-native-simple-store": "^1.1.0",
+    "react-native-splash-screen": "^2.0.0",
     "react-native-svg-uri": "^1.2.0",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.3",
@@ -53,5 +56,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./src/fonts"
+    ]
   }
 }
