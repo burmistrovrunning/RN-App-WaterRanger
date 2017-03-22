@@ -50,14 +50,13 @@ export async function login(email, password) {
   return error;
 }
 
-export async function facebookLogin(fb_access_token) {
+export async function facebookLogin(token) {
   let error = '';
-  alert(`${GLOBAL.URL}users/auth/mobile`);
   try {
     const response = await fetch(`${GLOBAL.URL}users/auth/mobile`, {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fb_access_token })
+      body: JSON.stringify({ token })
     });
     const json = await response.json();
     const { map } = response.headers;

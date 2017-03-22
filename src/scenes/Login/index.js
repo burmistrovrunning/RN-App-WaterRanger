@@ -18,7 +18,6 @@ import { login, facebookLogin } from '../../services';
 import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
 import { styles } from '../../styles/common';
 import '../../styles/FormStyles';
-import GLOBAL from '../../Globals';
 
 
 const { Form } = t.form;
@@ -56,7 +55,6 @@ export class LoginScene extends Component {
   onLoginFacebook = async (token) => {
     const error = await facebookLogin(token);
     if (error && error.length > 0) {
-      alert(error);
       return this.setState({ error });
     }
     this.props.onLoginSuccess();
@@ -140,9 +138,9 @@ export class LoginScene extends Component {
             publishPermissions={['publish_actions']}
             onLoginFinished={(error, result) => {
               if (error) {
-                alert("Login failed with error: " + result.error);
+                console.log(`Login failed with error: ${result.error}`);
               } else if (result.isCancelled) {
-                alert("Login was cancelled");
+                console.log('Login was cancelled');
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
@@ -151,7 +149,7 @@ export class LoginScene extends Component {
                 );
               }
             }}
-            onLogoutFinished={() => alert("User logged out")}
+            onLogoutFinished={() => console.log('User logged out')}
           />
 
           {/* this.renderWebView() */}
