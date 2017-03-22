@@ -4,11 +4,8 @@ import {
   TouchableHighlight,
   View,
   ScrollView,
-  Platform,
   Alert,
-  TouchableOpacity,
   ActivityIndicator,
-  Picker,
   Animated
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -18,7 +15,7 @@ import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
-import { AddIssueForm, AddObservationForm, getIssue, getObservation } from './forms';
+import { AddIssueForm, getAddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import FormTemplateObservation from './templates/FormTemplateObservation';
@@ -30,7 +27,6 @@ import { styles as addStyles } from '../../styles/scenes/Add';
 import stylesheet from '../../styles/FormStyles';
 
 const { Form } = t.form;
-const Item = Picker.Item;
 Form.stylesheet = stylesheet;
 
 function formLayoutTemplateObservation(locals) {
@@ -57,8 +53,6 @@ export class _AddScene extends BaseScene {
       form: 'observation',
       marker: props.marker,
       isSubmitting: false,
-      groupValue: -1,
-      selectGroup: false,
       groups: [],
       keyboardHeight: new Animated.Value(0),
     };
@@ -88,7 +82,7 @@ export class _AddScene extends BaseScene {
   onKeyboardUpdated = (toValue) => {
     Animated.timing(
       this.state.keyboardHeight, {
-        toValue: toValue > 0 ? -toValue + 50 : 0,
+        toValue: toValue > 0 ? -toValue / 2 : 0,
         duration: 150,
       }
     ).start();
@@ -101,9 +95,9 @@ export class _AddScene extends BaseScene {
       this.setState({ isSubmitting: true });
       const dictToSend = {};
       if (form === 'issue') {
-        dictToSend.issues = [getIssue(this.formView, this.state.groupValue)];
+        dictToSend.issues = [getIssue(this.formView)];
       } else {
-        dictToSend.observations = [getObservation(this.formView, this.state.groupValue)];
+        dictToSend.observations = [getObservation(this.formView, this.state.groups)];
       }
       const dictKey = (form === 'issue')
         ? 'issues'
@@ -145,17 +139,13 @@ export class _AddScene extends BaseScene {
     }
     this.scrollView.scrollTo({ y: 0, animated: false });
   };
-  onGroupValueChange = groupValue => this.setState({ groupValue, selectGroup: false });
-  onStartSelectGroup = () => {
-    this.setState({ selectGroup: true });
-  };
   refreshData() {
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
       if (profile) {
         const { groups } = profile;
         if (groups) {
-          this.setState({ groups, groupValue: groups[0].id });
+          this.setState({ groups });
         }
       }
       this.scrollView.scrollTo({ y: 0, animated: false });
@@ -174,44 +164,6 @@ export class _AddScene extends BaseScene {
       );
     }
     return <View />;
-  }
-  renderGroups() {
-    const { form, selectGroup, groupValue, groups } = this.state;
-    if (form === 'observation' && groups.length > 0) {
-      let component = (
-        <Picker
-          selectedValue={groupValue}
-          style={addStyles.picker}
-          onValueChange={this.onGroupValueChange}
-          mode="dialog"
-        >
-          <Item label="Don't add to a group" key="" value="" />
-          {groups.map(group => (
-            <Item label={group.name} key={group.id} value={group.id} />
-          ))}
-        </Picker>
-      );
-      if (Platform.OS === 'ios' && !selectGroup) {
-        let groupName = '';
-        groups.forEach((group) => {
-          if (group.id === groupValue) {
-            groupName = group.name;
-          }
-        });
-        component = (
-          <TouchableOpacity onPress={this.onStartSelectGroup} style={addStyles.pickerTouchable}>
-            <Text style={addStyles.pickerTouchableText}>{groupName || 'Please select group'}</Text>
-          </TouchableOpacity>
-        );
-      }
-      return (
-        <View style={addStyles.formFieldset}>
-          <Text style={styles.headerTwo}>{'Select Group'.toUpperCase()}</Text>
-          {component}
-        </View>
-      );
-    }
-    return (<View />);
   }
   render() {
     const { marker, form } = this.state;
@@ -395,7 +347,7 @@ export class _AddScene extends BaseScene {
     }
 
     options.fields = { ...options.fields, ...fieldOptions };
-    const formType = form === 'issue' ? AddIssueForm : AddObservationForm;
+    const formType = form === 'issue' ? AddIssueForm : getAddObservationForm(this.state.groups);
     return (
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>
@@ -446,7 +398,6 @@ export class _AddScene extends BaseScene {
                 </Text>
               </View>
             </View>
-            {this.renderGroups()}
             <View style={styles.formContainer}>
               <Form
                 ref={ref => this.formView = ref}
