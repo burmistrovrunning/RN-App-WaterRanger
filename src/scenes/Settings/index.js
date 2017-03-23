@@ -5,6 +5,8 @@ import {
   View,
   ScrollView
 } from 'react-native';
+import { LoginManager } from 'react-native-fbsdk';
+
 import _ from 'lodash';
 import BaseScene from '../BaseScene';
 import { localStorage } from '../../services';
@@ -24,6 +26,7 @@ export class SettingsScene extends BaseScene {
     try {
       await localStorage.remove('accessToken');
       await localStorage.remove('profile');
+      LoginManager.logOut();
       this.props.onLogout();
     } catch (e) {
       console.log('log out err', e);
