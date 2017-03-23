@@ -58,6 +58,7 @@ export async function facebookLogin(token) {
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     });
+
     const json = await response.json();
     const { map } = response.headers;
     const accessToken = map['access-token'][0] || null;
@@ -77,6 +78,7 @@ export async function facebookLogin(token) {
       await localStorage.set('loginDetails', JSON.stringify(loginDetails));
       await localStorage.set('profile', JSON.stringify(json));
     } else {
+      alert('error');
       error = 'Please check your login and try again.';
     }
   } catch (err) {

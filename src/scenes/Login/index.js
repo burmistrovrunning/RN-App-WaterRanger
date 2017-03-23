@@ -153,7 +153,7 @@ export class LoginScene extends Component {
           </TouchableHighlight>
 
           <LoginButton
-            publishPermissions={['publish_actions']}
+            readPermissions={['email']}
             onLoginFinished={(error, result) => {
               if (error) {
                 console.log(`Login failed with error: ${result.error}`);
