@@ -9,25 +9,35 @@ const IssueType = t.enums({
   other: 'Other'
 });
 
-export const AddIssueForm = t.struct({
-  bodyOfWater: t.String,
-  locationName: t.maybe(t.String),
-  locationDescription: t.maybe(t.String),
-  date: t.Date,
-  category: IssueType,
-  description: t.maybe(t.String),
-  weather: t.maybe(t.String),
-  seenBefore: t.maybe(t.String),
-  notifiedAgencies: t.maybe(t.String),
-  contactEmail: t.maybe(t.String),
-  contactPhone: t.maybe(t.String)
-});
-export const getIssue = (form, groupValue) => {
+export function getAddIssueForm(groups) {
+  const groupsValue = {};
+  groups.forEach((item) => {
+    groupsValue[item.id] = item.name;
+  });
+  const groupType = t.enums(groupsValue);
+  return t.struct({
+    bodyOfWater: t.String,
+    locationName: t.maybe(t.String),
+    locationDescription: t.maybe(t.String),
+    date: t.Date,
+    group: t.maybe(groupType),
+    category: IssueType,
+    description: t.maybe(t.String),
+    weather: t.maybe(t.String),
+    seenBefore: t.maybe(t.String),
+    notifiedAgencies: t.maybe(t.String),
+    contactEmail: t.maybe(t.String),
+    contactPhone: t.maybe(t.String)
+  });
+}
+
+export const getIssue = (form) => {
   const value = form.getValue();
   if (value) {
     return {
       observed_on: new Date().toJSON(),
       category: value.category,
+      group_tokens: value.group || '',
       notes: {
         details: (value.description || '').toString(),
         weather: (value.weather || '').toString(),

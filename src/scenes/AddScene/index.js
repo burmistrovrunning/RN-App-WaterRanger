@@ -15,7 +15,7 @@ import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
 import BaseScene from '../BaseScene';
-import { AddIssueForm, getAddObservationForm, getIssue, getObservation } from './forms';
+import { getAddIssueForm, getAddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import FormTemplateObservation from './templates/FormTemplateObservation';
@@ -96,7 +96,7 @@ export class _AddScene extends BaseScene {
       this.setState({ isSubmitting: true });
       const dictToSend = {};
       if (form === 'issue') {
-        dictToSend.issues = [getIssue(this.formView)];
+        dictToSend.issues = [getIssue(this.formView, this.state.groups)];
       } else {
         dictToSend.observations = [getObservation(this.formView, this.state.groups)];
       }
@@ -169,6 +169,7 @@ export class _AddScene extends BaseScene {
   render() {
     const { marker, form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
+    const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!'
     const options = {
       i18n: {
         optional: '',
@@ -221,7 +222,7 @@ export class _AddScene extends BaseScene {
             value: '',
             text: 'Select Group...',
           },
-          help: 'Only assign an observation to a group if you have been trained by them!'
+          help: groupHelpText
         },
         category: {
           nullOption: {
@@ -369,7 +370,7 @@ export class _AddScene extends BaseScene {
     }
 
     options.fields = { ...options.fields, ...fieldOptions };
-    const formType = form === 'issue' ? AddIssueForm : getAddObservationForm(this.state.groups);
+    const formType = form === 'issue' ? getAddIssueForm(this.state.groups) : getAddObservationForm(this.state.groups);
     return (
       <View style={addStyles.addSceneContainer}>
         <View style={addStyles.addSceneTabBarContainer}>

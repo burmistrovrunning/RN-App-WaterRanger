@@ -25,6 +25,7 @@ function FormTemplateIssue(props) {
       <View style={addStyles.formFieldset}>
         <Text style={styles.headerTwo}>{'Issue Details'.toUpperCase()}</Text>
         {inputs.category}
+        {inputs.group}
         {inputs.date}
         {inputs.description}
         {inputs.weather}
