@@ -95,7 +95,7 @@ export class MyObservationScene extends BaseScene {
             />
             <View style={addStyles.offlineFormsFooter}>
               <TouchableHighlight style={styles.button} onPress={this.onTryAgain}>
-                <Text style={styles.buttonText}>Upload forms</Text>
+                <Text style={styles.buttonText}>{'Upload forms'.toUpperCase()}</Text>
               </TouchableHighlight>
             </View>
           </View>
