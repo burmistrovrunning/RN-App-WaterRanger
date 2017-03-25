@@ -84,14 +84,14 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb182812265557011</string>
+          <string>fb812384592211441</string>
         </array>
       </dict>
     </array>
     <key>FacebookAppID</key>
-    <string>182812265557011</string>
+    <string>812384592211441</string>
     <key>FacebookDisplayName</key>
-    <string>sandbox</string>
+    <string>Water Rangers - Staging</string>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>fbapi</string>
