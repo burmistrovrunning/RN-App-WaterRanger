@@ -169,7 +169,7 @@ export class _AddScene extends BaseScene {
   render() {
     const { marker, form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
-    const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!'
+    const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!';
     const options = {
       i18n: {
         optional: '',
