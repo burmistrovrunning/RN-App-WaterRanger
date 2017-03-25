@@ -55,6 +55,7 @@ export class _AddScene extends BaseScene {
       isSubmitting: false,
       groups: [],
       keyboardHeight: new Animated.Value(0),
+      currentDate: new Date()
     };
     this.formView = null;
     this.scrollView = null;
@@ -166,7 +167,7 @@ export class _AddScene extends BaseScene {
     return <View />;
   }
   render() {
-    const { marker, form } = this.state;
+    const { marker, form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
     const options = {
       i18n: {
@@ -215,17 +216,32 @@ export class _AddScene extends BaseScene {
             }
           }
         },
+        group: {
+          nullOption: {
+            value: '',
+            text: 'Select Group...',
+          },
+          help: "Only assign an observation to a group if you have been trained by them!"
+        },
         category: {
           nullOption: {
             value: '',
-            text: 'Choose Issue category'
+            text: 'Select Issue category...'
+          },
+          help: 'Choose which category best matches your issue'
+        },
+        iceWatch: {
+          label: 'Is the ice on or off the Water?',
+          nullOption: {
+            value: '',
+            text: 'Select value...'
           }
         },
         date: {
-          maximumDate: new Date(),
-          config: {
-            format: value => moment(value).format('MM/DD/YYYY : HH:MM')
-          }
+          // config: {
+          //   format: date => moment(currentDate).format('MM/DD/YYYY : HH:MM')
+          // },
+          maximumDate: currentDate
         },
         wildlife: {
           label: 'Add wildlife',
@@ -238,12 +254,6 @@ export class _AddScene extends BaseScene {
           tintColor: '#fff',
           onTintColor: '#246EC0',
           template: invasiveSpeciesLayoutTemplate
-        },
-        iceWatch: {
-          label: '',
-          help: 'Is the ice on or off the Water?',
-          tintColor: '#fff',
-          onTintColor: '#246EC0'
         },
         seenBefore: {
           tintColor: '#fff',
@@ -299,6 +309,15 @@ export class _AddScene extends BaseScene {
         },
         nitrates: {
           label: 'Nitrates (mg/L)'
+        },
+        weather: {
+          placeholder: "e.g. Was there a recent storm?"
+        },
+        seenBefore: {
+          placeholder: "eg. When or for how long?"
+        },
+        notifiedAgencies: {
+          placeholder: "eg. I notified 'Example Agency' on March 22, 2016"
         }
       }
     };
@@ -318,10 +337,17 @@ export class _AddScene extends BaseScene {
       };
     } else {
       fieldOptions = {
-        bodyOfWater: { editable: true },
-        locationName: { hidden: false },
+        bodyOfWater: { 
+          editable: true,
+          placeholder: 'e.g. Blue Lake'
+        },
+        locationName: { 
+          hidden: false,
+          placeholder: 'e.g. Near City Name or BL613-1'
+        },
         locationDescription: {
           hidden: false,
+          placeholder: 'Provide details specific to this Location. For example: Is the water still? or moving? Is there a danger here?',
           multiline: true,
           stylesheet: {
             ...Form.stylesheet,

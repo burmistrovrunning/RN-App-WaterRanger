@@ -29,6 +29,11 @@ const InvasiveSpeciesType = t.struct({
   'Spiny Waterfleas': t.maybe(t.Boolean)
 });
 
+const Icewatch = t.enums({
+  on: 'Ice On',
+  off: 'Ice Off'
+});
+
 export function getAddObservationForm(groups) {
   const groupsValue = {};
   groups.forEach((item) => {
@@ -40,7 +45,7 @@ export function getAddObservationForm(groups) {
     locationName: t.maybe(t.String),
     locationDescription: t.maybe(t.String),
     date: t.Date,
-    group: groupType,
+    group: t.maybe(groupType),
     wildlife: t.maybe(WildlifeType),
     invasiveSpecies: t.maybe(InvasiveSpeciesType),
     ph: t.maybe(t.Number),
@@ -61,7 +66,7 @@ export function getAddObservationForm(groups) {
     secchiDepth: t.maybe(t.Number),
     nitrites: t.maybe(t.Number),
     nitrates: t.maybe(t.Number),
-    iceWatch: t.maybe(t.Boolean),
+    iceWatch: t.maybe(Icewatch),
     notes: t.maybe(t.String)
   });
 }
@@ -107,7 +112,7 @@ export const getObservation = (form) => {
         total_phosphorus: (value.phosphorus || '').toString(),
         salinity: (value.salinity || '').toString(),
         water_depth: (value.secchiDepth || '').toString(),
-        ice: value.iceWatch ? 'on' : 'off'
+        ice: value.iceWatch
       }
     };
   }

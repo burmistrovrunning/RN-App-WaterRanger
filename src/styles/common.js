@@ -66,6 +66,11 @@ export const styles = EStyleSheet.create({
     fontFamily: '$globalFontHeader',
     marginBottom: 10
   },
+  headerThree: {
+    fontSize: 20,
+    fontFamily: '$globalFontHeader',
+    marginBottom: 10
+  },
   fixedHeader: {
     borderBottomColor: '$lineColor',
     borderBottomWidth: 1,
