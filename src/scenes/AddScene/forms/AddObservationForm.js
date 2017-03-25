@@ -95,7 +95,7 @@ export const getObservation = (form) => {
     return {
       observed_on: new Date().toJSON(),
       notes: value.notes,
-      group_tokens: value.group,
+      group_tokens: value.group || '',
       data: {
         wildlife,
         invasive_species: invasiveSpecies,
@@ -112,7 +112,7 @@ export const getObservation = (form) => {
         total_phosphorus: (value.phosphorus || '').toString(),
         salinity: (value.salinity || '').toString(),
         water_depth: (value.secchiDepth || '').toString(),
-        ice: value.iceWatch
+        ice: (value.iceWatch || '').toString()
       }
     };
   }

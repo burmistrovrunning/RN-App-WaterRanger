@@ -15,8 +15,9 @@ function FormTemplateObservation(props) {
       <View style={addStyles.formFieldset}>
         <Text style={[styles.headerTwo]}>{'Location Details'.toUpperCase()}</Text>
         <View style={addStyles.formRow}>
-          <Text style={styles.headerThree}>You're creating a brand new Location!</Text>
-          <Text style={styles.helpText}>Add details below to provide others with information about this particular spot.</Text>
+          <Text style={styles.helpText}>
+            Add details below to provide others with information about this particular spot.
+          </Text>
           {inputs.bodyOfWater}
           {inputs.locationName}
           {inputs.locationDescription}

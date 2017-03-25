@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
-import moment from 'moment';
+// import moment from 'moment';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardSpacing } from '../../components';
@@ -221,7 +221,7 @@ export class _AddScene extends BaseScene {
             value: '',
             text: 'Select Group...',
           },
-          help: "Only assign an observation to a group if you have been trained by them!"
+          help: 'Only assign an observation to a group if you have been trained by them!'
         },
         category: {
           nullOption: {
@@ -254,10 +254,6 @@ export class _AddScene extends BaseScene {
           tintColor: '#fff',
           onTintColor: '#246EC0',
           template: invasiveSpeciesLayoutTemplate
-        },
-        seenBefore: {
-          tintColor: '#fff',
-          onTintColor: '#246EC0'
         },
         ph: {
           label: 'pH (0-14)'
@@ -311,10 +307,10 @@ export class _AddScene extends BaseScene {
           label: 'Nitrates (mg/L)'
         },
         weather: {
-          placeholder: "e.g. Was there a recent storm?"
+          placeholder: 'e.g. Was there a recent storm?'
         },
         seenBefore: {
-          placeholder: "eg. When or for how long?"
+          placeholder: 'eg. When or for how long?'
         },
         notifiedAgencies: {
           placeholder: "eg. I notified 'Example Agency' on March 22, 2016"
@@ -337,11 +333,11 @@ export class _AddScene extends BaseScene {
       };
     } else {
       fieldOptions = {
-        bodyOfWater: { 
+        bodyOfWater: {
           editable: true,
           placeholder: 'e.g. Blue Lake'
         },
-        locationName: { 
+        locationName: {
           hidden: false,
           placeholder: 'e.g. Near City Name or BL613-1'
         },
