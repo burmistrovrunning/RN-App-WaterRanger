@@ -78,7 +78,6 @@ export async function facebookLogin(token) {
       await localStorage.set('loginDetails', JSON.stringify(loginDetails));
       await localStorage.set('profile', JSON.stringify(json));
     } else {
-      alert('error');
       error = 'Please check your login and try again.';
     }
   } catch (err) {
