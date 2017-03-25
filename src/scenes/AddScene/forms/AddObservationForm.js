@@ -29,36 +29,44 @@ const InvasiveSpeciesType = t.struct({
   'Spiny Waterfleas': t.maybe(t.Boolean)
 });
 
-export const AddObservationForm = t.struct({
-  bodyOfWater: t.String,
-  locationName: t.maybe(t.String),
-  locationDescription: t.maybe(t.String),
-  date: t.Date,
-  wildlife: t.maybe(WildlifeType),
-  invasiveSpecies: t.maybe(InvasiveSpeciesType),
-  ph: t.maybe(t.Number),
-  waterTemp: t.maybe(t.Number),
-  airTemp: t.maybe(t.Number),
-  dissolvedOxygen: t.maybe(t.Number),
-  eColi: t.maybe(t.Number),
-  otherColiform: t.maybe(t.Number),
-  totalColiform: t.maybe(t.Number),
-  conductivity: t.maybe(t.Number),
-  alkalinity: t.maybe(t.Number),
-  hardness: t.maybe(t.Number),
-  turbidity: t.maybe(t.Number),
-  kjeldahlNitrogen: t.maybe(t.Number),
-  phosphorus: t.maybe(t.Number),
-  salinity: t.maybe(t.Number),
-  phosphates: t.maybe(t.Number),
-  secchiDepth: t.maybe(t.Number),
-  nitrites: t.maybe(t.Number),
-  nitrates: t.maybe(t.Number),
-  iceWatch: t.maybe(t.Boolean),
-  notes: t.maybe(t.String)
-});
+export function getAddObservationForm(groups) {
+  const groupsValue = {};
+  groups.forEach((item) => {
+    groupsValue[item.id] = item.name;
+  });
+  const groupType = t.enums(groupsValue);
+  return t.struct({
+    bodyOfWater: t.String,
+    locationName: t.maybe(t.String),
+    locationDescription: t.maybe(t.String),
+    date: t.Date,
+    group: groupType,
+    wildlife: t.maybe(WildlifeType),
+    invasiveSpecies: t.maybe(InvasiveSpeciesType),
+    ph: t.maybe(t.Number),
+    waterTemp: t.maybe(t.Number),
+    airTemp: t.maybe(t.Number),
+    dissolvedOxygen: t.maybe(t.Number),
+    eColi: t.maybe(t.Number),
+    otherColiform: t.maybe(t.Number),
+    totalColiform: t.maybe(t.Number),
+    conductivity: t.maybe(t.Number),
+    alkalinity: t.maybe(t.Number),
+    hardness: t.maybe(t.Number),
+    turbidity: t.maybe(t.Number),
+    kjeldahlNitrogen: t.maybe(t.Number),
+    phosphorus: t.maybe(t.Number),
+    salinity: t.maybe(t.Number),
+    phosphates: t.maybe(t.Number),
+    secchiDepth: t.maybe(t.Number),
+    nitrites: t.maybe(t.Number),
+    nitrates: t.maybe(t.Number),
+    iceWatch: t.maybe(t.Boolean),
+    notes: t.maybe(t.String)
+  });
+}
 
-export const getObservation = (form, groupValue) => {
+export const getObservation = (form) => {
   const value = form.getValue();
   if (value) {
     const wildlife = [];
@@ -82,7 +90,7 @@ export const getObservation = (form, groupValue) => {
     return {
       observed_on: new Date().toJSON(),
       notes: value.notes,
-      group_tokens: groupValue.toString(),
+      group_tokens: value.group,
       data: {
         wildlife,
         invasive_species: invasiveSpecies,

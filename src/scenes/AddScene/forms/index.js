@@ -1,2 +1,2 @@
 export { AddIssueForm, getIssue } from './AddIssueForm';
-export { AddObservationForm, getObservation } from './AddObservationForm';
+export { AddObservationForm, getObservation, getAddObservationForm } from './AddObservationForm';

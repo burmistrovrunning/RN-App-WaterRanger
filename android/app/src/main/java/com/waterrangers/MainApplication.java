@@ -19,6 +19,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -54,6 +55,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTCameraPackage(),
             new SvgPackage(),
             new FBSDKPackage(mCallbackManager)
+            new LocationServicesDialogBoxPackage()
       );
     }
   };
