@@ -140,6 +140,26 @@ export class LoginScene extends Component {
           <View style={[styles.errorTextContainer, this.state.error ? {} : loginStyles.hidden]}>
             <Text style={styles.errorText}>{this.state.error}</Text>
           </View>
+          <View style={loginStyles.facebookLogin}>
+            <LoginButton
+              style={loginStyles.facebookLoginButton}
+              readPermissions={['email']}
+              onLoginFinished={(error, result) => {
+                if (error) {
+                  this.setState({ error });
+                } else if (result.isCancelled) {
+                  this.setState({ error: 'Login Cancelled' });
+                } else {
+                  AccessToken.getCurrentAccessToken().then(
+                    (data) => {
+                      this.onLoginFacebook(data.accessToken.toString());
+                    }
+                  );
+                }
+              }}
+              onLogoutFinished={() => console.log('User logged out')}
+            />
+          </View>
           <Form
             ref={ref => this.formView = ref}
             value={defaultValue}
@@ -151,24 +171,6 @@ export class LoginScene extends Component {
           <TouchableHighlight style={styles.button} onPress={this.onLogin} underlayColor="#99d9f4">
             <Text style={styles.buttonText}>{'Login'.toUpperCase()}</Text>
           </TouchableHighlight>
-
-          <LoginButton
-            readPermissions={['email']}
-            onLoginFinished={(error, result) => {
-              if (error) {
-                this.setState({ error });
-              } else if (result.isCancelled) {
-                this.setState({ error: 'Login Cancelled' });
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                    this.onLoginFacebook(data.accessToken.toString());
-                  }
-                );
-              }
-            }}
-            onLogoutFinished={() => console.log('User logged out')}
-          />
 
           {/* this.renderWebView() */}
         </TouchableOpacity>

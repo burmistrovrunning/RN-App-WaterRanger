@@ -36,5 +36,10 @@ export const styles = EStyleSheet.create({
     padding: 0,
     width: 0
   },
+  facebookLogin: {
+    alignItems: 'center',
+    marginBottom: 20,
+    justifyContent: 'center'
+  }
 });
 
