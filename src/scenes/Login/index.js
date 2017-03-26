@@ -156,9 +156,9 @@ export class LoginScene extends Component {
             readPermissions={['email']}
             onLoginFinished={(error, result) => {
               if (error) {
-                console.log(`Login failed with error: ${result.error}`);
+                this.setState({ error });
               } else if (result.isCancelled) {
-                console.log('Login was cancelled');
+                this.setState({ error: 'Login Cancelled' });
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {

@@ -1,3 +1,4 @@
+import { LoginManager } from 'react-native-fbsdk';
 import { localStorage } from './localStorage';
 import { isNetworkOnline } from './utils';
 import GLOBAL from '../Globals';
@@ -78,9 +79,11 @@ export async function facebookLogin(token) {
       await localStorage.set('loginDetails', JSON.stringify(loginDetails));
       await localStorage.set('profile', JSON.stringify(json));
     } else {
+      LoginManager.logOut();
       error = 'Please check your login and try again.';
     }
   } catch (err) {
+    LoginManager.logOut();
     console.log('login err', err);
     error = err;
   }
