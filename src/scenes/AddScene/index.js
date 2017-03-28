@@ -9,7 +9,6 @@ import {
   Animated
 } from 'react-native';
 import { connect } from 'react-redux';
-import { isEqual } from 'lodash';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardScrollView } from '../../components';
@@ -66,13 +65,6 @@ export class _AddScene extends BaseScene {
     this.refreshData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.marker, nextProps.marker)) {
-      if (this.scrollView) {
-        this.scrollView.getRef().scrollTo({ y: 0, animated: false });
-      }
-    }
-  }
   onRefreshLocation = () => {
     const { marker, location } = this.props;
     marker.latitude = location.latitude;
