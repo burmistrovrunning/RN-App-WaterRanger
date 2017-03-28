@@ -82,14 +82,18 @@ class _MainContainer extends Component {
   showTabBar = visible => this.tabView.updateTabVisible(visible);
   checkIsLocation() {
     setTimeout(async () => {
-      const check = await LocationServicesDialogBox.checkLocationService({
-        message: 'You have to turn on location to use this application. Do you want to turn on it now?',
-        ok: 'YES',
-        cancel: 'NO'
-      }).catch(error => error);
-      LocationServicesDialogBox.checkLocationPermission();
-      if (check === 'enabled') {
-        this.setState({ showPage: true });
+      try {
+        LocationServicesDialogBox.enableLocationPermission();
+        const check = await LocationServicesDialogBox.checkLocationService({
+          message: 'You have to turn on location to use this application. Do you want to turn on it now?',
+          ok: 'YES',
+          cancel: 'NO'
+        });
+        if (check === 'enabled') {
+          this.setState({ showPage: true });
+        }
+      } catch (err) {
+        console.log('err', err);
       }
     }, 100);
   }

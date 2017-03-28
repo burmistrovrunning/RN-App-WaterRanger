@@ -1,11 +1,19 @@
+import { Platform } from 'react-native';
+import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 import { getFailedForms, removeFailedForms } from './localStorage';
 import { uploadForm } from './webService';
 
 let watchID = -1;
-// let intervalId = -1;
-export const clearWatchLocation = () => navigator.geolocation.clearWatch(watchID);
-
-export const watchLocation = (resolve) => {
+let intervalId = -1;
+export const clearWatchLocation = () => {
+  if (watchID !== -1) {
+    navigator.geolocation.clearWatch(watchID);
+  }
+  if (intervalId !== -1) {
+    clearInterval(intervalId);
+  }
+};
+const startWatchLocation = (resolve) => {
   navigator.geolocation.getCurrentPosition((position) => {
     console.log('get location success', position);
     resolve({
@@ -27,6 +35,21 @@ export const watchLocation = (resolve) => {
   //     longitude: -75.8246687
   //   });
   // }, 5000);
+};
+
+export const watchLocation = (resolve) => {
+  if (Platform.OS === 'android') {
+    intervalId = setInterval(async () => {
+      const status = await LocationServicesDialogBox.checkLocationPermission();
+      if (status === 'enabled') {
+        clearInterval(intervalId);
+        intervalId = -1;
+        startWatchLocation(resolve);
+      }
+    }, 1000);
+  } else {
+    startWatchLocation(resolve);
+  }
 };
 const uploadFailedForm = async (data) => {
   console.log('observations', data);

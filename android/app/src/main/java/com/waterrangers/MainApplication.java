@@ -54,7 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ImagePickerPackage(),
             new RCTCameraPackage(),
             new SvgPackage(),
-            new FBSDKPackage(mCallbackManager)
+            new FBSDKPackage(mCallbackManager),
             new LocationServicesDialogBoxPackage()
       );
     }
