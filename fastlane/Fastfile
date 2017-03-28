@@ -23,6 +23,9 @@ platform :ios do
   desc "This will also make sure the profile is up to date"
   lane :beta do
     sigh
+    #increment_build_number({
+    #  build_number: latest_testflight_build_number + 1
+    #})
     increment_build_number(xcodeproj: './ios/WaterRangers.xcodeproj') # Increment the build number
     gym(scheme: "WaterRangers", project: './ios/WaterRangers.xcodeproj') # Build the app
     pilot(skip_submission: true) # Upload the app to TestFlight

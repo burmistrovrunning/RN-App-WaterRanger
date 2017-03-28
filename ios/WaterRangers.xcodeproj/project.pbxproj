@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -59,8 +60,8 @@
 		7607915CE3F34A4A90FD7CAB /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BF89F7E1CAA4A90A2708F09 /* Oswald-Regular.ttf */; };
 		782EE2AEC91A456182DF7EF3 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C1A1C2A50C4E4B90A7AC5D /* libRNCookieManagerIOS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		CB7AC66844CB4A1D9F94B3EB /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC577A71E8E5412F9537B24A /* libRCTFBSDK.a */; };
 		C06BC22FD29440FABF490DB3 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A227C5F415654E7999FE6AC3 /* libRCTImageResizer.a */; };
+		CB7AC66844CB4A1D9F94B3EB /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC577A71E8E5412F9537B24A /* libRCTFBSDK.a */; };
 		D995A8D8C11E409EA5724358 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 008EED6FDC374EBE85B997C4 /* libSplashScreen.a */; };
 /* End PBXBuildFile section */
 
@@ -1484,7 +1485,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Water Rangers (2K46BQQ695)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 35;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 2K46BQQ695;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1516,7 +1517,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Water Rangers (2K46BQQ695)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 2K46BQQ695;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
