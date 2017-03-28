@@ -61,10 +61,8 @@ export class KeyboardScrollView extends Component {
         }
       }
     );
-    if (!this.resetCoords) {
-      if (!this.defaultResetPosition) {
-        this.defaultResetPosition = this.position;
-      }
+    if (!this.defaultResetPosition) {
+      this.defaultResetPosition = this.position;
     }
   }
 
@@ -72,13 +70,9 @@ export class KeyboardScrollView extends Component {
     const keyboardSpace = 0;
     this.setState({ keyboardSpace });
     // Reset scroll position after keyboard dismissal
-    if (this.resetCoords) {
-      this.scrollToPosition(this.resetCoords.x, this.resetCoords.y, true);
-    } else if (this.defaultResetPosition) {
+    if (this.defaultResetPosition) {
       this.scrollToPosition(this.defaultResetPosition.x, this.defaultResetPosition.y, true);
       this.defaultResetPosition = null;
-    } else {
-      this.scrollToPosition(0, 0, true);
     }
   };
   scrollToPosition(x, y, animated = true) {
