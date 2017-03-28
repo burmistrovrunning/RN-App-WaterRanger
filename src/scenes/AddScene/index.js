@@ -3,17 +3,15 @@ import {
   Text,
   TouchableHighlight,
   View,
-  ScrollView,
   Alert,
   ActivityIndicator,
   Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
-// import moment from 'moment';
 import t from 'tcomb-form-native';
 import { AttachedImageView } from './AttachedImageView';
-import { KeyboardSpacing } from '../../components';
+import { KeyboardScrollView } from '../../components';
 import BaseScene from '../BaseScene';
 import { getAddIssueForm, getAddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
@@ -60,6 +58,8 @@ export class _AddScene extends BaseScene {
     this.formView = null;
     this.scrollView = null;
     this.attachImageRef = null;
+    this.scrollPosY = 0;
+    this.keyboardHeight = 0;
   }
 
   componentDidMount() {
@@ -70,23 +70,16 @@ export class _AddScene extends BaseScene {
     if (!isEqual(this.props.marker, nextProps.marker)) {
       this.setState({ marker: nextProps.marker });
       if (this.scrollView) {
-        this.scrollView.scrollTo({ y: 0, animated: false });
+        this.scrollView.getRef().scrollTo({ y: 0, animated: false });
       }
     }
   }
+  onHandleScroll = event => (this.scrollPosY = event.nativeEvent.contentOffset.y);
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
   onChooseIssue = () => {
     this.setState({ form: 'issue' });
-  };
-  onKeyboardUpdated = (toValue) => {
-    Animated.timing(
-      this.state.keyboardHeight, {
-        toValue: toValue > 0 ? -toValue / 2 : 0,
-        duration: 150,
-      }
-    ).start();
   };
   onSubmit = async () => {
     const value = this.formView.getValue();
@@ -138,7 +131,7 @@ export class _AddScene extends BaseScene {
       this.setState({ isSubmitting: false });
       this.attachImageRef.resetImage();
     }
-    this.scrollView.scrollTo({ y: 0, animated: false });
+    this.scrollView.getRef().scrollTo({ y: 0, animated: false });
   };
   refreshData() {
     setTimeout(async () => {
@@ -149,7 +142,7 @@ export class _AddScene extends BaseScene {
           this.setState({ groups });
         }
       }
-      this.scrollView.scrollTo({ y: 0, animated: false });
+      this.scrollView.getRef().scrollTo({ y: 0, animated: false });
     }, 100);
   }
   renderWaiting() {
@@ -405,7 +398,12 @@ export class _AddScene extends BaseScene {
             </Text>
           </TouchableHighlight>
         </View>
-        <ScrollView ref={ref => this.scrollView = ref} keyboardDismissMode="on-drag" keyboardShouldPersistTaps="never">
+        <KeyboardScrollView
+          ref={ref => this.scrollView = ref}
+          keyboardDismissMode="on-drag"
+          onScroll={this.onHandleScroll}
+          keyboardShouldPersistTaps="never"
+        >
           <Animated.View style={[addStyles.addScrollContainer, { top: this.state.keyboardHeight }]}>
             <View style={addStyles.addSceneLatLngContainer}>
               <View style={addStyles.addSceneLatLngBlock}>
@@ -437,9 +435,8 @@ export class _AddScene extends BaseScene {
               </View>
             </View>
           </Animated.View>
-        </ScrollView>
+        </KeyboardScrollView>
         {this.renderWaiting()}
-        <KeyboardSpacing hide onKeyboardUpdated={this.onKeyboardUpdated} />
       </View>
     );
   }
