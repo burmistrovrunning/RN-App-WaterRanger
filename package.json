@@ -13,7 +13,6 @@
     "moment": "^2.17.1",
     "react": "15.4.2",
     "react-native": "0.41.2",
-    "react-native-android-location-services-dialog-box": "^1.2.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-collapsible": "^0.8.0",
     "react-native-cookies": "^2.0.0",
@@ -35,7 +34,8 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^2.5.4",
     "supercluster": "^2.3.0",
-    "tcomb-form-native": "git+https://github.com/nickhagenov/tcomb-form-native.git"
+    "tcomb-form-native": "git+https://github.com/nickhagenov/tcomb-form-native.git",
+    "react-native-android-location-services-dialog-box": "git+https://github.com/nickhagenov/react-native-android-location-services-dialog-box.git"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
