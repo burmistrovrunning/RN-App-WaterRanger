@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
   Alert,
   ActivityIndicator,
@@ -15,6 +16,7 @@ import { KeyboardScrollView } from '../../components';
 import BaseScene from '../BaseScene';
 import { getAddIssueForm, getAddObservationForm, getIssue, getObservation } from './forms';
 import { markerSelector } from '../../redux/selectors';
+import { MarkerActions } from '../../redux/actions';
 import { uploadForm, storeFailedForm, localStorage } from '../../services';
 import FormTemplateObservation from './templates/FormTemplateObservation';
 import FormTemplateIssue from './templates/FormTemplateIssue';
@@ -49,7 +51,6 @@ export class _AddScene extends BaseScene {
     // const { state } = this.props.navigation;
     this.state = {
       form: 'observation',
-      marker: props.marker,
       isSubmitting: false,
       groups: [],
       keyboardHeight: new Animated.Value(0),
@@ -58,7 +59,6 @@ export class _AddScene extends BaseScene {
     this.formView = null;
     this.scrollView = null;
     this.attachImageRef = null;
-    this.scrollPosY = 0;
     this.keyboardHeight = 0;
   }
 
@@ -68,13 +68,17 @@ export class _AddScene extends BaseScene {
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.marker, nextProps.marker)) {
-      this.setState({ marker: nextProps.marker });
       if (this.scrollView) {
         this.scrollView.getRef().scrollTo({ y: 0, animated: false });
       }
     }
   }
-  onHandleScroll = event => (this.scrollPosY = event.nativeEvent.contentOffset.y);
+  onRefreshLocation = () => {
+    const { marker, location } = this.props;
+    marker.latitude = location.latitude;
+    marker.longitude = location.longitude;
+    this.props.dispatch(MarkerActions.updateMarker(marker));
+  };
   onChooseObservation = () => {
     this.setState({ form: 'observation' });
   };
@@ -83,7 +87,8 @@ export class _AddScene extends BaseScene {
   };
   onSubmit = async () => {
     const value = this.formView.getValue();
-    const { marker, form } = this.state;
+    const { marker } = this.props;
+    const { form } = this.state;
     const avatarSource = this.attachImageRef.getImage();
     if (value) {
       this.setState({ isSubmitting: true });
@@ -160,7 +165,8 @@ export class _AddScene extends BaseScene {
     return <View />;
   }
   render() {
-    const { marker, form, currentDate } = this.state;
+    const { marker } = this.props;
+    const { form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
     const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!';
     const options = {
@@ -418,6 +424,11 @@ export class _AddScene extends BaseScene {
                   {marker.longitude.toFixed(5)}
                 </Text>
               </View>
+            </View>
+            <View style={addStyles.refreshContainer}>
+              <TouchableOpacity onPress={this.onRefreshLocation}>
+                <Text style={addStyles.refreshTitle}>Refresh</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.formContainer}>
               <Form

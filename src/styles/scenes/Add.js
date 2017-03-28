@@ -82,6 +82,14 @@ export const styles = EStyleSheet.create({
   addSceneTabBarTextActive: {
     color: '$colorWhite'
   },
+  refreshContainer: {
+    backgroundColor: '$colorBeige',
+    borderBottomColor: '$lineColor',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
   addSceneLatLngContainer: {
     backgroundColor: '$colorBeige',
     borderBottomColor: '$lineColor',

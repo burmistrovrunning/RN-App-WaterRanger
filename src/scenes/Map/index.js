@@ -78,12 +78,9 @@ export class _MapScene extends BaseScene {
   onFinishLoadingMap() {
     console.log('Map finished');
   }
-  onUpdateRemoveStatus = () => {
-    const { flagRemove } = this.state;
-    this.setState({ flagRemove: !flagRemove });
-    const mapMarkers = this.updateMarkerRightIcon(this.state.mapMarkers, !flagRemove);
-    const newMarkers = this.updateMarkerRightIcon(this.state.newMarkers, !flagRemove);
-    this.setState({ newMarkers, mapMarkers });
+  onFindMe = () => {
+    const { location } = this.props;
+    this.mapView.setCenterCoordinateZoomLevel(location.latitude, location.longitude, 16);
   };
   getCurrentLocationMarker = () => {
     const { latitude, longitude } = this.state.center;
@@ -193,14 +190,14 @@ export class _MapScene extends BaseScene {
       this.setState({ locations, mapMarkers });
     }, 100);
   };
-  renderRemoveView() {
+  renderFindMe() {
     const backgroundColor = this.state.flagRemove ? '#888' : '#EEE';
     return (
       <TouchableOpacity
         style={[styles.removeContainer, { backgroundColor }]}
-        onPress={this.onUpdateRemoveStatus}
+        onPress={this.onFindMe}
       >
-        <Text>Remove</Text>
+        <Text>Find Me</Text>
       </TouchableOpacity>
     );
   }
@@ -232,6 +229,7 @@ export class _MapScene extends BaseScene {
           onTap={this.addNewMarker}
           onFinishLoadingMap={this.onFinishLoadingMap}
         />
+        {this.renderFindMe()}
       </View>
     );
   }
