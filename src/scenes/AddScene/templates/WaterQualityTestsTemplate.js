@@ -88,9 +88,6 @@ class WaterQualityTestsTemplate extends Component {
                 {inputs.salinity}
               </View>
               <View style={addStyles.waterTestsCol}>
-                {inputs.salinity}
-              </View>
-              <View style={addStyles.waterTestsCol}>
                 {inputs.secchiDepth}
               </View>
               <View style={addStyles.waterTestsCol}>
