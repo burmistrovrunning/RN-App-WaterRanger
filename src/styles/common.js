@@ -51,6 +51,18 @@ export const styles = EStyleSheet.create({
     backgroundColor: '$colorRed',
     borderColor: '$colorRed'
   },
+  findMeButton: {
+    backgroundColor: '$colorBrightBlue',
+    borderRadius: 5,
+    paddingBottom: 5,
+    paddingLeft: 8,
+    paddingTop: 5,
+    paddingRight: 8
+  },
+  findMeButtonText: {
+    color: '$colorWhite',
+    fontFamily: '$globalFontHeader'
+  },
   mapMarker: {
     height: 24,
     width: 34

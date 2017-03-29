@@ -8,7 +8,8 @@ import BaseScene from '../BaseScene';
 import { locationSelector } from '../../redux/selectors';
 import { MarkerActions } from '../../redux/actions';
 import { getLocations, getClusters } from '../../services';
-import { styles } from '../../styles/scenes/Map';
+import { styles } from '../../styles/common';
+import { styles as mapStyles } from '../../styles/scenes/Map';
 
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
 Mapbox.setAccessToken(accessToken);
@@ -191,13 +192,12 @@ export class _MapScene extends BaseScene {
     }, 100);
   };
   renderFindMe() {
-    const backgroundColor = this.state.flagRemove ? '#888' : '#EEE';
     return (
       <TouchableOpacity
-        style={[styles.removeContainer, { backgroundColor }]}
+        style={[styles.findMeButton, mapStyles.findMe]}
         onPress={this.onFindMe}
       >
-        <Text>Find Me</Text>
+        <Text style={styles.findMeButtonText}>{'Find Me'.toUpperCase()}</Text>
       </TouchableOpacity>
     );
   }
@@ -210,7 +210,7 @@ export class _MapScene extends BaseScene {
         <MapView
           ref={ref => this.mapView = ref}
           contentInset={[0, 0, 0, 0]}
-          style={styles.map}
+          style={mapStyles.map}
           initialCenterCoordinate={this.state.center}
           initialZoomLevel={this.state.zoom}
           initialDirection={0}

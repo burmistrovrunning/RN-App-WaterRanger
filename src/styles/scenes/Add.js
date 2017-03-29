@@ -103,6 +103,9 @@ export const styles = EStyleSheet.create({
     flexDirection: 'row',
     padding: 20
   },
+  addSceneLatLngRefreshBlock: {
+    flex: 0
+  },
   addSceneLatLngTitle: {
     color: '$colorDarkBeige',
     fontFamily: '$globalFontHeader',

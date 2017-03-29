@@ -416,11 +416,11 @@ export class _AddScene extends BaseScene {
                   {marker.longitude.toFixed(5)}
                 </Text>
               </View>
-            </View>
-            <View style={addStyles.refreshContainer}>
-              <TouchableOpacity onPress={this.onRefreshLocation}>
-                <Text style={addStyles.refreshTitle}>Refresh</Text>
-              </TouchableOpacity>
+              <View style={[addStyles.addSceneLatLngBlock, addStyles.addSceneLatLngRefreshBlock]}>
+                <TouchableOpacity style={styles.findMeButton} onPress={this.onRefreshLocation}>
+                  <Text style={styles.findMeButtonText}>{'Refresh'.toUpperCase()}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.formContainer}>
               <Form
