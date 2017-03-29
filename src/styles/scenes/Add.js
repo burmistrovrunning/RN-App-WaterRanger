@@ -109,7 +109,7 @@ export const styles = EStyleSheet.create({
   addSceneLatLngTitle: {
     color: '$colorDarkBeige',
     fontFamily: '$globalFontHeader',
-    fontSize: 18,
+    fontSize: 16,
     marginRight: 5
   },
   addSceneLatLngValue: {
@@ -201,7 +201,11 @@ export const styles = EStyleSheet.create({
     width: '100%'
   },
   observationDataCheckbox: {
-    padding: 15
+    flex: 1,
+    flexWrap: 'wrap',
+    paddingTop: 10,
+    paddingLeft: 15,
+    paddingRight: 15
   },
   invasiveSpeciesCol: {
     alignItems: 'flex-start',

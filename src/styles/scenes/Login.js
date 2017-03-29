@@ -40,6 +40,24 @@ export const styles = EStyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     justifyContent: 'center'
+  },
+  facebookLoginButton: {
+    backgroundColor: '#3B5998',
+    borderRadius: 5,
+    padding: 5
+  },
+  facebookLoginButtonText: {
+    color: '$colorWhite',
+    fontSize: 14,
+    fontWeight: 'bold',
+    lineHeight: 14,
+    marginRight: 5
+  },
+  facebookLoginButtonIcon: {
+    marginLeft: 5
   }
+  // facebookLoginButton: {
+  //   flex: 1
+  // }
 });
 

@@ -61,6 +61,7 @@ export class SettingsScene extends BaseScene {
           <TouchableHighlight
             onPress={this.onLogout}
             style={[styles.button, styles.logOutButton]}
+            underlayColor="#981818"
           >
             <Text style={styles.buttonText}>{'Logout'.toUpperCase()}</Text>
           </TouchableHighlight>

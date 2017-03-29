@@ -10,8 +10,8 @@ import {
   Modal,
   Keyboard
 } from 'react-native';
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
-
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import Icon from 'react-native-vector-icons/Ionicons';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
 import { KeyboardSpacing } from '../../components';
@@ -92,6 +92,25 @@ export class LoginScene extends Component {
   hideKeyboard = () => {
     Keyboard.dismiss();
   };
+  handleFacebookLogin = async () => {
+    LoginManager.logInWithReadPermissions(['email']).then(
+      (result) => {
+        if (result.isCancelled) {
+          this.setState({ error: 'Login Cancelled' });
+        } else {
+          AccessToken.getCurrentAccessToken().then(
+            (data) => {
+              this.onLoginFacebook(data.accessToken.toString());
+              this.setState({ error: '' });
+            }
+          );
+        }
+      },
+      (error) => {
+        this.setState({ error });
+      }
+    );
+  }
   renderWebView() {
     const { webViewVisible } = this.state;
     if (webViewVisible) {
@@ -109,13 +128,6 @@ export class LoginScene extends Component {
       );
     }
     return (<View />);
-  }
-  renderSocialLoginButton() {
-    return (
-      <TouchableHighlight style={styles.button} onPress={this.onLoginFacebook} underlayColor="#99d9f4">
-        <Text style={styles.buttonText}>{'Facebook Login'.toUpperCase()}</Text>
-      </TouchableHighlight>
-    );
   }
   render() {
     const { keyboardHeight } = this.state;
@@ -141,24 +153,9 @@ export class LoginScene extends Component {
             <Text style={styles.errorText}>{this.state.error}</Text>
           </View>
           <View style={loginStyles.facebookLogin}>
-            <LoginButton
-              style={loginStyles.facebookLoginButton}
-              readPermissions={['email']}
-              onLoginFinished={(error, result) => {
-                if (error) {
-                  this.setState({ error });
-                } else if (result.isCancelled) {
-                  this.setState({ error: 'Login Cancelled' });
-                } else {
-                  AccessToken.getCurrentAccessToken().then(
-                    (data) => {
-                      this.onLoginFacebook(data.accessToken.toString());
-                    }
-                  );
-                }
-              }}
-              onLogoutFinished={() => console.log('User logged out')}
-            />
+            <Icon.Button name="logo-facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin} iconStyle={loginStyles.facebookLoginButtonIcon}>
+              <Text style={loginStyles.facebookLoginButtonText}>Login with Facebook</Text>
+            </Icon.Button>
           </View>
           <Form
             ref={ref => this.formView = ref}
