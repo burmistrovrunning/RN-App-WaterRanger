@@ -25,16 +25,19 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb812384592211441</string>
+				<string>fb812119232237977</string>
+				<!-- Staging <string>fb812384592211441</string> -->
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>35</string>
+	<string>37</string>
 	<key>FacebookAppID</key>
-	<string>812384592211441</string>
+	<string>812119232237977</string>
+	<!-- Staging <string>812384592211441</string> -->
 	<key>FacebookDisplayName</key>
-	<string>Water Rangers - Staging</string>
+	<string>Water Rangers</string>
+	<!-- Staging <string>Water Rangers - Staging</string> -->
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationCategoryType</key>
