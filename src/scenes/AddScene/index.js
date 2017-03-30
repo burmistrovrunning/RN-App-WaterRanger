@@ -6,10 +6,12 @@ import {
   View,
   Alert,
   ActivityIndicator,
-  Animated
+  Animated,
+  Linking
 } from 'react-native';
 import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
+import Hyperlink from 'react-native-hyperlink';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardScrollView } from '../../components';
 import BaseScene from '../BaseScene';
@@ -24,6 +26,7 @@ import InvasiveSpeciesDataTemplate from './templates/InvasiveSpeciesDataTemplate
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 import stylesheet from '../../styles/FormStyles';
+import GLOBAL from '../../Globals';
 
 const { Form } = t.form;
 Form.stylesheet = stylesheet;
@@ -109,10 +112,13 @@ export class _AddScene extends BaseScene {
       dictToSend[dictKey][0].imageFile = avatarSource;
       const response = await uploadForm(dictToSend);
       if (response.status === 200 || response.status === 204) {
-        const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues : response.jsonRes.observations);
-        const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. ${ids}`;
-        Alert.alert('Success!', successAlertMessage,
-          [{ text: 'Continue', onPress: () => this.props.resetScene('MapScene') }], { cancelable: true }
+        const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues[0]['issue_id'] : response.jsonRes.observations[0]['observation_id']);
+        const submissionUrl = GLOBAL.URL + (form === 'issue' ? 'issues/' + ids : 'observations/'  + ids)
+        const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. You can view it at ${submissionUrl}`;
+        Alert.alert('Success!', successAlertMessage,[
+            { text: 'View', onPress: url => this.openUrl(submissionUrl) },
+            { text: 'Continue', onPress: () => this.props.resetScene('MapScene') }
+          ], { cancelable: true }
         );
       } else if (response.status === -1) {
         await storeFailedForm(dictToSend);
@@ -130,6 +136,15 @@ export class _AddScene extends BaseScene {
     }
     this.scrollView.getRef().scrollTo({ y: 0, animated: false });
   };
+  openUrl(url) {
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    }).catch(err => console.error('An error occurred', err));
+  }
   refreshData() {
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
@@ -161,6 +176,10 @@ export class _AddScene extends BaseScene {
     const { form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
     const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!';
+    const checkboxTint = {
+      tintColor: '#c3c3a9',
+      onTintColor: '#246EC0'
+    }
     const options = {
       i18n: {
         optional: '',
@@ -237,15 +256,35 @@ export class _AddScene extends BaseScene {
         },
         wildlife: {
           label: 'Add wildlife',
-          tintColor: '#fff',
-          onTintColor: '#246EC0',
-          template: wildlifeLayoutTemplate
+          template: wildlifeLayoutTemplate,
+          fields: {
+            Mammal: checkboxTint,
+            Reptile: checkboxTint,
+            Amphibian: checkboxTint,
+            Fish: checkboxTint,
+            Plant: checkboxTint,
+            Insect: checkboxTint,
+            Bird: checkboxTint,
+            Crustacean: checkboxTint,
+            Fungi:  checkboxTint
+          }
         },
         invasiveSpecies: {
           label: 'Add Invasive Species',
-          tintColor: '#fff',
-          onTintColor: '#246EC0',
-          template: invasiveSpeciesLayoutTemplate
+          template: invasiveSpeciesLayoutTemplate,
+          fields: {
+            Phragmites: checkboxTint,
+            Loosestrife: checkboxTint,
+            'Zebra Mussels': checkboxTint,
+            'Other Invasive': checkboxTint,
+            'Eurasian Milfoil': checkboxTint,
+            'European Water Chestnut': checkboxTint,
+            'Yellow Iris': checkboxTint,
+            'Yellow Floating Heart': checkboxTint,
+            'Bloody Red Shrimp':  checkboxTint,
+            'Rusty Crayfish':  checkboxTint,
+            'Spiny Waterfleas':  checkboxTint
+          }
         },
         ph: {
           label: 'pH (0-14)'

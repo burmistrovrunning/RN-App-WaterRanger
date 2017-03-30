@@ -3,8 +3,10 @@ import {
   Text,
   TouchableHighlight,
   View,
-  ScrollView
+  ScrollView,
+  Linking
 } from 'react-native';
+import Hyperlink from 'react-native-hyperlink';
 import { LoginManager } from 'react-native-fbsdk';
 
 import _ from 'lodash';
@@ -38,6 +40,15 @@ export class SettingsScene extends BaseScene {
       this.setState({ userProfile: JSON.parse(profile) });
     }, 100);
   }
+  openUrl(url) {
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    }).catch(err => console.error('An error occurred', err));
+  }
   render() {
     return (
       <View style={styles.noPadContainer}>
@@ -52,9 +63,11 @@ export class SettingsScene extends BaseScene {
             <Text>{_.get(this.state.userProfile, 'email')}</Text>
           </View>
           <View style={styles.settingsContainer}>
-            <Text style={styles.helpText}>
-              Please visit app.waterrangers.ca on your computer to change your profile.
-            </Text>
+            <Hyperlink linkStyle={ styles.linkColor } onPress={ url => this.openUrl(url) }>
+              <Text style={styles.helpText}>
+                Please visit https://app.waterrangers.ca to change your profile.
+              </Text>
+            </Hyperlink>
           </View>
         </ScrollView>
         <View style={styles.settingsFooter}>

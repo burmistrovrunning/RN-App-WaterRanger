@@ -28,7 +28,7 @@ platform :ios do
     #})
     increment_build_number(xcodeproj: './ios/WaterRangers.xcodeproj') # Increment the build number
     gym(scheme: "WaterRangers", project: './ios/WaterRangers.xcodeproj') # Build the app
-    pilot(skip_submission: true) # Upload the app to TestFlight
+    pilot(skip_submission: true, skip_waiting_for_build_processing:true) # Upload the app to TestFlight
   end
 
   after_all do |lane|
@@ -45,7 +45,7 @@ platform :android do
   lane :beta do
     gradle(task: 'clean', project_dir: "android/") # Clean the Gradle project
     gradle(task: "assemble", build_type: "Release", project_dir: "android/") # Build the Release APK
-    supply(track: "beta", apk: "android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
+    supply(track: "beta", apk: "android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (beta)
   end
 
   after_all do |lane|

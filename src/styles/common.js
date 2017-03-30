@@ -63,6 +63,9 @@ export const styles = EStyleSheet.create({
     color: '$colorWhite',
     fontFamily: '$globalFontHeader'
   },
+  linkColor: {
+    color: '$colorBrightBlue'
+  },
   mapMarker: {
     height: 24,
     width: 34

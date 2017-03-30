@@ -3,6 +3,7 @@ import '../GlobalStyles';
 
 export const styles = EStyleSheet.create({
   map: {
+    backgroundColor: '$colorWhite',
     flex: 1,
     margin: 0,
     borderWidth: 0,
