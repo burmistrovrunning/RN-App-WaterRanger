@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
-import Hyperlink from 'react-native-hyperlink';
 import { AttachedImageView } from './AttachedImageView';
 import { KeyboardScrollView } from '../../components';
 import BaseScene from '../BaseScene';
@@ -112,13 +111,13 @@ export class _AddScene extends BaseScene {
       dictToSend[dictKey][0].imageFile = avatarSource;
       const response = await uploadForm(dictToSend);
       if (response.status === 200 || response.status === 204) {
-        const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues[0]['issue_id'] : response.jsonRes.observations[0]['observation_id']);
-        const submissionUrl = GLOBAL.URL + (form === 'issue' ? 'issues/' + ids : 'observations/'  + ids)
+        const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues[0].issue_id : response.jsonRes.observations[0].observation_id);
+        const submissionUrl = GLOBAL.URL + (form === 'issue' ? `issues/${ids}` : `observations/${ids}`);
         const successAlertMessage = `Your ${this.state.form} has been submitted to Water Rangers. You can view it at ${submissionUrl}`;
-        Alert.alert('Success!', successAlertMessage,[
-            { text: 'View', onPress: url => this.openUrl(submissionUrl) },
-            { text: 'Continue', onPress: () => this.props.resetScene('MapScene') }
-          ], { cancelable: true }
+        Alert.alert('Success!', successAlertMessage,
+          [{ text: 'View', onPress: () => this.openUrl(submissionUrl) },
+          { text: 'Continue', onPress: () => this.props.resetScene('MapScene') }],
+          { cancelable: true }
         );
       } else if (response.status === -1) {
         await storeFailedForm(dictToSend);
@@ -137,9 +136,9 @@ export class _AddScene extends BaseScene {
     this.scrollView.getRef().scrollTo({ y: 0, animated: false });
   };
   openUrl(url) {
-    Linking.canOpenURL(url).then(supported => {
+    Linking.canOpenURL(url).then((supported) => {
       if (!supported) {
-        console.log('Can\'t handle url: ' + url);
+        console.log(`Can't handle url: ${url}`);
       } else {
         return Linking.openURL(url);
       }
@@ -179,7 +178,7 @@ export class _AddScene extends BaseScene {
     const checkboxTint = {
       tintColor: '#c3c3a9',
       onTintColor: '#246EC0'
-    }
+    };
     const options = {
       i18n: {
         optional: '',
@@ -266,7 +265,7 @@ export class _AddScene extends BaseScene {
             Insect: checkboxTint,
             Bird: checkboxTint,
             Crustacean: checkboxTint,
-            Fungi:  checkboxTint
+            Fungi: checkboxTint
           }
         },
         invasiveSpecies: {
@@ -281,9 +280,9 @@ export class _AddScene extends BaseScene {
             'European Water Chestnut': checkboxTint,
             'Yellow Iris': checkboxTint,
             'Yellow Floating Heart': checkboxTint,
-            'Bloody Red Shrimp':  checkboxTint,
-            'Rusty Crayfish':  checkboxTint,
-            'Spiny Waterfleas':  checkboxTint
+            'Bloody Red Shrimp': checkboxTint,
+            'Rusty Crayfish': checkboxTint,
+            'Spiny Waterfleas': checkboxTint
           }
         },
         ph: {

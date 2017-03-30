@@ -41,9 +41,9 @@ export class SettingsScene extends BaseScene {
     }, 100);
   }
   openUrl(url) {
-    Linking.canOpenURL(url).then(supported => {
+    Linking.canOpenURL(url).then((supported) => {
       if (!supported) {
-        console.log('Can\'t handle url: ' + url);
+        console.log(`Can't handle url: ${url}`);
       } else {
         return Linking.openURL(url);
       }
@@ -63,7 +63,7 @@ export class SettingsScene extends BaseScene {
             <Text>{_.get(this.state.userProfile, 'email')}</Text>
           </View>
           <View style={styles.settingsContainer}>
-            <Hyperlink linkStyle={ styles.linkColor } onPress={ url => this.openUrl(url) }>
+            <Hyperlink linkStyle={styles.linkColor} onPress={url => this.openUrl(url)}>
               <Text style={styles.helpText}>
                 Please visit https://app.waterrangers.ca to change your profile.
               </Text>
