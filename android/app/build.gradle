@@ -90,8 +90,8 @@ android {
         applicationId "com.waterrangers"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.3"
+        versionCode 6
+        versionName "1.6"
         multiDexEnabled = true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -106,13 +106,20 @@ android {
         }
     }
     signingConfigs {
-        config {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
