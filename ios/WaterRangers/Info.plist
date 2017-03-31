@@ -65,11 +65,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Used to take images of Obervations and Issues</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>WaterRangers Location</string>
+	<string>Water Rangers keeps track of your location so we can update the map and reporting forms when you move locations.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>WaterRangers Location</string>
+	<string>Your location allows you to make observations and report issues in your current location, online on a map, and offline using your current gps location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>WaterRangers Location</string>
+	<string>Water Rangers keeps track of your location so we can update the map and reporting forms when you move locations.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Want access to photos</string>
 	<key>UIAppFonts</key>
