@@ -1,5 +1,6 @@
 <resources>
 
     <string name="app_name">WaterRangers</string>
-    <string name="facebook_app_id">182812265557011</string>
+    <string name="facebook_app_id">812119232237977</string>
+    <!-- Staging <string name="facebook_app_id">812384592211441</string> -->
 </resources>
