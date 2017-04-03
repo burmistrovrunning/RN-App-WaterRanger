@@ -35,16 +35,19 @@ class _MainContainer extends Component {
   componentDidMount() {
     watchLocation(location => this.props.dispatch(LocationActions.updateLocation(location)));
     this.watchNetworkStatus();
-    localStorage.get('accessToken')
-      .then((token) => {
-        console.log('token', token);
-        const hasToken = !!token;
-        this.setState({ hasToken, waiting: false });
-        this.showTabBar(hasToken);
-        startSubmitFailedDataInterval();
-      })
-      .catch(() => this.setState({ hasToken: false, waiting: false }));
-    SplashScreen.hide();
+    setTimeout(() => {
+      localStorage.get('accessToken')
+        .then(async (token) => {
+          console.log('token', token);
+          const hasToken = !!token;
+
+          this.setState({ hasToken, waiting: false });
+          this.showTabBar(hasToken);
+          startSubmitFailedDataInterval();
+        })
+        .catch(() => this.setState({ hasToken: false, waiting: false }));
+      SplashScreen.hide();
+    }, 100);
   }
   componentWillUnmount() {
     NetInfo.removeEventListener('change', this.onNetworkStatusChange);
@@ -108,6 +111,7 @@ class _MainContainer extends Component {
         <ActivityIndicator animating={true} color="white" style={styles.centering} size="large" />
       );
     }
+
     return (
       <View style={styles.tabView}>
         <NavigationBar />

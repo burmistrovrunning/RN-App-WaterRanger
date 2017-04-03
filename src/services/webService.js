@@ -128,53 +128,79 @@ export const uploadFile = async (item, name, type) => {
  * -1: no network access
  * *: server error
  */
-export async function uploadForm(formToSubmit) {
-  let response = { status: -1 };
-  const flagConnected = await isNetworkOnline();
-  if (flagConnected) {
-    try {
-      const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
-      const headers = await getHeader();
-      response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(formToSubmit)
-      });
-      const jsonRes = await response.json();
-      response.jsonRes = jsonRes;
-      const uploadImages = [];
-      const items = formToSubmit.issues ? formToSubmit.issues : formToSubmit.observations;
-      const jsonItems = formToSubmit.issues ? jsonRes.issues : jsonRes.observations;
-      items.forEach((item) => {
-        if (item.imageFile) {
-          let id = -1;
-          jsonItems.forEach((jsonItem) => {
-            if (jsonItem.local_id === item.local_id) {
-              id = formToSubmit.issues ? jsonItem.issue_id : jsonItem.observation_id;
+export function uploadForm(formToSubmit, cancelTimeout) {
+  return new Promise(async (resolve) => {
+    let response = { status: -1 };
+    const flagConnected = await isNetworkOnline();
+    if (flagConnected) {
+      let cancelRequest = false;
+      if (cancelTimeout) {
+        setTimeout(() => {
+          cancelRequest = true;
+        }, cancelTimeout);
+      }
+      try {
+        const url = GLOBAL.BASE_URL + (formToSubmit.issues ? 'issues' : 'observations');
+        const headers = await getHeader();
+        response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(formToSubmit)
+        });
+        if (!cancelRequest) {
+          const jsonRes = await response.json();
+          response.jsonRes = jsonRes;
+          const uploadImages = [];
+          const items = formToSubmit.issues ? formToSubmit.issues : formToSubmit.observations;
+          const jsonItems = formToSubmit.issues ? jsonRes.issues : jsonRes.observations;
+          items.forEach((item) => {
+            if (item.imageFile) {
+              let id = -1;
+              jsonItems.forEach((jsonItem) => {
+                if (jsonItem.local_id === item.local_id) {
+                  id = formToSubmit.issues ? jsonItem.issue_id : jsonItem.observation_id;
+                }
+              });
+              if (id !== -1) {
+                if (Array.isArray(item.imageFile)) {
+                  item.imageFile.forEach((img) => {
+                    uploadImages.push({
+                      type: formToSubmit.issues ? 'issues' : 'observations',
+                      id,
+                      path: img.uri
+                    });
+                  });
+                } else {
+                  uploadImages.push({
+                    type: formToSubmit.issues ? 'issues' : 'observations',
+                    id,
+                    path: item.imageFile.uri
+                  });
+                }
+              }
             }
           });
-          if (id !== -1) {
-            uploadImages.push({
-              type: formToSubmit.issues ? 'issues' : 'observations',
-              id,
-              path: item.imageFile.uri
-            });
+          for (let index = 0; index < uploadImages.length; index += 1) {
+            if (!cancelRequest) {
+              await uploadFile(uploadImages[index], 'image', 'image/jpg');
+            } else {
+              response.status = 400;
+            }
           }
+        } else {
+          response.status = 400;
         }
-      });
-      for (let index = 0; index < uploadImages.length; index += 1) {
-        await uploadFile(uploadImages[index], 'image', 'image/jpg');
+      } catch (err) {
+        console.log('uploadForm err', err);
+        response.status = 400;
       }
-    } catch (err) {
-      console.log('uploadForm err', err);
-      response.status = 400;
     }
-  }
-  return response;
+    resolve(response);
+  });
 }
 
 export const getLocations = async () => {

@@ -27,6 +27,7 @@ import { styles as addStyles } from '../../styles/scenes/Add';
 import stylesheet from '../../styles/FormStyles';
 import GLOBAL from '../../Globals';
 
+const UPLOAD_TIMEOUT = 3000;
 const { Form } = t.form;
 Form.stylesheet = stylesheet;
 
@@ -109,7 +110,7 @@ export class _AddScene extends BaseScene {
       dictToSend[dictKey][0].local_id = `${new Date().getTime()}`;
       dictToSend.uid = `${new Date()}`;
       dictToSend[dictKey][0].imageFile = avatarSource;
-      const response = await uploadForm(dictToSend);
+      const response = await uploadForm(dictToSend, UPLOAD_TIMEOUT);
       if (response.status === 200 || response.status === 204) {
         const ids = JSON.stringify(form === 'issue' ? response.jsonRes.issues[0].issue_id : response.jsonRes.observations[0].observation_id);
         const submissionUrl = GLOBAL.URL + (form === 'issue' ? `issues/${ids}` : `observations/${ids}`);
@@ -436,7 +437,6 @@ export class _AddScene extends BaseScene {
         </View>
         <KeyboardScrollView
           ref={ref => this.scrollView = ref}
-          keyboardDismissMode="on-drag"
           onScroll={this.onHandleScroll}
           keyboardShouldPersistTaps="never"
         >
