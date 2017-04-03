@@ -5,7 +5,11 @@ import {
   View
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../../../config.json';
 import { styles as addStyles } from '../../../styles/scenes/Add';
+
+const Icon = createIconSetFromFontello(fontelloConfig, 'water-rangers-icons');
 
 class ObservationDataTemplate extends Component {
 
@@ -41,14 +45,7 @@ class ObservationDataTemplate extends Component {
       <View>
         <TouchableHighlight onPress={this._toggleExpanded} underlayColor="#edede5">
           <View style={[addStyles.formCollapsibleButton]}>
-            <Text
-              style={[
-                addStyles.formCollapsibleButtonIcon,
-                activeState && addStyles.formCollapsibleButtonActive
-              ]}
-            >
-              {activeState === true ? '-' : '+'}
-            </Text>
+            <Icon name={activeState === true ? 'minus' : 'plus'} style={addStyles.formCollapsibleButtonIcon} />
             <Text style={addStyles.formCollapsibleButtonText}>{label.toUpperCase()}</Text>
           </View>
         </TouchableHighlight>
