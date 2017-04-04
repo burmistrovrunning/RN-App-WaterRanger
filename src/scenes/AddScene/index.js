@@ -7,8 +7,7 @@ import {
   Alert,
   ActivityIndicator,
   Animated,
-  Linking,
-  Switch
+  Linking
 } from 'react-native';
 import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
