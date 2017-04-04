@@ -200,6 +200,10 @@ export class _MapScene extends BaseScene {
         style={[styles.findMeButton, mapStyles.findMe]}
         onPress={this.onFindMe}
       >
+        <Icon
+          name="map-marker"
+          style={styles.findMeButtonIcon}
+        />
         <Text style={styles.findMeButtonText}>{'Find Me'.toUpperCase()}</Text>
       </TouchableOpacity>
     );

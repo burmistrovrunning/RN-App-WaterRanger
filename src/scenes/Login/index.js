@@ -154,7 +154,7 @@ export class LoginScene extends Component {
             <Text style={styles.errorText}>{this.state.error}</Text>
           </View>
           <View style={loginStyles.facebookLogin}>
-            <Icon.Button name="logo-facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin} iconStyle={loginStyles.facebookLoginButtonIcon}>
+            <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin} iconStyle={loginStyles.facebookLoginButtonIcon}>
               <Text style={loginStyles.facebookLoginButtonText}>Login with Facebook</Text>
             </Icon.Button>
           </View>

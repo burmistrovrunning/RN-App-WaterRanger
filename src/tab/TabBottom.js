@@ -9,19 +9,19 @@ const Icon = createIconSetFromFontello(fontelloConfig, 'water-rangers-icons');
 const tabItems = [{
   label: (Platform.OS === 'ios') ? 'Map' : 'MAP',
   normalIcon: 'map',
-  iconSize: 25
+  iconSize: 26
 }, {
   label: (Platform.OS === 'ios') ? 'Add' : 'ADD',
   normalIcon: 'plus',
-  iconSize: 25
+  iconSize: 26
 }, {
   label: (Platform.OS === 'ios') ? 'Offline' : 'OFFLINE',
   normalIcon: 'upload',
-  iconSize: 20
+  iconSize: 32
 }, {
   label: (Platform.OS === 'ios') ? 'Settings' : 'SETTINGS',
   normalIcon: 'settings',
-  iconSize: 25
+  iconSize: 26
 }];
 export class TabBottom extends Component {
   constructor(props) {
@@ -45,8 +45,8 @@ export class TabBottom extends Component {
   renderTabItems() {
     const { activeItem } = this.state;
     return tabItems.map((tabItem, index) => {
-      let iconName = tabItem.normalIcon;
-      let iconSize = tabItem.iconSize;
+      const iconName = tabItem.normalIcon;
+      const iconSize = tabItem.iconSize;
       let labelColor = '#97acc3';
       if (activeItem === index) {
         labelColor = '#ffffff';
@@ -57,7 +57,10 @@ export class TabBottom extends Component {
           style={styles.tabContainer}
           onPress={() => this.onTabPress(index)}
         >
-          <Icon name={iconName} style={[styles.tabIcon, { color: labelColor, fontSize: iconSize }]} />
+          <Icon
+            name={iconName}
+            style={[styles.tabIcon, { color: labelColor, fontSize: iconSize }]}
+          />
           <Text style={[styles.tabLabel, { color: labelColor }]}>{tabItem.label}</Text>
         </TouchableOpacity>
       );

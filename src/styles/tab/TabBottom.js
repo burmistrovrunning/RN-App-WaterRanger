@@ -38,7 +38,8 @@ export const styles = EStyleSheet.create({
   },
   tabIcon: {
     color: '$colorWhite',
-    marginTop: 3,
+    lineHeight: 28,
+    marginTop: 1,
     textAlign: 'center',
     '@media android': {
       marginRight: 5,

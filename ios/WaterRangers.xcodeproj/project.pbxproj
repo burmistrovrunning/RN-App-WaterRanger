@@ -50,10 +50,10 @@
 		7607915CE3F34A4A90FD7CAB /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BF89F7E1CAA4A90A2708F09 /* Oswald-Regular.ttf */; };
 		782EE2AEC91A456182DF7EF3 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C1A1C2A50C4E4B90A7AC5D /* libRNCookieManagerIOS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		BB1DE0CA1E91DA6500B32720 /* water-rangers-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB1DE0C91E91DA6500B32720 /* water-rangers-icons.ttf */; };
 		C06BC22FD29440FABF490DB3 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A227C5F415654E7999FE6AC3 /* libRCTImageResizer.a */; };
 		CB7AC66844CB4A1D9F94B3EB /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC577A71E8E5412F9537B24A /* libRCTFBSDK.a */; };
 		D995A8D8C11E409EA5724358 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 008EED6FDC374EBE85B997C4 /* libSplashScreen.a */; };
+		E5654BB75C714515BBC26682 /* water-rangers-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9A36C4578C54C61A3352835 /* water-rangers-icons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,8 +383,8 @@
 		9B0A8D41F85C496492E387AC /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		A227C5F415654E7999FE6AC3 /* libRCTImageResizer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTImageResizer.a; sourceTree = "<group>"; };
 		AF81EA5E58894B0FBCED9BBE /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
-		BB1DE0C91E91DA6500B32720 /* water-rangers-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "water-rangers-icons.ttf"; sourceTree = "<group>"; };
 		D14BB6A117B34490B2E479B0 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
+		D9A36C4578C54C61A3352835 /* water-rangers-icons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "water-rangers-icons.ttf"; path = "../src/fonts/water-rangers-icons.ttf"; sourceTree = "<group>"; };
 		DC577A71E8E5412F9537B24A /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -633,8 +633,8 @@
 		5FC69F6ADD8C490CB5B26AED /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BB1DE0C91E91DA6500B32720 /* water-rangers-icons.ttf */,
 				7BF89F7E1CAA4A90A2708F09 /* Oswald-Regular.ttf */,
+				D9A36C4578C54C61A3352835 /* water-rangers-icons.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1224,8 +1224,8 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				BB1DE0CA1E91DA6500B32720 /* water-rangers-icons.ttf in Resources */,
 				7607915CE3F34A4A90FD7CAB /* Oswald-Regular.ttf in Resources */,
+				E5654BB75C714515BBC26682 /* water-rangers-icons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

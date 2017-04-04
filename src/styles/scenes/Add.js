@@ -240,8 +240,8 @@ export const styles = EStyleSheet.create({
     padding: 20
   },
   formCollapsibleButtonIcon: {
-    fontSize: 24,
-    marginRight: 10,
+    fontSize: 28,
+    marginRight: 5,
   },
   formCollapsibleButtonActive: {
     lineHeight: 29
