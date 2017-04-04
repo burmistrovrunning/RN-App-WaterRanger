@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -9,7 +8,6 @@ import { createIconSetFromFontello } from 'react-native-vector-icons';
 import fontelloConfig from '../../config.json';
 import BaseScene from '../BaseScene';
 import { imagePicker } from '../../services';
-import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'water-rangers-icons');
@@ -57,6 +55,7 @@ export class AttachedImageView extends BaseScene {
               style={addStyles.formImageUploadBlock}
             >
               <ResponsiveImage
+                key={key}
                 source={item}
                 initWidth="165"
                 initHeight="165"
