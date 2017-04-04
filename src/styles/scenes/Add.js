@@ -264,32 +264,35 @@ export const styles = EStyleSheet.create({
   },
   // Image upload
   formImageUploadContainer: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row'
+    alignItems: 'flex-start',
+    borderBottomColor: '$borderColor',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    padding: 10
+  },
+  formImageUploadBlock: {
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10
   },
   formImageUploadPlaceHolder: {
     backgroundColor: '$colorLightGrey',
-    borderRadius: 10,
-    height: 100,
-    width: 100
+    borderRadius: 10
   },
-  formImageUploadButtonContainer: {
-    padding: 20
+  formImageUploadRemove: {
+    backgroundColor: '$colorRed',
+    bottom: 5,
+    borderRadius: 8,
+    padding: 5,
+    position: 'absolute',
+    right: 15
   },
-  formImageUploadButton: {
-    borderColor: '$colorBrightBlue',
-    borderRadius: 5,
-    borderWidth: 1,
-    paddingTop: 10,
-    paddingRight: 20,
-    paddingBottom: 10,
-    paddingLeft: 20
-  },
-  formImageUploadButtonText: {
-    color: '$colorBrightBlue',
-    fontFamily: '$globalFont',
-    fontWeight: 'bold'
+  formImageUploadRemoveIcon: {
+    color: '$colorWhite',
+    fontSize: 24
   },
   picker: {
     backgroundColor: '$colorWhite',
