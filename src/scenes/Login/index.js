@@ -11,16 +11,17 @@ import {
   Keyboard
 } from 'react-native';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import Icon from 'react-native-vector-icons/Ionicons';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../../config.json';
 import { KeyboardSpacing } from '../../components';
 import { login, facebookLogin } from '../../services';
 import { styles as loginStyles, height as deviceHeight } from '../../styles/scenes/Login';
 import { styles } from '../../styles/common';
 import '../../styles/FormStyles';
 
-
+const Icon = createIconSetFromFontello(fontelloConfig, 'water-rangers-icons');
 const { Form } = t.form;
 const LoginForm = t.struct({ email: t.String, password: t.String });
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
@@ -153,7 +154,7 @@ export class LoginScene extends Component {
             <Text style={styles.errorText}>{this.state.error}</Text>
           </View>
           <View style={loginStyles.facebookLogin}>
-            <Icon.Button name="logo-facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin} iconStyle={loginStyles.facebookLoginButtonIcon}>
+            <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin} iconStyle={loginStyles.facebookLoginButtonIcon}>
               <Text style={loginStyles.facebookLoginButtonText}>Login with Facebook</Text>
             </Icon.Button>
           </View>

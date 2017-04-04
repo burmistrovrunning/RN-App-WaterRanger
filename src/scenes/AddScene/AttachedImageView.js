@@ -63,6 +63,7 @@ export class AttachedImageView extends BaseScene {
           <TouchableHighlight
             style={addStyles.formImageUploadButton}
             onPress={this.onChoosePicture}
+            underlayColor="#edede5"
           >
             <Text style={addStyles.formImageUploadButtonText}>Choose Image</Text>
           </TouchableHighlight>

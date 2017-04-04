@@ -1,15 +1,18 @@
 import React from 'react';
 import { Alert, View, TouchableOpacity, Text } from 'react-native';
 import Mapbox, { MapView } from 'react-native-mapbox-gl';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../../config.json';
 import BaseScene from '../BaseScene';
 import { locationSelector } from '../../redux/selectors';
 import { MarkerActions } from '../../redux/actions';
 import { getLocations, getClusters } from '../../services';
 import { styles } from '../../styles/common';
 import { styles as mapStyles } from '../../styles/scenes/Map';
+
+const Icon = createIconSetFromFontello(fontelloConfig, 'water-rangers-icons');
 
 const accessToken = 'pk.eyJ1Ijoid2F0ZXJyYW5nZXJzIiwiYSI6ImY4Mzc4MTZkZDZkN2Y4YzFhMjA2MzQ3NDAyZjM0MjI1In0.jA6aLxZWzUm8bSBbumka4Q';
 Mapbox.setAccessToken(accessToken);
@@ -36,9 +39,9 @@ export class _MapScene extends BaseScene {
   }
   componentDidMount() {
     this.refreshData();
-    Icon.getImageSource('ios-add-circle-outline', 25, '#1c3653')
+    Icon.getImageSource('plus', 25, '#1c3653')
       .then(addIcon => this.setState({ addIcon }));
-    Icon.getImageSource('ios-remove-circle-outline', 25, '#1c3653')
+    Icon.getImageSource('minus', 25, '#1c3653')
       .then(deleteIcon => this.setState({ deleteIcon }));
   }
 
@@ -197,6 +200,10 @@ export class _MapScene extends BaseScene {
         style={[styles.findMeButton, mapStyles.findMe]}
         onPress={this.onFindMe}
       >
+        <Icon
+          name="map-marker"
+          style={styles.findMeButtonIcon}
+        />
         <Text style={styles.findMeButtonText}>{'Find Me'.toUpperCase()}</Text>
       </TouchableOpacity>
     );

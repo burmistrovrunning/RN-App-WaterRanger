@@ -10,6 +10,9 @@ export const styles = EStyleSheet.create({
     flexDirection: 'column'
   },
   findMe: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
     position: 'absolute',
     top: 10,
     right: 10

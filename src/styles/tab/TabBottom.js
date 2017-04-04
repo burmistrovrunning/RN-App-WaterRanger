@@ -38,16 +38,11 @@ export const styles = EStyleSheet.create({
   },
   tabIcon: {
     color: '$colorWhite',
-    fontSize: 30,
-    height: 30,
-    marginTop: 0,
+    lineHeight: 28,
+    marginTop: 1,
     textAlign: 'center',
-    width: 30,
     '@media android': {
-      height: 25,
-      fontSize: 25,
       marginRight: 5,
-      width: 25
     },
   },
 });

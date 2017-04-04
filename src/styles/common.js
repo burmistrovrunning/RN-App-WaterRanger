@@ -63,6 +63,11 @@ export const styles = EStyleSheet.create({
     color: '$colorWhite',
     fontFamily: '$globalFontHeader'
   },
+  findMeButtonIcon: {
+    color: '$colorWhite',
+    fontSize: 15,
+    marginTop: 1
+  },
   linkColor: {
     color: '$colorBrightBlue'
   },
