@@ -121,7 +121,7 @@ export class Router extends Component {
         initialRouteStack={scenes}
         renderScene={this.renderScene}
         configureScene={this.renderConfig}
-        style={{ backgroundColor: '#FFF' }}
+        style={styles.tabView}
         ref={ref => this.navigationRef = ref}
       />
     );

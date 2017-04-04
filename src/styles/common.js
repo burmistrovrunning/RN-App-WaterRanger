@@ -6,6 +6,10 @@ export const styles = EStyleSheet.create({
   scrollContainer: {
     flex: 1,
   },
+  tabView: {
+    backgroundColor: '$colorBeige',
+    flex: 1
+  },
   container: {
     backgroundColor: '$colorBeige',
     flex: 1,
