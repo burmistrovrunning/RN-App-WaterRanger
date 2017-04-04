@@ -35,17 +35,21 @@ export const styles = EStyleSheet.create({
     fontSize: 22,
     fontFamily: '$globalFontHeader',
     color: 'white',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   button: {
+    alignSelf: 'stretch',
     backgroundColor: '$colorBrightBlue',
     borderColor: '$colorBrightBlue',
     borderWidth: 1,
     borderRadius: 5,
-    height: 50,
     marginBottom: 15,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 8,
+    '@media android': {
+      borderRadius: 0,
+    }
   },
   logOutButton: {
     backgroundColor: '$colorRed',
@@ -56,8 +60,11 @@ export const styles = EStyleSheet.create({
     borderRadius: 5,
     paddingBottom: 5,
     paddingLeft: 8,
-    paddingTop: 5,
-    paddingRight: 8
+    paddingTop: 3,
+    paddingRight: 8,
+    '@media android': {
+      borderRadius: 0,
+    }
   },
   findMeButtonText: {
     color: '$colorWhite',

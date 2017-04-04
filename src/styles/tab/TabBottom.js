@@ -13,7 +13,10 @@ export const styles = EStyleSheet.create({
     '@media android': {
       borderTopWidth: 1,
       borderTopColor: '#264364',
+      height: 45,
       overflow: 'visible',
+      paddingTop: 8,
+      paddingBottom: 10,
       justifyContent: 'flex-start'
     },
   },
@@ -38,10 +41,10 @@ export const styles = EStyleSheet.create({
   },
   tabIcon: {
     color: '$colorWhite',
-    lineHeight: 28,
     marginTop: 1,
     textAlign: 'center',
     '@media android': {
+      marginTop: 0,
       marginRight: 5,
     },
   },

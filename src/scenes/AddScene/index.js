@@ -7,7 +7,8 @@ import {
   Alert,
   ActivityIndicator,
   Animated,
-  Linking
+  Linking,
+  Switch
 } from 'react-native';
 import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
@@ -22,6 +23,7 @@ import FormTemplateObservation from './templates/FormTemplateObservation';
 import FormTemplateIssue from './templates/FormTemplateIssue';
 import WildlifeDataTemplate from './templates/WildlifeDataTemplate';
 import InvasiveSpeciesDataTemplate from './templates/InvasiveSpeciesDataTemplate';
+import CustomCheckboxTemplate from './templates/CustomCheckboxTemplate';
 import { styles } from '../../styles/common';
 import { styles as addStyles } from '../../styles/scenes/Add';
 import stylesheet from '../../styles/FormStyles';
@@ -176,9 +178,8 @@ export class _AddScene extends BaseScene {
     const { form, currentDate } = this.state;
     const formTemplate = form === 'issue' ? formLayoutTemplateIssue : formLayoutTemplateObservation;
     const groupHelpText = form === 'issue' ? 'Choose a group to assign this issue to.' : 'Only assign an observation to a group if you have been trained by them!';
-    const checkboxTint = {
-      tintColor: '#c3c3a9',
-      onTintColor: '#246EC0'
+    const checkboxTemplate = {
+      template: CustomCheckboxTemplate
     };
     const options = {
       i18n: {
@@ -200,11 +201,13 @@ export class _AddScene extends BaseScene {
               ...Form.stylesheet.textbox,
               normal: {
                 ...Form.stylesheet.textbox.normal,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top'
               },
               error: {
                 ...Form.stylesheet.textbox.error,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top'
               }
             }
           }
@@ -218,11 +221,13 @@ export class _AddScene extends BaseScene {
               ...Form.stylesheet.textbox,
               normal: {
                 ...Form.stylesheet.textbox.normal,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top'
               },
               error: {
                 ...Form.stylesheet.textbox.error,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top'
               }
             }
           }
@@ -258,32 +263,34 @@ export class _AddScene extends BaseScene {
           label: 'Add wildlife',
           template: wildlifeLayoutTemplate,
           fields: {
-            Mammal: checkboxTint,
-            Reptile: checkboxTint,
-            Amphibian: checkboxTint,
-            Fish: checkboxTint,
-            Plant: checkboxTint,
-            Insect: checkboxTint,
-            Bird: checkboxTint,
-            Crustacean: checkboxTint,
-            Fungi: checkboxTint
+            Mammal: checkboxTemplate,
+            Reptile: checkboxTemplate,
+            Amphibian: checkboxTemplate,
+            Fish: checkboxTemplate,
+            Plant: checkboxTemplate,
+            Insect: checkboxTemplate,
+            Bird: checkboxTemplate,
+            'Species at risk': checkboxTemplate,
+            Crustacean: checkboxTemplate,
+            Fungi: checkboxTemplate
           }
         },
         invasiveSpecies: {
           label: 'Add Invasive Species',
           template: invasiveSpeciesLayoutTemplate,
           fields: {
-            Phragmites: checkboxTint,
-            Loosestrife: checkboxTint,
-            'Zebra Mussels': checkboxTint,
-            'Other Invasive': checkboxTint,
-            'Eurasian Milfoil': checkboxTint,
-            'European Water Chestnut': checkboxTint,
-            'Yellow Iris': checkboxTint,
-            'Yellow Floating Heart': checkboxTint,
-            'Bloody Red Shrimp': checkboxTint,
-            'Rusty Crayfish': checkboxTint,
-            'Spiny Waterfleas': checkboxTint
+            Phragmites: checkboxTemplate,
+            Loosestrife: checkboxTemplate,
+            'Zebra Mussels': checkboxTemplate,
+            'Other Invasive': checkboxTemplate,
+            'Eurasian Milfoil': checkboxTemplate,
+            'European Water Chestnut': checkboxTemplate,
+            'European Frog-bit': checkboxTemplate,
+            'Yellow Iris': checkboxTemplate,
+            'Yellow Floating Heart': checkboxTemplate,
+            'Bloody Red Shrimp': checkboxTemplate,
+            'Rusty Crayfish': checkboxTemplate,
+            'Spiny Waterfleas': checkboxTemplate
           }
         },
         ph: {
@@ -382,11 +389,15 @@ export class _AddScene extends BaseScene {
               ...Form.stylesheet.textbox,
               normal: {
                 ...Form.stylesheet.textbox.normal,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top',
+                paddingVertical: 7
               },
               error: {
                 ...Form.stylesheet.textbox.error,
-                height: 150
+                height: 150,
+                textAlignVertical: 'top',
+                paddingVertical: 7
               }
             }
           }

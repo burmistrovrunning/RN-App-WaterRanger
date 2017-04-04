@@ -70,19 +70,19 @@ const stylesheet = Object.freeze({
     normal: {
       backgroundColor: '#fff',
       borderColor: BORDER_COLOR,
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderWidth: 1,
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
       height: 42,
       paddingVertical: (Platform.OS === 'ios') ? 7 : 0,
-      paddingHorizontal: 7,
+      paddingHorizontal: 7
     },
     // the style applied when a validation error occours
     error: {
       backgroundColor: '#fff',
       borderColor: ERROR_COLOR,
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderWidth: 1,
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
@@ -93,7 +93,7 @@ const stylesheet = Object.freeze({
     // the style applied when the textbox is not editable
     notEditable: {
       borderColor: BORDER_COLOR,
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderWidth: 1,
       fontSize: FONT_SIZE,
       height: 42,
@@ -120,13 +120,13 @@ const stylesheet = Object.freeze({
   select: {
     normal: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: BORDER_COLOR,
       borderWidth: 1
     },
     error: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: ERROR_COLOR,
       borderWidth: 1
     }
@@ -134,7 +134,7 @@ const stylesheet = Object.freeze({
   pickerTouchable: {
     normal: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: BORDER_COLOR,
       borderWidth: 1,
       height: 42,
@@ -145,7 +145,7 @@ const stylesheet = Object.freeze({
     },
     error: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: ERROR_COLOR,
       borderWidth: 1,
       height: 42,
@@ -186,7 +186,7 @@ const stylesheet = Object.freeze({
   dateTouchable: {
     normal: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: BORDER_COLOR,
       borderWidth: 1,
       height: 42,
@@ -197,7 +197,7 @@ const stylesheet = Object.freeze({
     },
     error: {
       backgroundColor: '#fff',
-      borderRadius: 5,
+      borderRadius: (Platform.OS === 'ios') ? 5 : 0,
       borderColor: ERROR_COLOR,
       borderWidth: 1,
       height: 42,

@@ -50,7 +50,7 @@ export const styles = EStyleSheet.create({
     color: '$colorWhite',
     fontSize: 14,
     fontWeight: 'bold',
-    lineHeight: 14,
+    lineHeight: 16,
     marginRight: 5
   },
   facebookLoginButtonIcon: {

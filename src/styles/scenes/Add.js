@@ -53,7 +53,11 @@ export const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     margin: 10,
-    padding: 5
+    paddingTop: 3,
+    paddingBottom: 5,
+    '@media android': {
+      borderRadius: 0,
+    }
   },
   addSceneTabBarButtonLeft: {
     borderColor: '$colorGreen'
@@ -101,7 +105,10 @@ export const styles = EStyleSheet.create({
   addSceneLatLngBlock: {
     flex: 1,
     flexDirection: 'row',
-    padding: 20
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10
   },
   addSceneLatLngRefreshBlock: {
     flex: 0
@@ -150,7 +157,11 @@ export const styles = EStyleSheet.create({
     shadowOffset: {
       height: 1,
       width: 0
-    }
+    },
+    '@media android': {
+      borderColor: '$lineColor',
+      borderWidth: 1,
+    },
   },
   offlineListTitle: {
     fontSize: 16,
@@ -201,8 +212,9 @@ export const styles = EStyleSheet.create({
     width: '100%'
   },
   observationDataCheckbox: {
+    alignItems: 'flex-start',
     flex: 1,
-    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     paddingTop: 10,
     paddingLeft: 15,
     paddingRight: 15
@@ -217,7 +229,10 @@ export const styles = EStyleSheet.create({
     marginLeft: 20,
     marginBottom: 10,
     marginRight: 20,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    '@media android': {
+      borderRadius: 0,
+    },
   },
   singleDataCol: {
     paddingBottom: 20,
@@ -240,16 +255,16 @@ export const styles = EStyleSheet.create({
     padding: 20
   },
   formCollapsibleButtonIcon: {
-    fontSize: 28,
+    fontSize: 24,
     marginRight: 5,
-  },
-  formCollapsibleButtonActive: {
-    lineHeight: 29
   },
   formCollapsibleButtonText: {
     fontFamily: '$globalFontHeader',
     fontSize: 24,
-    lineHeight: 30
+    lineHeight: 28,
+    '@media android': {
+      lineHeight: 22,
+    },
   },
   // Invasive Species
   invasiveSpeciesImages: {
@@ -280,7 +295,10 @@ export const styles = EStyleSheet.create({
   },
   formImageUploadPlaceHolder: {
     backgroundColor: '$colorLightGrey',
-    borderRadius: 10
+    borderRadius: 10,
+    '@media android': {
+      borderRadius: 0,
+    }
   },
   formImageUploadRemove: {
     backgroundColor: '$colorRed',
@@ -298,7 +316,10 @@ export const styles = EStyleSheet.create({
     backgroundColor: '$colorWhite',
     borderRadius: 5,
     borderColor: '$lineColor',
-    borderWidth: 1
+    borderWidth: 1,
+    '@media android': {
+      borderRadius: 0,
+    }
   },
   pickerTouchable: {
     backgroundColor: '#fff',
