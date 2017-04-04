@@ -20,22 +20,24 @@ export class AttachedImageView extends BaseScene {
     };
     this.isPlaceholder = true;
   }
-  onChoosePicture = async () => {
-    try {
-      const res = await imagePicker.show();
-      if (res.source) {
-        if (this.isPlaceholder) {
-          this.setState({ avatarSource: [res.source] });
-          this.isPlaceholder = false;
-        } else {
-          const avatarSource = this.state.avatarSource.concat(res.source);
-          this.setState({ avatarSource });
+  onChoosePicture = () => {
+    setTimeout(async () => {
+      try {
+        const res = await imagePicker.show();
+        if (res.source) {
+          if (this.isPlaceholder) {
+            this.setState({ avatarSource: [res.source] });
+            this.isPlaceholder = false;
+          } else {
+            const avatarSource = this.state.avatarSource.concat(res.source);
+            this.setState({ avatarSource });
+          }
         }
+      } catch (err) {
+        console.log('Choose picture err', err);
       }
-    } catch (err) {
-      console.log('Choose picture err', err);
-    }
-  };
+    }, 100);
+  }
   getImage() {
     return this.state.avatarSource;
   }
@@ -43,11 +45,20 @@ export class AttachedImageView extends BaseScene {
     this.setState({ avatarSource: [] });
     this.isPlaceholder = true;
   }
+  removeImage(index) {
+    const avatarSource = this.state.avatarSource;
+    avatarSource.splice(index, 1);
+    if (avatarSource.length > 0) {
+      this.setState({ avatarSource: [...avatarSource] });
+    } else {
+      this.resetImage();
+    }
+  }
   render() {
     let key = 0;
     return (
       <View style={addStyles.formImageUploadContainer}>
-        {this.state.avatarSource.map((item) => {
+        {this.state.avatarSource.map((item, index) => {
           key += 1;
           return (
             <View
@@ -64,6 +75,7 @@ export class AttachedImageView extends BaseScene {
               <TouchableHighlight
                 style={addStyles.formImageUploadRemove}
                 underlayColor="#edede5"
+                onPress={() => this.removeImage(index)}
               >
                 <Icon
                   name="close"
