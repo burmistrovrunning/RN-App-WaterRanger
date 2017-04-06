@@ -12,17 +12,13 @@ const styles = StyleSheet.create({
 export class TabView extends Component {
   constructor(props) {
     super(props);
-    this.tabBottomView = null;
     this.state = {
       tabIndex: 0,
       visible: false
     };
   }
   getTabIndex() {
-    if (this.tabBottomView) {
-      return this.tabBottomView.getTabIndex();
-    }
-    return 0;
+    return this.state.tabIndex;
   }
   updateTabIndex = (tabIndex) => {
     this.setState({ tabIndex });
@@ -41,7 +37,6 @@ export class TabView extends Component {
               tabIndex={this.state.tabIndex}
               updateTabIndex={this.updateTabIndex}
               resetScene={onTabRoute}
-              ref={ref => this.tabBottomView = ref}
             />
           }
         </View>
@@ -54,7 +49,6 @@ export class TabView extends Component {
               updateTabIndex={this.updateTabIndex}
               tabIndex={this.state.tabIndex}
               resetScene={onTabRoute}
-              ref={ref => this.tabBottomView = ref}
             />
           }
           <View style={styles.container}>{children}</View>
