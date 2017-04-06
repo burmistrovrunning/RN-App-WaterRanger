@@ -33,16 +33,15 @@ class _MainContainer extends Component {
   }
 
   componentDidMount() {
-    watchLocation(location => this.props.dispatch(LocationActions.updateLocation(location)));
-    this.watchNetworkStatus();
     setTimeout(() => {
+      watchLocation(location => this.props.dispatch(LocationActions.updateLocation(location)));
+      this.watchNetworkStatus();
       localStorage.get('accessToken')
         .then(async (token) => {
           console.log('token', token);
           const hasToken = !!token;
 
           this.setState({ hasToken, waiting: false });
-          this.showTabBar(hasToken);
           startSubmitFailedDataInterval();
         })
         .catch(() => this.setState({ hasToken: false, waiting: false }));
@@ -54,11 +53,13 @@ class _MainContainer extends Component {
     clearWatchLocation();
   }
   onNetworkStatusChange = (connectionInfo) => {
-    this.networkStatus = true;
-    if (connectionInfo === 'none') {
-      this.networkStatus = false;
+    if (connectionInfo) {
+      this.networkStatus = true;
+      if (connectionInfo.toLowerCase() === 'none') {
+        this.networkStatus = false;
+      }
     }
-    if (!this.networkStatus && this.tabView.getTabIndex() === 0) {
+    if (!this.networkStatus && this.tabView && this.tabView.getTabIndex() === 0) {
       this.routingRef.resetScene('AddScene');
     }
   };
@@ -66,7 +67,15 @@ class _MainContainer extends Component {
     this.tabView.updateTabIndex(index);
     this.onTabRoute(index);
   };
+  onTabViewInitialized = (ref) => {
+    this.tabView = ref;
+    if (this.state.hasToken) {
+      this.showTabBar(true);
+    }
+    this.onNetworkStatusChange(null);
+  };
   onTabRoute = (activeItem, oldItem) => {
+    console.log('onTabRoute', activeItem);
     if (activeItem !== oldItem) {
       if (!this.networkStatus && activeItem === 0) {
         Alert.alert('No network access', 'Map is not available when you’re offline.',
@@ -115,7 +124,7 @@ class _MainContainer extends Component {
     return (
       <View style={styles.tabView}>
         <NavigationBar />
-        <TabView ref={ref => this.tabView = ref} onTabRoute={this.onTabRoute}>
+        <TabView ref={this.onTabViewInitialized} onTabRoute={this.onTabRoute}>
           <Router
             hasToken={this.state.hasToken}
             onTabRoute={this.onTabRoute}

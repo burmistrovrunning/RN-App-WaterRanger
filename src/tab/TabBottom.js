@@ -24,31 +24,17 @@ const tabItems = [{
   iconSize: 26
 }];
 export class TabBottom extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeItem: 0,
-    };
-  }
-  onTabPress = (activeItem) => {
-    this.props.resetScene(activeItem, this.state.activeItem);
-    this.setState({ activeItem });
+  onTabPress = (tabIndex) => {
+    this.props.resetScene(tabIndex, this.state.activeItem);
+    this.props.updateTabIndex(tabIndex);
   };
-  getTabIndex() {
-    return this.state.activeItem;
-  }
-  updateTabIndex(activeItem) {
-    if (activeItem > -1 && activeItem !== this.state.activeItem) {
-      this.setState({ activeItem });
-    }
-  }
   renderTabItems() {
-    const { activeItem } = this.state;
+    const { tabIndex } = this.props;
     return tabItems.map((tabItem, index) => {
       const iconName = tabItem.normalIcon;
       const iconSize = tabItem.iconSize;
       let labelColor = '#97acc3';
-      if (activeItem === index) {
+      if (index === tabIndex) {
         labelColor = '#ffffff';
       }
       return (

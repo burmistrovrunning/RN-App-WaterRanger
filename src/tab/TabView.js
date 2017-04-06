@@ -14,15 +14,19 @@ export class TabView extends Component {
     super(props);
     this.tabBottomView = null;
     this.state = {
+      tabIndex: 0,
       visible: false
     };
   }
   getTabIndex() {
-    return this.tabBottomView.getTabIndex();
+    if (this.tabBottomView) {
+      return this.tabBottomView.getTabIndex();
+    }
+    return 0;
   }
-  updateTabIndex(index) {
-    this.tabBottomView.updateTabIndex(index);
-  }
+  updateTabIndex = (tabIndex) => {
+    this.setState({ tabIndex });
+  };
   updateTabVisible(visible) {
     this.setState({ visible });
   }
@@ -34,6 +38,8 @@ export class TabView extends Component {
           <View style={styles.container}>{children}</View>
           { this.state.visible &&
             <TabBottom
+              tabIndex={this.state.tabIndex}
+              updateTabIndex={this.updateTabIndex}
               resetScene={onTabRoute}
               ref={ref => this.tabBottomView = ref}
             />
@@ -45,6 +51,8 @@ export class TabView extends Component {
         <View style={styles.container}>
           { this.state.visible &&
             <TabBottom
+              updateTabIndex={this.updateTabIndex}
+              tabIndex={this.state.tabIndex}
               resetScene={onTabRoute}
               ref={ref => this.tabBottomView = ref}
             />
