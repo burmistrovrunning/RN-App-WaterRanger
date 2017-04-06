@@ -25,7 +25,7 @@ const tabItems = [{
 }];
 export class TabBottom extends Component {
   onTabPress = (tabIndex) => {
-    this.props.resetScene(tabIndex, this.state.activeItem);
+    this.props.resetScene(tabIndex, this.props.tabIndex);
     this.props.updateTabIndex(tabIndex);
   };
   renderTabItems() {
