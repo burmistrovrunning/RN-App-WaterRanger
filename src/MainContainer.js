@@ -59,7 +59,8 @@ class _MainContainer extends Component {
         this.networkStatus = false;
       }
     }
-    if (!this.networkStatus && this.tabView && this.tabView.getTabIndex() === 0) {
+    if (this.state.hasToken && !this.networkStatus &&
+      this.tabView && this.tabView.getTabIndex() === 0) {
       this.routingRef.resetScene('AddScene');
     }
   };
@@ -68,11 +69,13 @@ class _MainContainer extends Component {
     this.onTabRoute(index);
   };
   onTabViewInitialized = (ref) => {
-    this.tabView = ref;
-    if (this.state.hasToken) {
-      this.showTabBar(true);
+    if (ref) {
+      this.tabView = ref;
+      if (this.state.hasToken) {
+        this.showTabBar(true);
+      }
+      this.onNetworkStatusChange(null);
     }
-    this.onNetworkStatusChange(null);
   };
   onTabRoute = (activeItem, oldItem) => {
     console.log('onTabRoute', activeItem);
