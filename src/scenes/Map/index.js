@@ -70,6 +70,9 @@ export class _MapScene extends BaseScene {
     this.tapMaker = true;
   };
   onRightAnnotationTapped = (marker) => {
+    if (marker.id.indexOf('cluster') !== -1) {
+      return this.mapView.setCenterCoordinateZoomLevel(marker.latitude, marker.longitude, 16);
+    }
     if (!this.state.flagRemove) {
       this.props.dispatch(MarkerActions.updateMarker(marker));
       return this.props.resetScene('AddScene');
