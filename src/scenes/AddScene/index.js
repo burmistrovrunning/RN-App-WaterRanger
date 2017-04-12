@@ -260,7 +260,8 @@ export class _AddScene extends BaseScene {
           // config: {
           //   format: date => moment(currentDate).format('MM/DD/YYYY : HH:MM')
           // },
-          maximumDate: currentDate
+          maximumDate: currentDate,
+          mode: 'dateTime'
         },
         wildlife: {
           label: 'Add wildlife',
