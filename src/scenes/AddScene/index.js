@@ -67,7 +67,6 @@ export class _AddScene extends BaseScene {
   }
 
   componentDidMount() {
-    this.defaultValue = {};
     this.refreshData();
   }
 
@@ -151,6 +150,7 @@ export class _AddScene extends BaseScene {
     }).catch(err => console.error('An error occurred', err));
   }
   refreshData() {
+    this.defaultValue = {};
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
       if (profile) {
@@ -261,7 +261,7 @@ export class _AddScene extends BaseScene {
           //   format: date => moment(currentDate).format('MM/DD/YYYY : HH:MM')
           // },
           maximumDate: currentDate,
-          mode: 'dateTime'
+          mode: 'datetime'
         },
         wildlife: {
           label: 'Add wildlife',

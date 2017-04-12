@@ -36,7 +36,7 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^2.5.4",
     "supercluster": "^2.3.0",
-    "tcomb-form-native": "git+https://github.com/nickhagenov/tcomb-form-native.git#0c4a6a758ee57b41108947b189ca8e683ac7a1f7"
+    "tcomb-form-native": "git+https://github.com/nickhagenov/tcomb-form-native.git#f3eb373b4f7269172a043e3543dbfa10cc16aef8"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
