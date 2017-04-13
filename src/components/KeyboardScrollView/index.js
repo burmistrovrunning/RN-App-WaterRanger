@@ -101,12 +101,13 @@ export class KeyboardScrollView extends Component {
 
   handleOnScroll(e) {
     this.position = e.nativeEvent.contentOffset;
+    this.defaultResetPosition = null;
   }
   render() {
     return (
       <ScrollView
         ref={ref => this.scrollView = ref}
-        keyboardDismissMode="interactive"
+        keyboardDismissMode="on-drag"
         contentInset={{ bottom: this.state.keyboardSpace }}
         showsVerticalScrollIndicator={true}
         scrollEventThrottle={0}

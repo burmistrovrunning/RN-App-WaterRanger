@@ -63,6 +63,7 @@ export class _AddScene extends BaseScene {
     this.scrollView = null;
     this.attachImageRef = null;
     this.keyboardHeight = 0;
+    this.defaultValue = {};
   }
 
   componentDidMount() {
@@ -81,6 +82,7 @@ export class _AddScene extends BaseScene {
   onChooseIssue = () => {
     this.setState({ form: 'issue' });
   };
+  onChange = value => this.defaultValue = value;
   onSubmit = async () => {
     const value = this.formView.getValue();
     const { marker } = this.props;
@@ -133,6 +135,7 @@ export class _AddScene extends BaseScene {
         );
       }
       this.setState({ isSubmitting: false });
+      this.defaultValue = {};
       this.attachImageRef.resetImage();
     }
     this.scrollView.getRef().scrollTo({ y: 0, animated: false });
@@ -147,6 +150,7 @@ export class _AddScene extends BaseScene {
     }).catch(err => console.error('An error occurred', err));
   }
   refreshData() {
+    this.defaultValue = {};
     setTimeout(async () => {
       const profile = JSON.parse(await localStorage.get('profile'));
       if (profile) {
@@ -256,7 +260,8 @@ export class _AddScene extends BaseScene {
           // config: {
           //   format: date => moment(currentDate).format('MM/DD/YYYY : HH:MM')
           // },
-          maximumDate: currentDate
+          maximumDate: currentDate,
+          mode: 'datetime'
         },
         wildlife: {
           label: 'Add wildlife',
@@ -355,7 +360,6 @@ export class _AddScene extends BaseScene {
       }
     };
 
-    let defaultValue = {};
     let fieldOptions = null;
     if (marker && marker.id !== '-1' && marker.id !== 'gpsLocationMarker') {
       fieldOptions = {
@@ -363,11 +367,7 @@ export class _AddScene extends BaseScene {
         locationName: { hidden: true },
         locationDescription: { hidden: true }
       };
-      defaultValue = {
-        bodyOfWater: marker.title || 'Not added',
-        locationName: '',
-        locationDescription: ''
-      };
+      this.defaultValue.bodyOfWater = this.defaultValue.bodyOfWater || marker.title || 'Not added';
     } else {
       fieldOptions = {
         bodyOfWater: {
@@ -401,11 +401,6 @@ export class _AddScene extends BaseScene {
             }
           }
         }
-      };
-      defaultValue = {
-        bodyOfWater: '',
-        locationName: '',
-        locationDescription: ''
       };
     }
 
@@ -474,9 +469,9 @@ export class _AddScene extends BaseScene {
               <Form
                 ref={ref => this.formView = ref}
                 type={formType}
-                value={defaultValue}
+                value={this.defaultValue}
                 options={options}
-                onChange={this._onChange}
+                onChange={this.onChange}
               />
               <AttachedImageView ref={ref => this.attachImageRef = ref} />
               <View style={addStyles.formSubmit}>
