@@ -93,7 +93,7 @@ export const getObservation = (form) => {
       invasiveSpecies.push('');
     }
     return {
-      observed_on: new Date().toJSON(),
+      observed_on: value.date,
       notes: value.notes,
       group_tokens: value.group || '',
       data: {
