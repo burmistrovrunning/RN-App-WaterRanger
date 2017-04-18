@@ -110,7 +110,10 @@ export class Router extends Component {
     }
   };
   renderConfig() {
-    return Navigator.SceneConfigs.PushFromRight;
+    return {
+      ...Navigator.SceneConfigs.PushFromRight,
+      gestures: {}
+    };
   }
 
   render() {
