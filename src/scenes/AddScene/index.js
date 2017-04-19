@@ -339,6 +339,9 @@ export class _AddScene extends BaseScene {
         phosphates: {
           label: 'Phosphates total (mg/L)'
         },
+        waterDepth: {
+          label: 'Water Depth (m)'
+        },
         secchiDepth: {
           label: 'Secchi Depth (m)'
         },

@@ -63,6 +63,7 @@ export function getAddObservationForm(groups) {
     phosphorus: t.maybe(t.Number),
     salinity: t.maybe(t.Number),
     phosphates: t.maybe(t.Number),
+    waterDepth: t.maybe(t.Number),
     secchiDepth: t.maybe(t.Number),
     nitrites: t.maybe(t.Number),
     nitrates: t.maybe(t.Number),
@@ -111,7 +112,8 @@ export const getObservation = (form) => {
         total_kjeldahl_nitrogen: (value.kjeldahlNitrogen || '').toString(),
         total_phosphorus: (value.phosphorus || '').toString(),
         salinity: (value.salinity || '').toString(),
-        water_depth: (value.secchiDepth || '').toString(),
+        water_depth: (value.waterDepth || '').toString(),
+        clarity: (value.secchiDepth || '').toString(),
         ice: (value.iceWatch || '').toString()
       }
     };
