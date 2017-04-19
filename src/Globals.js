@@ -1,10 +1,10 @@
 export default {
-  // BASE_URL: 'https://app.waterrangers.ca/api/',
-  // URL: 'https://app.waterrangers.ca/',
+  BASE_URL: 'https://app.waterrangers.ca/api/',
+  URL: 'https://app.waterrangers.ca/',
   // BASE_URL: 'https://water-rangers-staging.herokuapp.com/api/',
   // URL: 'https://water-rangers-staging.herokuapp.com/',
-  BASE_URL: 'http://localhost:3000/api/',
-  URL: 'http://localhost:3000/',
+  // BASE_URL: 'http://localhost:3000/api/',
+  // URL: 'http://localhost:3000/',
 };
 
 // Login credientials
